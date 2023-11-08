@@ -1,4 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tour/components/custombuttomauth.dart';
+import 'package:tour/components/customlogoauth.dart';
+import 'package:tour/components/textformfield.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,33 +15,22 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(height: 50),
-                Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 80,
-                    height: 80,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 238, 238, 238),
-                        borderRadius: BorderRadius.circular(70)),
-                    child: Image.asset(
-                      "images/asdf.jpg",
-                      width: 40,
-                      height: 40,
-                    ),
-                  ),
-                ),
+                const CustomLogoAuth(),
                 const SizedBox(height: 20),
                 const Text(
                   'Login',
@@ -47,44 +41,119 @@ class _LoginState extends State<Login> {
                   style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
                 ),
                 const SizedBox(height: 20),
-                const Text('Email'),
-                TextFormField(
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 239, 234, 234),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
+                const Text(
+                  'Email',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
+                const SizedBox(height: 10),
+                CustomTextForm(
+                    hinttext: "Enter Your Email", mycontroller: email),
                 const SizedBox(
                   height: 40,
                 ),
-                const Text('Password'),
-                TextFormField(
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 239, 234, 234),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        borderSide: const BorderSide(color: Colors.grey)),
+                const Text(
+                  'Password',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(height: 10),
+                CustomTextForm(
+                    hinttext: "Enter Your Email", mycontroller: password),
+                const SizedBox(height: 10),
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 20),
+                  alignment: Alignment.topRight,
+                  child: const Text(
+                    'Forget Password ?',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ],
-            )
+            ),
+            CustomButtomAuth(
+                title: "login",
+                onPressed: () async {
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: email.text, password: password.text);
+                    Navigator.of(context).pushReplacementNamed("homepage");
+
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == e.code) {
+                      print('No user found for that email.');
+
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Error',
+                        desc: 'No user found for that email.',
+                        
+                      ).show();
+                    }
+                     else if (e.code == e.code) {
+                      print('Wrong password provided for that user.');
+
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Error',
+                        desc: 'Wrong password provided for that user.',
+                        
+                      ).show();
+
+                    }
+                  }
+                }),
+            const SizedBox(height: 10),
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: 40,
+              onPressed: () {},
+              textColor: Colors.white,
+              color: Colors.red[700],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Login With Google  "),
+                  Image.asset(
+                    "images/google.png",
+                    width: 25,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 90,
+            ),
+            // ),
+            // const Text(
+            //   "Don't Have An Account? Reguster",
+            //   textAlign: TextAlign.center,
+            // ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed("signup");
+              },
+              child: const Center(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: "Don't Have An Account? "),
+                      TextSpan(
+                        text: "Register",
+                        style: TextStyle(
+                            color: Colors.orange, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
