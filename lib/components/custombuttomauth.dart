@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour/colors.dart';
 
 class CustomButtomAuth extends StatelessWidget {
   const CustomButtomAuth({super.key, required this.onPressed, required this.title});
@@ -15,7 +16,7 @@ class CustomButtomAuth extends StatelessWidget {
       height: 40,
       onPressed: onPressed,
       textColor: Colors.white,
-      color: Colors.orange,
+      color: AppColors.buttom,
       child:  Text(title),
     );
   }

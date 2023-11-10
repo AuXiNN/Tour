@@ -5,6 +5,8 @@ import 'package:tour/components/custombuttomauth.dart';
 import 'package:tour/components/customlogoauth.dart';
 import 'package:tour/components/textformfield.dart';
 
+import 'package:tour/colors.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -18,69 +20,87 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
+
+
   @override
-  @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  AppColors.primaryColor,
       body: Container(
+        
         padding: const EdgeInsets.all(20),
+        
         child: ListView(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(height: 50),
-                const CustomLogoAuth(),
-                const SizedBox(height: 20),
-                const Text(
-                  'Login',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  'Login to Continue Using The App',
-                  style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Email',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                const SizedBox(height: 10),
-                CustomTextForm(
-                    hinttext: "Enter Your Email", mycontroller: email),
-                const SizedBox(
-                  height: 40,
-                ),
-                const Text(
-                  'Password',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                const SizedBox(height: 10),
-                CustomTextForm(
-                    hinttext: "Enter Your Email", mycontroller: password),
-                const SizedBox(height: 10),
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 20),
-                  alignment: Alignment.topRight,
-                  child: const Text(
-                    'Forget Password ?',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 12),
+            Form(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(height: 50),
+                  const CustomLogoAuth(),
+                  const SizedBox(height: 20),
+                  const Center(
+                    child:   Text(
+                      'Login',
+                        textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 60),
+                  
+                  const Text(
+                    'Login to Continue Using The App',
+                    style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Email',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextForm(
+                      hinttext: "Enter Your Email", mycontroller: email),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Text(
+                    'Password',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextForm(
+                      hinttext: "Enter Your Password", mycontroller: password),
+                  const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    alignment: Alignment.topRight,
+                    child: const Text(
+                      'Forget Password ?',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
             ),
             CustomButtomAuth(
-                title: "login",
+                title: "Login",
+                
                 onPressed: () async {
                   try {
-                    final credential = await FirebaseAuth.instance
+                    
+                    UserCredential userCredential = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: email.text, password: password.text);
                     Navigator.of(context).pushReplacementNamed("homepage");
 
                   } on FirebaseAuthException catch (e) {
-                    if (e.code == e.code) {
+                    if (e.code == "user-not-found") {
                       print('No user found for that email.');
 
                       AwesomeDialog(
@@ -89,23 +109,21 @@ class _LoginState extends State<Login> {
                         animType: AnimType.rightSlide,
                         title: 'Error',
                         desc: 'No user found for that email.',
-                        
                       ).show();
-                    }
-                     else if (e.code == e.code) {
-                      print('Wrong password provided for that user.');
 
-                      AwesomeDialog(
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                       AwesomeDialog(
                         context: context,
                         dialogType: DialogType.error,
                         animType: AnimType.rightSlide,
                         title: 'Error',
                         desc: 'Wrong password provided for that user.',
-                        
                       ).show();
 
                     }
                   }
+                
                 }),
             const SizedBox(height: 10),
             MaterialButton(
@@ -115,7 +133,7 @@ class _LoginState extends State<Login> {
               height: 40,
               onPressed: () {},
               textColor: Colors.white,
-              color: Colors.red[700],
+              color: AppColors.buttom,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

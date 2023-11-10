@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "138429564711",
-    "project_id": "tour-8d7c4",
-    "storage_bucket": "tour-8d7c4.appspot.com"
+    "project_number": "639856314017",
+    "project_id": "jotourr",
+    "storage_bucket": "jotourr.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138429564711:android:dc8be583d0882a7b090b02",
+        "mobilesdk_app_id": "1:639856314017:android:38c6e61f7e430ef95892e0",
         "android_client_info": {
           "package_name": "com.example.tour"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBBoh81x_04IoAjctY6_Cr4OdyEUI1e31c"
+          "current_key": "AIzaSyCVXmthKD4WJiJ--V8O4wKRLjvo6KNMpC4"
         }
       ],
       "services": {

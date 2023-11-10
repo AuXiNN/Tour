@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tour/colors.dart';
 
 class CustomLogoAuth extends StatelessWidget {
-  const CustomLogoAuth({super.key});
+  const CustomLogoAuth({super.key,required });
 
   @override
   Widget build(context) {

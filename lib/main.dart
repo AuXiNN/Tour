@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tour/auth/login.dart';
 import 'package:tour/auth/signup.dart';
 import 'package:tour/homepage.dart';
+import 'package:tour/colors.dart';
 
 
 void main() async {
@@ -48,3 +49,4 @@ class _MyAppState extends State<MyApp> {
   }
 
 }
+
