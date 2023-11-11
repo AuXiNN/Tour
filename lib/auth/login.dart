@@ -20,17 +20,12 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-
-
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  AppColors.primaryColor,
+      backgroundColor: AppColors.primaryColor,
       body: Container(
-        
         padding: const EdgeInsets.all(20),
-        
         child: ListView(
           children: [
             Form(
@@ -41,9 +36,9 @@ class _LoginState extends State<Login> {
                   const CustomLogoAuth(),
                   const SizedBox(height: 20),
                   const Center(
-                    child:   Text(
+                    child: Text(
                       'Login',
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -52,7 +47,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   const SizedBox(height: 60),
-                  
                   const Text(
                     'Login to Continue Using The App',
                     style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
@@ -90,15 +84,11 @@ class _LoginState extends State<Login> {
             ),
             CustomButtomAuth(
                 title: "Login",
-                
                 onPressed: () async {
                   try {
-                    
-                    UserCredential userCredential = await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: email.text, password: password.text);
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: email.text, password: password.text);
                     Navigator.of(context).pushReplacementNamed("homepage");
-
                   } on FirebaseAuthException catch (e) {
                     if (e.code == "user-not-found") {
                       print('No user found for that email.');
@@ -110,20 +100,17 @@ class _LoginState extends State<Login> {
                         title: 'Error',
                         desc: 'No user found for that email.',
                       ).show();
-
                     } else if (e.code == 'wrong-password') {
                       print('Wrong password provided for that user.');
-                       AwesomeDialog(
+                      AwesomeDialog(
                         context: context,
                         dialogType: DialogType.error,
                         animType: AnimType.rightSlide,
                         title: 'Error',
                         desc: 'Wrong password provided for that user.',
                       ).show();
-
                     }
                   }
-                
                 }),
             const SizedBox(height: 10),
             MaterialButton(
