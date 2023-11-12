@@ -15,44 +15,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.backgroundcolor,
-        title: Text(
-          'Welcome To JoTour',
-          style: GoogleFonts.barlow(
-            textStyle: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.buttomcolor),
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                "login",
-                (route) => false,
-              );
-            },
-            icon: const Icon(Icons.exit_to_app),
-            color: AppColors.buttomcolor,
-          )
-        ],
-      ),
+
       backgroundColor: AppColors.backgroundcolor,
       body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            child: Image.asset(
-              'images/deadsea.jpg',
-              fit: BoxFit.cover,
+          // Background image with rounded corners
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: Container(
+              width: double.infinity,
+              child: Image.asset(
+                'images/deadsea.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
-            top: 16,
+            top: 50, // Adjust this value to move the profile picture down
             right: 16,
             child: GestureDetector(
               onTap: () {
@@ -64,15 +43,49 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const Positioned(
-            top: 200,
-            left: 20,
-            child: Text(
-              'Your Text Here',
-              style: TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0),
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+          Positioned(
+            top: 140,
+            left: 10,
+            child: Container(
+              // Box with padding, black background, and rounded corners
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.25),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: RichText(
+                text: TextSpan(
+                  style: GoogleFonts.barlow(
+                    textStyle: const TextStyle(
+                      color: Color.fromARGB(255, 113, 38, 9),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: "Explore Jordan's rich history,",
+                    ),
+                    TextSpan(
+                      text: "\n",
+                    ),
+                    TextSpan(
+                      text: "captivating culture, and",
+                    ),
+                    TextSpan(
+                      text: "\n",
+                    ),
+                    TextSpan(
+                      text: "breathtaking landscapes with our",
+                    ),
+                    TextSpan(
+                      text: "\n",
+                    ),
+                    TextSpan(
+                      text: "immersive and personalized tour app.",
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
