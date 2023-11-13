@@ -72,6 +72,8 @@ flutter:
     - images/google.png
     - images/profilepic.png
     - images/deadsea.jpg
+    - images/jordan.jpg
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

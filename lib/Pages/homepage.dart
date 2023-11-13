@@ -1,92 +1,110 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tour/AppColors/colors.dart';
-import 'package:tour/Widgets/userprofile.dart';
+import 'package:tour/Widgets/ListViewOfPlaces.dart';
+
+import '../Widgets/ListViewOfPlaces.dart'; // Import the ClickableImagesList class
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      backgroundColor: AppColors.backgroundcolor,
-      body: Stack(
+      body: Column(
         children: [
-          // Background image with rounded corners
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: Container(
-              width: double.infinity,
-              child: Image.asset(
-                'images/deadsea.jpg',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 50, // Adjust this value to move the profile picture down
-            right: 16,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed("homepage");
-              },
-              child: const CircleAvatar(
-                backgroundImage: AssetImage('images/profilepic.png'),
-                radius: 15,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 140,
-            left: 10,
-            child: Container(
-              // Box with padding, black background, and rounded corners
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.25),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: RichText(
-                text: TextSpan(
-                  style: GoogleFonts.barlow(
-                    textStyle: const TextStyle(
-                      color: Color.fromARGB(255, 113, 38, 9),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
+          Stack(
+            children: [
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 15.0,
                     ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: const Image(
+                    image: AssetImage('images/deadsea.jpg'),
+                    fit: BoxFit.cover,
                   ),
-                  children: const [
-                    TextSpan(
-                      text: "Explore Jordan's rich history,",
+                ),
+              ),
+              Positioned(
+                top: 90,
+                left: 20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Explore Jordan's rich history",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: "\n",
+                    const SizedBox(height: 8),
+                    Text(
+                      "Captivating culture, and breathtaking",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 98, 77, 45),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: "captivating culture, and",
+                    Text(
+                      "landscapes with our immersive",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 98, 77, 45),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
-                    TextSpan(
-                      text: "\n",
-                    ),
-                    TextSpan(
-                      text: "breathtaking landscapes with our",
-                    ),
-                    TextSpan(
-                      text: "\n",
-                    ),
-                    TextSpan(
-                      text: "immersive and personalized tour app.",
+                    Text(
+                      " and personalized tour app",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Color.fromARGB(255, 98, 77, 45),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
+            ],
+          ),
+         const Expanded(
+            child: ListViewOfPlaces(
+              imagesPaths: [
+                'images/jordan.jpg',
+                'images/jordan.jpg',
+                'images/jordan.jpg',
+                // Add more image URLs as needed
+              ],
+              itemNames: [
+                'Item 1',
+                'Item 2',
+                'Item 3',
+                // Add more item names as needed
+              ],
             ),
           ),
         ],
