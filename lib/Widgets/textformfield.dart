@@ -1,20 +1,23 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomTextForm extends StatelessWidget {
-   const CustomTextForm({super.key, required this.hinttext, required this.mycontroller, required this.validator});
-  
+  const CustomTextForm({
+    Key? key,
+    required this.hinttext,
+    required this.mycontroller,
+    required this.validator,
+    this.obscureText = false, // Default value for obscureText
+  }) : super(key: key);
 
   final String hinttext;
   final TextEditingController mycontroller;
   final String? Function(String?)? validator;
-
+  final bool obscureText;
 
   @override
-
   Widget build(context) {
     return TextFormField(
+      obscureText: obscureText,
       validator: validator,
       controller: mycontroller,
       decoration: InputDecoration(

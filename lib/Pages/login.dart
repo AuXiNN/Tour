@@ -1,3 +1,4 @@
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            Form(
+            Form(                             //Contains the entire login UI, including email, password fields, and the 'Forgot Password?' link.
               key: formState,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class _LoginState extends State<Login> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextButton(
+                      TextButton(             //A TextButton allowing users to skip login and navigate to the homepage.
                         onPressed:  () {
                         Navigator.of(context).pushReplacementNamed("homepage");
                         },
@@ -57,8 +58,8 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   const Center(
-                    child: Text(
-                      'Login',
+                    child: Text(             
+                      'Login',                     // A centered bold text widget indicating the login page.
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 40,
@@ -69,7 +70,7 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 60),
                   const Text(
-                    'Login to Continue Using The App',
+                    'Login to Continue Using The App',             // Text describing the purpose of login.
                     style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
                   ),
                   const SizedBox(height: 20),
@@ -78,7 +79,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 10),
-                  CustomTextForm(
+                  CustomTextForm(                                  // Input fields for email and password using CustomTextForm.
                       hinttext: "Enter Your Email",
                       mycontroller: email,
                       validator: (val) {
@@ -97,6 +98,7 @@ class _LoginState extends State<Login> {
                   CustomTextForm(
                       hinttext: "Enter Your Password",
                       mycontroller: password,
+                      obscureText: true,
                       validator: (val) {
                         if (val == "") {
                           return "Please Enter A Password";
@@ -120,7 +122,7 @@ class _LoginState extends State<Login> {
                 onPressed: () async {
                   if (formState.currentState!.validate()) {
                     try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      final credential = FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: email.text, password: password.text);
                       Navigator.of(context).pushReplacementNamed("homepage");
                     } on FirebaseAuthException catch (e) {

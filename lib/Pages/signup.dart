@@ -31,6 +31,7 @@ class _SignUpState extends State<SignUp> {
         child: ListView(
           children: [
             Form(
+              key: formState,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -115,7 +116,7 @@ class _SignUpState extends State<SignUp> {
             CustomButtomAuth(
                 title: "SignUp",
                 onPressed: () async {
-                  
+                  if(formState.currentState!.validate()){
                     try {
                       final credential = await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
@@ -162,7 +163,7 @@ class _SignUpState extends State<SignUp> {
                       print(e);
                     }
                   
-                }),
+                }}),
             const SizedBox(height: 20),
             const SizedBox(
               height: 10,

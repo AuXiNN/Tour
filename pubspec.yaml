@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -43,6 +44,10 @@ dependencies:
   google_sign_in: ^6.1.5
   awesome_dialog: ^3.1.0
   google_fonts: ^6.1.0
+  flutter_rating_bar: ^4.0.1
+  persistent_bottom_nav_bar: ^5.0.2
+  flutter_sizer: ^1.0.5
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +78,57 @@ flutter:
     - images/profilepic.png
     - images/deadsea.jpg
     - images/jordan.jpg
-    
+    - images/petra.webp
+    - images/wadirum.jpg
+    - images/RomanTheatre.jpg
+    - images/TouristsHavingFun.jpg
+    - images/Jerash.jpg
+    - images/AjlounCastle.jpg
+    - images/petra1.png
+    - images/petra2.png
+    - images/petra3.png
+    - images/wadirumDesc.jpg
+    - images/deadseaDesc.jpg
+    - images/UmmQais.jpeg
+    - images/WadiAlMujibDesc.jpg
+    - images/WadiAlMujib.jpg
+    - images/KerakCastle.jpg
+    - images/zarqa.jpg
+    - images/Irbid.jpeg
+    - images/Aqaba.png
+    - images/Madaba.jpg
+    - images/Mafraq.jpg
+    - images/Ma'an.jpeg
+    - images/At-Tafilah.jpg
+    - images/Wadi-As-Seir.jpg
+    - images/AmmanDesc.jpg
+    - images/umm_ar-rasas.jpg
+    - images/Telmpe-Of-Hercules.jpg
+    - images/UmayyadPalace.jpeg
+    - images/qasr-al-kharrana.jpg
+    - images/AqabaDesc.jpg
+    - images/RedSea.jpg
+    - images/AqabaFortress.jpg
+    - images/ZarqaDesc.jpg
+    - images/QasrAmra.jpg
+    - images/QasrAl-Hallabat.jpg
+    - images/QasrAlAzrag.jpg
+    - images/IrbidDesc.jpeg
+    - images/MadabaDesc.jpeg
+    - images/MafraqDesc.jpg
+    - images/Ma'anDesc.jpeg
+    - images/At-TafilahDesc.jpeg
+    - images/JerashDesc.jpg
+    - images/AjlounCastleDesc.jpg
+    - images/DarAsSarayaMuseum.jpg
+    - images/WadiShalala.jpg
+    - images/mariot.png
+    - images/moven.png
+    - images/hotel.png
+    - images/guest.png
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
