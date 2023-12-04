@@ -117,17 +117,35 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            CustomButtomAuth(
-                title: "Login",
-                onPressed: () async {
-                  if (formState.currentState!.validate()) {
-                    try {
-                      final credential = FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: email.text, password: password.text);
+           CustomButtomAuth(
+              title: "Login",
+              onPressed: () async {
+                if (formState.currentState!.validate()) {
+                  try {
+                    final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email.text,
+                      password: password.text,
+                    );
+
+                    // Check if userCredential is not null to ensure successful sign-in
+                    if (userCredential.user != null) {
                       Navigator.of(context).pushReplacementNamed("homepage");
-                    } on FirebaseAuthException catch (e) {
-                      print('Error code: ${e.code}'); // Add this print statement
-                      if (e.code == "invalid-email") {
+                    } else {
+                      // Handle unsuccessful sign-in here
+                      // Show error dialog or take appropriate action
+                      // For example:
+                      print('User not found or invalid credentials');
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Error',
+                        desc: 'Invalid email or password',
+                      ).show();
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    print('Error code: ${e.code}');
+                     if (e.code == "invalid-email") {
                         print('Invalid Email.');
                         AwesomeDialog(
                           context: context,
@@ -155,11 +173,13 @@ class _LoginState extends State<Login> {
                           desc: 'No user found for that email.',
                         ).show();
                       }
-                    }
-                  } else {
-                    print('Not Valid');
+                    
                   }
-                }),
+                } else {
+                  print('Form validation failed');
+                }
+              },
+            ),
             const SizedBox(height: 10),
             MaterialButton(
               shape: RoundedRectangleBorder(

@@ -7,13 +7,11 @@ class HotelInfo extends StatefulWidget {
   final String name;
   final double rating;
   final int price;
+  final String image;
 
-  const HotelInfo({
-    Key? key,
-    required this.name,
-    required this.rating,
-    required this.price,
-  }) : super(key: key);
+  const HotelInfo(
+      {Key? key, required this.name, required this.rating, required this.price, required this.image})
+      : super(key: key);
 
   @override
   State<HotelInfo> createState() => _HotelInfoState();
@@ -26,34 +24,33 @@ class _HotelInfoState extends State<HotelInfo> {
       padding: const EdgeInsets.only(left: 15, top: 34),
       child: Row(
         children: [
-          SizedBox(
+          Container(
+            height: 13.2.h,
             width: 33.w,
-            child: ListView(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+            color: Colors.yellowAccent,
+            child: Column(
               children: [
-                Image.asset('images/moven.png'),
-                const SizedBox(height: 8.0),
-                Image.asset('images/mariot.png'),
-                const SizedBox(height: 8.0),
-                Image.asset('images/guest.png'),
+                Image.asset(widget.image),
               ],
             ),
           ),
-          SizedBox(width: 4.5.w),
+          SizedBox(
+            width: 4.5.w,
+          ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.name,
-                style: GoogleFonts.oswald(),
+                style: GoogleFonts.oswald(textStyle:  TextStyle(fontSize: 9.sp)),
               ),
-              SizedBox(height: 3.h),
+              SizedBox(
+                height: 3.h,
+              ),
               Row(
                 children: [
                   RatingBarIndicator(
                     rating: widget.rating,
-                    itemBuilder: (context, index) => Icon(
+                    itemBuilder: (context, index) => const Icon(
                       Icons.star,
                       color: Colors.yellowAccent,
                     ),
@@ -61,32 +58,37 @@ class _HotelInfoState extends State<HotelInfo> {
                     itemSize: 1.h,
                     direction: Axis.horizontal,
                   ),
-                  SizedBox(width: 1.w),
+                  SizedBox(
+                    width: 1.w,
+                  ),
                   Text(
                     '(${widget.rating} Rates)',
                     style: TextStyle(color: Colors.grey, fontSize: 6.sp),
                   )
                 ],
-              ),
+              )
             ],
           ),
-          SizedBox(width: 21.w),
+          SizedBox(
+            width: 18.w,
+          ),
           Column(
             children: [
               Icon(
                 Icons.favorite_border,
                 size: 18.sp,
               ),
-              SizedBox(height: 7.8.h),
+              SizedBox(
+                height: 7.8.h,
+              ),
               Text(
                 "${widget.price} JOD",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
             ],
-          ),
+          )
         ],
       ),
     );
   }
 }
-

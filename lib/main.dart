@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:tour/Pages/login.dart';
 import 'package:tour/Pages/signup.dart';
 import 'package:tour/Pages/homepage.dart';
-
 import 'Pages/CityDesc.dart';
 import 'hotel/views/first.dart';
 
@@ -36,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(context) {
+  Widget build(context) {  
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: FirebaseAuth.instance.currentUser == null

@@ -1,8 +1,11 @@
+
 import 'package:flutter/material.dart';
-import 'package:tour/hotel/components/hotelCard.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../components/hotelCard.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -25,7 +28,6 @@ class FirstPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                
                                 Image.asset(
                                   'images/hotel.png',
                                   height: 6.h,
@@ -62,9 +64,8 @@ class FirstPage extends StatelessWidget {
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: 'Search For An Hotel',
-                          // Add a clear button to the search bar
                           suffixIcon: IconButton(
-                              icon: Icon(Icons.search), onPressed: () {}),
+                              icon: const Icon(Icons.search), onPressed: () {}),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -76,35 +77,43 @@ class FirstPage extends StatelessWidget {
                     height: 2.5.h,
                   ),
                   Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Row(
-                  children: [
-                    Text(
-                      'Sort By',
-                      style: TextStyle(fontSize: 11.sp),
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Sort By',
+                          style: TextStyle(fontSize: 11.sp),
+                        ),
+                        SizedBox(
+                          width: 1.w,
+                        ),
+                        Text(
+                          'Newest',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 1.sp),
+                        ),
+                        const Icon(Icons.arrow_drop_down_outlined),
+                        SizedBox(
+                          width: 52.w,
+                        ),
+                        Container(
+                            color: Colors.brown,
+                            child: const Icon(Icons.filter_alt_outlined)),
+                      ],
                     ),
-                    SizedBox(
-                      width: 1.w,
-                    ),
-                    Text(
-                      'Newest',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 11.sp),
-                    ),
-                    Icon(Icons.arrow_drop_down_outlined),
-                    SizedBox(
-                      width: 52.w,
-                    ),
-                    Container(
-                        color: Colors.brown,
-                        child: Icon(Icons.filter_alt_outlined)),
-                  ],
-                ),
-              ),
-              SizedBox(height: 2.5.h),
-                  HotelInfo(name: "Movenpick Hotel", rating: 4.00, price: 200),
-                  HotelInfo(name: "mariot Hotel", rating: 4.00, price: 200),
-                  HotelInfo(name: "guest Hotel", rating: 4.00, price: 200),
+                  ),
+                  const HotelInfo(
+                      name: "petra movenpick hotel",
+                      rating: 4.00,
+price: 200 , image : "images/moven.png"),
+                  const HotelInfo(
+                      name: "petra guest house",
+                      rating: 4.00,
+                      price: 200, image: "images/guest.png",),
+                  const HotelInfo(
+                      name: "petra mariot hotel",
+                      rating: 4.00,
+                      price: 200 , image: "images/mariot.png",),
                 ],
               ),
             ),
