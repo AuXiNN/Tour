@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tour/AppColors/colors.dart';
+import 'package:tour/Pages/ProfilePage.dart';
 import 'package:tour/Pages/homepage.dart';
 
 class BottomNav extends StatefulWidget {
@@ -21,8 +22,8 @@ class _BottomNavState extends State<BottomNav> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.favorite),
+            label: 'Favourites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -32,19 +33,25 @@ class _BottomNavState extends State<BottomNav> {
         currentIndex: _currentIndex,
         selectedItemColor: AppColors.buttomcolor,
         onTap: (index) {
-          setState(
-            () {
-              _currentIndex = index;
-              if (_currentIndex == 0) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ),
-                );
-              }
-            },
-          );
+          setState(() {
+            _currentIndex = index;
+          });
+
+          if (_currentIndex == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+            );
+          } else if (_currentIndex == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfilePage(),
+              ),
+            );
+          }
         });
   }
 }

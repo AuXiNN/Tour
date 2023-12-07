@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tour/AppColors/colors.dart';
-import 'package:tour/Pages/CityDesc.dart';
 
 class ListViewOfCities extends StatelessWidget {
   final List<String> imagesPaths;
@@ -23,35 +22,19 @@ class ListViewOfCities extends StatelessWidget {
       Navigator.pushReplacementNamed(context, "aqaba");
     } 
 
-    else if (itemNames[index] == 'Zarqa') {
-      Navigator.pushReplacementNamed(context, "zarqa");
+    else if (itemNames[index] == 'Petra') {
+      Navigator.pushReplacementNamed(context, "petra");
     }
 
-    else if (itemNames[index] == 'Irbid') {
-      Navigator.pushReplacementNamed(context, "irbid");
+    else if (itemNames[index] == 'Dead Sea') {
+      Navigator.pushReplacementNamed(context, "deadsea");
     }
 
 
-    else if (itemNames[index] == 'Madaba') {
-      Navigator.pushReplacementNamed(context, "madaba");
+    else if (itemNames[index] == 'Wadi Rum') {
+      Navigator.pushReplacementNamed(context, "wadirum");
     }
-    
-    else if (itemNames[index] == 'Mafraq') {
-      Navigator.pushReplacementNamed(context, "mafraq");
-    }
-
-    else if (itemNames[index] == "Ma'an") {
-      Navigator.pushReplacementNamed(context, "ma'an");
-    }
-
-    else if (itemNames[index] == 'At-Tafilah') {
-      Navigator.pushReplacementNamed(context, "at-tafilah");
-    }
-
-    else if (itemNames[index] == 'Wadi As-Seir') {
-      Navigator.pushReplacementNamed(context, "wadi as-seir");
-    }
-
+  
     else if (itemNames[index] == 'Jerash') {
       Navigator.pushReplacementNamed(context, "jerash");
     }

@@ -1,12 +1,9 @@
-
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
-import 'package:tour/Pages/CityDesc.dart';
 
 import '../Widgets/ListViewOfPlaces.dart';
 
@@ -24,7 +21,6 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.backgroundcolor,
       body: SizedBox(
         child: SingleChildScrollView(
-          
           child: Column(
             children: [
               Stack(
@@ -103,9 +99,18 @@ class _HomePageState extends State<HomePage> {
                     right: 20,
                     child: IconButton(
                       icon: Icon(Icons.logout),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacementNamed(context, 'login');
+                      onPressed: () async {
+                        // Sign out from Firebase
+                        await FirebaseAuth.instance.signOut();
+
+                        // Sign out from Google if the user is signed in with Google
+                        final googleSignIn = GoogleSignIn();
+                        if (await googleSignIn.isSignedIn()) {
+                          await googleSignIn.signOut();
+                        }
+
+                        // Navigate to the login page
+                        Navigator.pushNamed(context, 'login');
                       },
                     ),
                   ),
@@ -113,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 90),
               Text(
-                'Select The City You Wish To Explore:',
+                'Select The Place You Wish To Explore:',
                 style: GoogleFonts.poppins(
                   textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -129,28 +134,22 @@ class _HomePageState extends State<HomePage> {
                   imagesPaths: [
                     'images/jordan.jpg',
                     'images/Aqaba.png',
-                    'images/zarqa.jpg',
-                    'images/Irbid.jpeg',
-                    'images/Madaba.jpg',
-                    'images/Mafraq.jpg',
-                    "images/Ma'an.jpeg",
-                    'images/At-Tafilah.jpg',
-                    'images/Wadi-As-Seir.jpg',
                     'images/Jerash.jpg',
                     'images/AjlounCastle.jpg',
+                    'images/petra.webp',
+                    'images/deadsea.jpg',
+                    'images/wadirum.jpg',
                   ],
                   itemNames: [
                     'Amman',
                     'Aqaba',
-                    'Zarqa',
-                    'Irbid',
-                    'Madaba',
-                    'Mafraq',
-                    "Ma'an",
-                    'At-Tafilah',
-                    'Wadi As-Seir',
                     'Jerash',
                     'Ajloun',
+                    'Petra',
+                    'Dead Sea',
+                    'Wadi Rum',
+
+
                     // Add more item names as needed
                   ],
                 ),
@@ -160,10 +159,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNav(),
-      
     );
-
-    
   }
 }
 
