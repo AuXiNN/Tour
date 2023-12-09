@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -69,7 +70,6 @@ class HotelPage extends StatelessWidget {
                         name: hotel.name,
                         location: hotel.location,
                         rating: hotel.rating,
-                        price: hotel.price,
                         image: hotel.image,
                       );
                     }).toList(),
@@ -88,70 +88,44 @@ class HotelPage extends StatelessWidget {
 List<HotelInfo> getHotelsForCity(String city) {
   // Sample data (replace it with your actual data)
   Map<String, List<HotelInfo>> cityHotels = {
-    'Amman': [
+    'Petra': [
       const HotelInfo(
         name: "Petra Movenpick Hotel",
         location: "Amman, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/moven.png",
       ),
       const HotelInfo(
         name: "Petra Guest House",
         location: "Amman, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/guest.png",
       ),
       const HotelInfo(
         name: "Petra Marriott Hotel",
         location: "Amman, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/mariot.png",
       ),
-      const HotelInfo(
-        name: "Petra Movenpick Hotel",
-        location: "Amman, Jordan",
-        rating: 4.00,
-        price: 200,
-        image: "images/moven.png",
-      ),
-      const HotelInfo(
-        name: "Petra Guest House",
-        location: "Amman, Jordan",
-        rating: 4.00,
-        price: 200,
-        image: "images/guest.png",
-      ),
-      const HotelInfo(
-        name: "Petra Marriott Hotel",
-        location: "Amman, Jordan",
-        rating: 4.00,
-        price: 200,
-        image: "images/mariot.png",
-      ),
+
     ],
     'Aqaba': [
       const HotelInfo(
         name: "Ayla Hotel",
         location: "Aqaba, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/moven.png",
       ),
       const HotelInfo(
         name: "Nigga House",
         location: "Aqaba, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/guest.png",
       ),
       const HotelInfo(
         name: "Bitch Hotel",
         location: "Aqaba, Jordan",
         rating: 4.00,
-        price: 200,
         image: "images/mariot.png",
       ),
     ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour/Pages/ThingsToDoPage.dart';
 import '../AppColors/colors.dart';
 import '../Widgets/BottomNavigationBar.dart';
 import 'HotelPage.dart';
@@ -50,8 +51,13 @@ class _PlaceDescState extends State<PlaceDesc> {
   }
 
   void _tribsbutton() {
-    print('Navigate to trips page');
-  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ThingsToDoPage(city: widget.title),
+    ),
+  );
+}
 
   void _resandcafebutton() {
     print('Navigate to res page');

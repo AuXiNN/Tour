@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tour/Widgets/custombuttomauth.dart';
 import 'package:tour/Widgets/customlogoauth.dart';
 import 'package:tour/Widgets/textformfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../AppColors/colors.dart';
 
@@ -36,12 +37,12 @@ class _SignUpState extends State<SignUp> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(height: 50),
-                  
                   const SizedBox(height: 20),
                   const Center(
-                    child:  Text(
+                    child: Text(
                       'SignUp',
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -114,19 +115,29 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             CustomButtomAuth(
+                //create a user
                 title: "SignUp",
                 onPressed: () async {
-                  if(formState.currentState!.validate()){
+                  if (formState.currentState!.validate()) {
                     try {
-                      final credential = await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
+                      UserCredential userCredential = 
+                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
                         email: email.text,
                         password: password.text,
                       );
+                      // after creating the user, ccreat a new document in cloud firestore called Users
+                      FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(userCredential.user!.email)
+                          .set({
+                            'username' : username.text, // initial username
+                            'bio' : 'Empty bio...', // initally empty bio
+
+                          });
                       Navigator.of(context).pushReplacementNamed("homepage");
                     } on FirebaseAuthException catch (e) {
-                      if(e.code == 'invalid-email'){
-                         print('Invalid Email');
+                      if (e.code == 'invalid-email') {
+                        print('Invalid Email');
                         AwesomeDialog(
                           context: context,
                           dialogType: DialogType.error,
@@ -135,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                           desc: 'Invalid Email',
                         ).show();
                       }
-                    if (e.code == 'weak-password') {
+                      if (e.code == 'weak-password') {
                         print('The password provided is too weak.');
                         AwesomeDialog(
                           context: context,
@@ -144,8 +155,7 @@ class _SignUpState extends State<SignUp> {
                           title: 'Error',
                           desc: 'The password provided is too weak.',
                         ).show();
-                      } 
-                      else if (e.code == 'email-already-in-use') {
+                      } else if (e.code == 'email-already-in-use') {
                         print('The account already exists for that email.');
                         AwesomeDialog(
                           context: context,
@@ -154,16 +164,15 @@ class _SignUpState extends State<SignUp> {
                           title: 'Error',
                           desc: 'The account already exists for that email.',
                         ).show();
+                      } else {
+                        // Handle other errors
+                        print('Unknown error occurred: ${e.code}');
                       }
-                       else {
-          // Handle other errors
-          print('Unknown error occurred: ${e.code}');
-        }
                     } catch (e) {
                       print(e);
                     }
-                  
-                }}),
+                  }
+                }),
             const SizedBox(height: 20),
             const SizedBox(
               height: 10,
