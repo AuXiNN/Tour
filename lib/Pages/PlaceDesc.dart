@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:tour/Pages/ThingsToDoPage.dart';
+import 'package:tour/Pages/AmmanHotelList.dart';
+import 'package:tour/Pages/AmmanHotelsRoom.dart';
 import '../AppColors/colors.dart';
 import '../Widgets/BottomNavigationBar.dart';
-import 'HotelPage.dart';
 
 class PlaceDesc extends StatefulWidget {
   final String imagePath;
   final String title;
   final String description;
 
-
   PlaceDesc({
     required this.imagePath,
     required this.title,
     required this.description,
-
   });
 
   @override
@@ -42,22 +41,25 @@ class _PlaceDescState extends State<PlaceDesc> {
   }
 
   void _hotelsbutton() {
-   Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => HotelPage(city: widget.title),
-    ));
+    if (widget.title == 'Amman') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AmmanHotelList(),
+        ),
+      );
+    }
 
   }
 
   void _tribsbutton() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ThingsToDoPage(city: widget.title),
-    ),
-  );
-}
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ThingsToDoPage(city: widget.title),
+      ),
+    );
+  }
 
   void _resandcafebutton() {
     print('Navigate to res page');
@@ -109,7 +111,6 @@ class _PlaceDescState extends State<PlaceDesc> {
                   children: [
                     Row(
                       children: [
-                        
                         Text(
                           widget.title,
                           style: const TextStyle(
@@ -142,7 +143,7 @@ class _PlaceDescState extends State<PlaceDesc> {
                     const SizedBox(
                       height: 40,
                     ),
-                   
+
                     const Text(
                       "Select one of the following options:",
                       style: TextStyle(
@@ -199,7 +200,6 @@ class _PlaceDescState extends State<PlaceDesc> {
                               size: 35,
                               color: Colors.white,
                             ),
-                            
                             SizedBox(width: 90),
                             Text(
                               'Things To Do',

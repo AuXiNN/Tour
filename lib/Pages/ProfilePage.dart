@@ -70,8 +70,29 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+
+// Function to get the user's favorite hotels
+
+Future<List<String>> getFavoriteHotels() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final userRef =
+        FirebaseFirestore.instance.collection("Users").doc(user.email);
+
+    // Get the list of favorite hotels
+    final favoritesSnapshot =
+        await userRef.collection("favorites").get();
+    final favorites = favoritesSnapshot.docs.map((doc) => doc.id).toList();
+
+    return favorites;
+  }
+
+  return [];
+}
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.backgroundcolor,
       appBar: AppBar(
@@ -137,6 +158,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
 
                 const SizedBox(height: 50),
+
+
+
+
+
+                
 
                 // user posts
               ],

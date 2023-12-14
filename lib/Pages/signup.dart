@@ -177,25 +177,7 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(
               height: 10,
             ),
-            MaterialButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: 40,
-              onPressed: () {},
-              textColor: Colors.white,
-              color: AppColors.buttomcolor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("SignUp With Google  "),
-                  Image.asset(
-                    "images/google.png",
-                    width: 25,
-                  )
-                ],
-              ),
-            ),
+
             const SizedBox(
               height: 90,
             ),

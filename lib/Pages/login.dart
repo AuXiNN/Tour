@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -305,29 +306,51 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _handleSignInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if (googleUser == null) {
-      // User canceled the Google Sign-In process
-      return;
-    }
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  
+  if (googleUser == null) {
+    // User canceled the Google Sign-In process
+    return;
+  }
 
-    // Sign out the current user to force the Google Sign-In page to appear
-    await FirebaseAuth.instance.signOut();
+  // Sign out the current user to force the Google Sign-In page to appear
+  await FirebaseAuth.instance.signOut();
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+  final AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
 
+  try {
     final UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
 
     if (userCredential.user != null) {
+      // Check if the user already exists in Firestore
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userCredential.user!.email)
+          .get();
+
+      if (!userDoc.exists) {
+        // If the user doesn't exist, create a new document in Firestore
+        await FirebaseFirestore.instance.collection('Users').doc(userCredential.user!.email).set({
+          'username': userCredential.user!.displayName ?? 'DefaultUsername',
+          'email': userCredential.user!.email,
+          'bio': 'Default Bio',
+          // Add other necessary fields
+        });
+      }
+
       Navigator.pushNamed(context, 'homepage');
     } else {
       print('Google Sign-In failed');
     }
+  } catch (e) {
+    print('Error during Google Sign-In: $e');
   }
+}
+
 }

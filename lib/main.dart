@@ -5,7 +5,6 @@ import 'package:tour/Pages/login.dart';
 import 'package:tour/Pages/signup.dart';
 import 'package:tour/Pages/homepage.dart';
 import 'Pages/PlaceDesc.dart';
-import 'Pages/HotelPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

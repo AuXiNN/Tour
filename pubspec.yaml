@@ -48,6 +48,9 @@ dependencies:
   persistent_bottom_nav_bar: ^5.0.2
   flutter_sizer: ^1.0.5
   sizer: ^2.0.15
+  carousel_slider: ^4.2.1
+  url_launcher: ^6.2.2
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -95,7 +98,6 @@ flutter:
     - images/KerakCastle.jpg
     - images/zarqa.jpg
     - images/Irbid.jpeg
-    - images/Aqaba.png
     - images/Madaba.jpg
     - images/Mafraq.jpg
     - images/Ma'an.jpeg
@@ -126,12 +128,94 @@ flutter:
     - images/moven.png
     - images/hotel.png
     - images/guest.png
-    - images/Amman1.png
-    - images/Amman2.png
+    - images/Amman1.jpg 
+    - images/Amman11.jpg 
+    - images/Amman12.jpg 
+    - images/Amman13.jpg 
+    - images/Amman14.jpg 
+    - images/Amman15.jpg 
+    - images/Amman16.jpg 
+    - images/Amman2.jpg
+    - images/Amman21.jpg
+    - images/Amman22.jpg
+    - images/Amman23.jpg
+    - images/Amman24.jpg
+    - images/Amman25.jpg  
     - images/Amman3.png
-    - images/Amman4.png
-    - images/Amman5.png
-    - images/Amman6.png
+    - images/Amman31.jpg
+    - images/Amman32.jpg
+    - images/Amman33.jpg
+    - images/Amman34.jpg
+    - images/Amman35.jpg
+    - images/Amman4.jpg
+    - images/Amman41.jpg
+    - images/Amman42.jpg
+    - images/Amman43.jpg
+    - images/Amman44.jpg
+    - images/Amman5.jpg
+    - images/Amman5.jpg
+    - images/Amman51.jpg
+    - images/Amman52.jpg
+    - images/Amman53.jpg
+    - images/Amman54.jpg
+    - images/Amman55.jpg
+    - images/Amman56.jpg
+    - images/Amman57.jpg
+    - images/Amman58.jpg
+    - images/Amman6.jpg
+    - images/Amman61.jpg
+    - images/Amman62.jpg
+    - images/Amman63.jpg
+    - images/Amman7.jpg
+    - images/Amman71.jpg
+    - images/Amman72.jpg
+    - images/Amman73.jpg
+    - images/Amman74.jpg
+    - images/Aqaba.png
+    - images/Aqaba1.jpg
+    - images/Aqaba11.jpg
+    - images/Aqaba12.jpg
+    - images/Aqaba13.jpg
+    - images/Aqaba14.jpg
+    - images/Aqaba15.jpg
+    - images/Aqaba16.jpg
+
+    
+    - images/Aqaba3.jpg
+    - images/Aqaba31.jpg
+    - images/Aqaba32.jpg
+    - images/Aqaba33.jpg
+    - images/Aqaba34.jpg
+
+    - images/Aqaba4.jpg
+    - images/Aqaba41.jpg
+    - images/Aqaba42.jpg
+    - images/Aqaba43.jpg
+    - images/Aqaba44.jpg
+    - images/Aqaba45.jpg
+    - images/Aqaba46.jpg
+
+
+
+
+    - images/Aqaba5.jpg
+    - images/Aqaba6.jpg
+    - images/Aqaba61.jpg
+    - images/Aqaba62.jpg
+    - images/Aqaba63.jpg
+    - images/Aqaba64.jpg
+    - images/Aqaba7.jpg
+    - images/Aqaba71.jpg
+    - images/Aqaba72.jpg
+    - images/Aqaba73.jpg
+    - images/Aqaba74.jpg
+    - images/Aqaba75.jpg
+    - images/Aqaba8.jpg
+    - images/Aqaba81.jpg
+    - images/Aqaba82.jpg
+    - images/Aqaba83.jpg
+    - images/Aqaba84.jpg
+    - images/Aqaba85.jpg
     
 
 
