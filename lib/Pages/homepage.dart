@@ -94,26 +94,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 20,
-                    right: 20,
-                    child: IconButton(
-                      icon: Icon(Icons.logout),
-                      onPressed: () async {
-                        // Sign out from Firebase
-                        await FirebaseAuth.instance.signOut();
-
-                        // Sign out from Google if the user is signed in with Google
-                        final googleSignIn = GoogleSignIn();
-                        if (await googleSignIn.isSignedIn()) {
-                          await googleSignIn.signOut();
-                        }
-
-                        // Navigate to the login page
-                        Navigator.pushNamed(context, 'login');
-                      },
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(height: 90),

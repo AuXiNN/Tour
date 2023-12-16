@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tour/Pages/ThingsToDoPage.dart';
-import 'package:tour/Pages/AmmanHotelList.dart';
-import 'package:tour/Pages/AmmanHotelsRoom.dart';
+import 'package:tour/Pages/HotelListScreen.dart';
 import '../AppColors/colors.dart';
 import '../Widgets/BottomNavigationBar.dart';
 
@@ -41,14 +40,12 @@ class _PlaceDescState extends State<PlaceDesc> {
   }
 
   void _hotelsbutton() {
-    if (widget.title == 'Amman') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AmmanHotelList(),
-        ),
-      );
-    }
+Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => HotelListScreen(city: widget.title),
+    ),
+  );
 
   }
 

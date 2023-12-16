@@ -20,6 +20,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final userCollection = FirebaseFirestore.instance.collection("Users");
 
+  //signout method
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    // Navigate to login screen or home screen after signing out
+    Navigator.of(context).pushReplacementNamed('login');
+  }
+
   // edit field
   Future<void> editField(String field) async {
     String newValue = "";
@@ -70,29 +77,8 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-
-// Function to get the user's favorite hotels
-
-Future<List<String>> getFavoriteHotels() async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    final userRef =
-        FirebaseFirestore.instance.collection("Users").doc(user.email);
-
-    // Get the list of favorite hotels
-    final favoritesSnapshot =
-        await userRef.collection("favorites").get();
-    final favorites = favoritesSnapshot.docs.map((doc) => doc.id).toList();
-
-    return favorites;
-  }
-
-  return [];
-}
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.backgroundcolor,
       appBar: AppBar(
@@ -159,13 +145,30 @@ Future<List<String>> getFavoriteHotels() async {
 
                 const SizedBox(height: 50),
 
-
-
-
-
-                
-
-                // user posts
+// Add the ElevatedButton.icon for logout
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 26.0, horizontal: 120.0),
+                  child: Container(
+                    width:
+                        double.infinity, // Or set a specific width like 200.0
+                    child: ElevatedButton.icon(
+                      onPressed: _signOut,
+                      icon: const Icon(Icons.logout, size: 18),
+                      label:
+                          const Text('Log Out', style: TextStyle(fontSize: 15)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.black,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             );
           } else if (snapshot.hasError) {
