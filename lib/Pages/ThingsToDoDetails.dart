@@ -9,6 +9,7 @@ class ThingsToDoDetails extends StatelessWidget {
   final List<String> imagePaths;
   final String description;
   final String location;
+  
 
 
   const ThingsToDoDetails({
@@ -20,14 +21,10 @@ class ThingsToDoDetails extends StatelessWidget {
   });
 
   void _openGoogleMapsApp(String locationName) async {
-    // Encode the location name to be included in a URL
     final String encodedLocation = Uri.encodeComponent(locationName);
-
-    // Create the URI for opening in Google Maps
     final Uri googleMapsUri = Uri.parse(
         'https://www.google.com/maps/search/?api=1&query=$encodedLocation');
 
-    // Attempt to launch the URL
     if (await canLaunchUrl(googleMapsUri)) {
       await launchUrl(googleMapsUri);
     } else {
@@ -52,6 +49,7 @@ class ThingsToDoDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 10,),
             CarouselSlider(
               items: imagePaths
                   .map(

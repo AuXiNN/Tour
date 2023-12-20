@@ -117,7 +117,6 @@ class _MyAppState extends State<MyApp> {
                   "As the sun sets over Wadi Rum, the colors of the desert come alive, creating a breathtaking spectacle that captivates all who witness it. " +
                   "For those seeking a truly immersive experience, camping under the starry desert sky is an unforgettable adventure in Wadi Rum.",
             ),
-        
       },
     );
   }

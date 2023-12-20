@@ -4,41 +4,84 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tour/Pages/HotelBooking.dart';
+import 'package:tour/Widgets/BottomNavigationBar.dart';
 
-class HotelListScreen extends StatelessWidget {
+enum SortOption { rating, alphabetically }
+
+class HotelListScreen extends StatefulWidget {
   final String city;
 
   HotelListScreen({required this.city});
 
+  @override
+  _HotelListScreenState createState() => _HotelListScreenState();
+}
+
+class _HotelListScreenState extends State<HotelListScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  SortOption _sortOption = SortOption.rating;
+
+  Stream<QuerySnapshot> _hotelStream(String collectionName) {
+    if (_sortOption == SortOption.rating) {
+      return _firestore.collection(collectionName).orderBy('rating', descending: true).snapshots();
+    } else {
+      return _firestore.collection(collectionName).orderBy('name').snapshots();
+    }
+  }
+
+  String _getCollectionName(String city) {
+    switch (city.toLowerCase()) {
+      case 'amman':
+        return 'hotels';
+      case 'aqaba':
+        return 'aqaba_hotels';
+      case 'jerash':
+        return 'jerash_hotels';
+      case 'ajloun':
+        return 'ajloun_hotels';
+      case 'petra':
+        return 'aqaba_hotels';
+      case 'dead sea':
+        return 'deadsea_hotel';
+      case 'wadi rum':
+        return 'wadirum_hotels';
+      default:
+        return 'hotels';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    String collectionName = '';
-    if (city.toLowerCase() == 'amman') {
-      collectionName = 'hotels';
-    } else if (city.toLowerCase() == 'aqaba') {
-      collectionName = 'aqaba_hotels';
-    } else if (city.toLowerCase() == 'jerash') {
-      collectionName = 'jerash_hotels';
-    } else if (city.toLowerCase() == 'ajloun') {
-      collectionName = 'ajloun_hotels';
-    } else if (city.toLowerCase() == 'petra') {
-      collectionName = 'aqaba_hotels';
-    } else if (city.toLowerCase() == 'dead sea') {
-      collectionName = 'deadsea_hotel';
-    } else if (city.toLowerCase() == 'wadi rum') {
-      collectionName = 'wadirum_hotels';
-    }
+    String collectionName = _getCollectionName(widget.city);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hotel List'),
         backgroundColor: const Color.fromARGB(255, 248, 225, 218),
+        actions: [
+          // Dropdown menu for sorting options
+          DropdownButton<SortOption>(
+            value: _sortOption,
+            onChanged: (SortOption? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  _sortOption = newValue;
+                });
+              }
+            },
+            items: SortOption.values.map((SortOption option) {
+              return DropdownMenuItem<SortOption>(
+                value: option,
+                child: Text(option == SortOption.rating ? 'Sort by Rating' : 'Sort A-Z'),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection(collectionName).snapshots(),
+        stream: _hotelStream(collectionName),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -196,6 +239,8 @@ class HotelListScreen extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const BottomNav(),
+
     );
   }
 }
@@ -397,6 +442,8 @@ class HotelDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+            bottomNavigationBar: const BottomNav(),
+
     );
   }
 }
