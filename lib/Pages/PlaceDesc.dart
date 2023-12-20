@@ -3,6 +3,7 @@ import 'package:tour/Pages/ThingsToDoPage.dart';
 import 'package:tour/Pages/HotelListScreen.dart';
 import '../AppColors/colors.dart';
 import '../Widgets/BottomNavigationBar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaceDesc extends StatefulWidget {
   final String imagePath;
@@ -72,6 +73,25 @@ Navigator.push(
     print('Navigate to the map');
   }
 
+  bool _shouldShowLocationButton() {
+    const placesWithLocationButton = ['Jerash', 'Ajloun', 'Petra', 'Dead Sea', 'Wadi Rum'];
+    return placesWithLocationButton.contains(widget.title);
+  }
+
+void _onLocationButtonPressed() async {
+  var query = Uri.encodeComponent(widget.title);
+  var googleMapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
+
+  if (await canLaunchUrl(googleMapsUri)) {
+    await launchUrl(googleMapsUri);
+  } else {
+    print('Could not launch Google Maps for $query');
+  }
+}
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,6 +119,28 @@ Navigator.push(
             const SizedBox(
               height: 20,
             ),
+             Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 40, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  if (_shouldShowLocationButton())
+                    IconButton(
+                      icon: const Icon(Icons.location_on),
+                      color: AppColors.buttomcolor,
+                      onPressed: _onLocationButtonPressed,
+                    ),
+                ],
+              ),
+            ),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
@@ -106,18 +148,7 @@ Navigator.push(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          widget.title,
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 100),
-                      ],
-                    ),
+                   
                     const SizedBox(
                         height: 20), //between Petra tours and hotels button
                     Text(
