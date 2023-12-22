@@ -158,8 +158,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       label:
                           const Text('Log Out', style: TextStyle(fontSize: 15)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.black,
+                        backgroundColor: AppColors.buttomcolor,
+                        foregroundColor: Color.fromARGB(255, 255, 255, 255),
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         shape: RoundedRectangleBorder(

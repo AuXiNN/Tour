@@ -10,6 +10,7 @@ class ThingsToDoDetails extends StatelessWidget {
   final String description;
   final String location;
   
+  
 
 
   const ThingsToDoDetails({

@@ -118,8 +118,10 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
                         const SizedBox(height: 2),
                         Row(
                           children: [
-                            const Icon(Icons.location_on, color: Colors.grey),
                             const SizedBox(width: 8),
+                            const Icon(Icons.location_on,
+                                        color: Color(0xFF3A1B0F)),
+                                    const SizedBox(width: 6),
                             Text(
                               '${thingToDo.location}', // Display the actual location
                               style: const TextStyle(

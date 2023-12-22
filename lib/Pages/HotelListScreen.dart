@@ -25,7 +25,10 @@ class _HotelListScreenState extends State<HotelListScreen> {
 
   Stream<QuerySnapshot> _hotelStream(String collectionName) {
     if (_sortOption == SortOption.rating) {
-      return _firestore.collection(collectionName).orderBy('rating', descending: true).snapshots();
+      return _firestore
+          .collection(collectionName)
+          .orderBy('rating', descending: true)
+          .snapshots();
     } else {
       return _firestore.collection(collectionName).orderBy('name').snapshots();
     }
@@ -42,7 +45,7 @@ class _HotelListScreenState extends State<HotelListScreen> {
       case 'ajloun':
         return 'ajloun_hotels';
       case 'petra':
-        return 'aqaba_hotels';
+        return 'petra_hotels';
       case 'dead sea':
         return 'deadsea_hotel';
       case 'wadi rum':
@@ -74,7 +77,9 @@ class _HotelListScreenState extends State<HotelListScreen> {
             items: SortOption.values.map((SortOption option) {
               return DropdownMenuItem<SortOption>(
                 value: option,
-                child: Text(option == SortOption.rating ? 'Sort by Rating' : 'Sort A-Z'),
+                child: Text(option == SortOption.rating
+                    ? 'Sort by Rating'
+                    : 'Sort A-Z'),
               );
             }).toList(),
           ),
@@ -180,7 +185,9 @@ class _HotelListScreenState extends State<HotelListScreen> {
                                     const Icon(Icons.location_on,
                                         color: Color(0xFF3A1B0F)),
                                     const SizedBox(width: 6),
-                                    Text('${hotelData['location']}'),
+                                    Text(
+                                      '${hotelData['location']}',
+                                    ),
                                   ],
                                 ),
                                 Padding(
@@ -240,7 +247,6 @@ class _HotelListScreenState extends State<HotelListScreen> {
         },
       ),
       bottomNavigationBar: const BottomNav(),
-
     );
   }
 }
@@ -274,20 +280,30 @@ class HotelDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Name: ${hotelData['name']} ',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                      SizedBox(height: 20,),
+                      Center(
+                        child: Text(
+                          '${hotelData['name']} ',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20
+                          ),
                         ),
                       ),
                       Row(
                         children: [
                           const Icon(Icons.location_on,
                               color: Color(0xFF3A1B0F)),
-                          const SizedBox(width: 8),
-                          Text('Location: ${hotelData['location']}'),
+                          const SizedBox(width: 6),
+                          Text(
+                            '${hotelData['location']}',
+                            style: TextStyle(
+                              fontSize:
+                                  14, // Change this value to your desired font size
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -442,8 +458,7 @@ class HotelDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-            bottomNavigationBar: const BottomNav(),
-
+      bottomNavigationBar: const BottomNav(),
     );
   }
 }

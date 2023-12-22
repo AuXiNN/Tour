@@ -150,24 +150,22 @@ void _onLocationButtonPressed() async {
                   children: [
                    
                     const SizedBox(
-                        height: 20), //between Petra tours and hotels button
+                        height: 20), //between the description and the buttons 
                     Text(
                       _showFullDescription
                           ? widget.description
                           : '${widget.description.substring(0, 150)}...',
                       style: const TextStyle(fontSize: 16),
                     ),
-
-                    if (!_showFullDescription)
-                      TextButton(
-                        onPressed: _toggleDescription,
-                        child: const Text(
-                          '... Read More',
-                          style: TextStyle(
-                            color: AppColors.accentColor,
-                          ),
-                        ),
+                     TextButton(
+                    onPressed: _toggleDescription,
+                    child: Text(
+                      _showFullDescription ? 'Read Less' : '... Read More',
+                      style: const TextStyle(
+                        color: AppColors.accentColor,
                       ),
+                    ),
+                  ),
                     const SizedBox(
                       height: 40,
                     ),

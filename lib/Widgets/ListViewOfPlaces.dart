@@ -7,9 +7,10 @@ class ListViewOfCities extends StatelessWidget {
   final List<String> itemNames;
 
   const ListViewOfCities({
+    Key? key,
     required this.imagesPaths,
     required this.itemNames,
-  });
+  }) : super(key: key);
 
   void handleImageClick(BuildContext context, int index) {
     print('Image clicked: ${itemNames[index]}');
@@ -45,50 +46,37 @@ class ListViewOfCities extends StatelessWidget {
 
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200, // Fixed height for each item
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal, // Scroll horizontally
-        itemCount: imagesPaths.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              handleImageClick(context, index);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0), // Add padding between items
-              child: Column(
-                children: [
-                  Container(
-                    width: 150, // Fixed width for the image
-                    height: 150, // Fixed height for the image
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      image: DecorationImage(
-                        image: AssetImage(imagesPaths[index]),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8), // Add space between image and text
-                  Text(
+    return Column(
+      children: List.generate(itemNames.length, (index) {
+        return GestureDetector(
+          onTap: () => handleImageClick(context, index),
+          child: Card(
+            child: Column(
+              children: [
+                Image.asset(
+                  imagesPaths[index],
+                  fit: BoxFit.cover,
+                  height: 200, // Adjust the height as needed
+                  width: double.infinity,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
                     itemNames[index],
-                    style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                        color: AppColors.buttomcolor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.buttomcolor,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }
