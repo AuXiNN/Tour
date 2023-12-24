@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -136,33 +137,49 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void bookNow() async {
-    if (validateStep1() && validateStep2()) {
-      // user data
-      var userData = {
-        'hotelId': widget.hotelId,
-        'roomType': widget.roomType,
-        'adults': adultsController.text,
-        'children': childrenController.text,
-        'entryDate': selectedEntryDate,
-        'exitDate': selectedExitDate,
-        'firstName': firstNameController.text,
-        'lastName': lastNameController.text,
-        'email': emailController.text,
-        'phone': phoneController.text,
-        'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
-      };
+  if (validateStep1() && validateStep2()) {
+    // User data
+    var userData = {
+      'hotelId': widget.hotelId,
+      'roomType': widget.roomType,
+      'adults': adultsController.text,
+      'children': childrenController.text,
+      'entryDate': selectedEntryDate,
+      'exitDate': selectedExitDate,
+      'firstName': firstNameController.text,
+      'lastName': lastNameController.text,
+      'email': emailController.text,
+      'phone': phoneController.text,
+      'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
+      
+    };
 
+    // Get current user
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
+    if (currentUser != null) {
       try {
-        await FirebaseFirestore.instance.collection('bookingrooms').add(userData);
+        // Add booking data to the bookedhotel sub-collection of the current user
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(currentUser.email)
+            .collection('bookedhotel')
+            .add(userData);
+
+        // Optional: Update global bookingrooms collection if needed
+        // await FirebaseFirestore.instance.collection('bookingrooms').add(userData);
+
+        Navigator.pop(context);
       } catch (e) {
         print('Error uploading user data: $e');
         return;
       }
-
-      Navigator.pop(context);
+    } else {
+      print('User not logged in');
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tour/AppColors/colors.dart';
+import 'package:tour/Pages/BookingHistoryScreen.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
 import 'package:tour/Widgets/TextBox.dart';
 
@@ -126,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0),
                   child: Text('My Details',
-                      style: TextStyle(color: Colors.grey[600])),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 20)),
                 ),
 
                 //username
@@ -143,9 +144,46 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () => editField('bio'),
                 ),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
 
-// Add the ElevatedButton.icon for logout
+// Add the ElevatedButton.icon for
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 26.0, horizontal: 50.0),
+                  child: Container(
+                    height: 50.0, // Set the height you want
+                    width: double
+                        .infinity, // You can set a specific width if needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        var currentUser = FirebaseAuth.instance.currentUser;
+                        if (currentUser != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookingHistoryScreen(
+                                userEmail: currentUser.email!,
+                              ),
+                            ),
+                          );
+                        } else {
+                          // Handle the case where there is no logged-in user
+                          print("No user is currently logged in.");
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.buttomcolor,
+                        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text('View My Booking History',style: TextStyle(fontWeight: FontWeight.bold),),
+                    ),
+                  ),
+                ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 26.0, horizontal: 120.0),
@@ -156,9 +194,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: _signOut,
                       icon: const Icon(Icons.logout, size: 18),
                       label:
-                          const Text('Log Out', style: TextStyle(fontSize: 15)),
+                          const Text('Sign out', style: TextStyle(fontSize: 15)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.buttomcolor,
+                        backgroundColor: Color.fromRGBO(206, 112, 88, 1),
                         foregroundColor: Color.fromARGB(255, 255, 255, 255),
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -188,83 +226,57 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // return Scaffold(
-    //   backgroundColor: AppColors.backgroundcolor,
-    //   appBar: AppBar(
-    //     backgroundColor: AppColors.buttomcolor,
-    //     centerTitle: true,
-    //     title: const Text(
-    //       'Profile',
-    //       style: TextStyle(color: Colors.white),
-    //     ),
-    //     iconTheme: IconThemeData(color: Colors.white), 
-    //   ),
-    //   body: SingleChildScrollView(
-    //     // Add SingleChildScrollView here
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(16.0),
-    //       child: Center(
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             const CircleAvatar(
-    //               radius: 50,
-    //               backgroundImage: AssetImage('images/profilepic.png'),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             const Text(
-    //               'John Doe',
-    //               style: TextStyle(
-    //                 fontSize: 24,
-    //                 fontWeight: FontWeight.bold,
-    //               ),
-    //             ),
-    //             const SizedBox(height: 8),
-    //             const Text(
-    //               'Software Developer',
-    //               style: TextStyle(
-    //                 fontSize: 16,
-    //                 color: Colors.grey,
-    //               ),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             const SizedBox(height: 24),
-    //             ElevatedButton(
-    //               onPressed: () {
-    //                 // Handle edit profile button press
-    //               },
-    //               child: const Text('Edit Profile'),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    //   bottomNavigationBar: const BottomNav(),
-    // );
+//   backgroundColor: AppColors.backgroundcolor,
+//   appBar: AppBar(
+//     backgroundColor: AppColors.buttomcolor,
+//     centerTitle: true,
+//     title: const Text(
+//       'Profile',
+//       style: TextStyle(color: Colors.white),
+//     ),
+//     iconTheme: IconThemeData(color: Colors.white),
+//   ),
+//   body: SingleChildScrollView(
+//     // Add SingleChildScrollView here
+//     child: Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: Center(
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             const CircleAvatar(
+//               radius: 50,
+//               backgroundImage: AssetImage('images/profilepic.png'),
+//             ),
+//             const SizedBox(height: 16),
+//             const Text(
+//               'John Doe',
+//               style: TextStyle(
+//                 fontSize: 24,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//             const SizedBox(height: 8),
+//             const Text(
+//               'Software Developer',
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 color: Colors.grey,
+//               ),
+//             ),
+//             const SizedBox(height: 16),
+//             const SizedBox(height: 24),
+//             ElevatedButton(
+//               onPressed: () {
+//                 // Handle edit profile button press
+//               },
+//               child: const Text('Edit Profile'),
+//             ),
+//           ],
+//         ),
+//       ),
+//     ),
+//   ),
+//   bottomNavigationBar: const BottomNav(),
+// );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -9,16 +10,16 @@ class ThingsToDoDetails extends StatelessWidget {
   final List<String> imagePaths;
   final String description;
   final String location;
-  
-  
+  final String workingHours; // Add this
+  bool isFavorite;
 
-
-  const ThingsToDoDetails({
+  ThingsToDoDetails({
     required this.name,
     required this.imagePaths,
     required this.description,
     required this.location,
-
+    required this.workingHours, // Add this
+    this.isFavorite = false,
   });
 
   void _openGoogleMapsApp(String locationName) async {
@@ -30,6 +31,41 @@ class ThingsToDoDetails extends StatelessWidget {
       await launchUrl(googleMapsUri);
     } else {
       throw 'Could not launch Google Maps for $locationName';
+    }
+  }
+
+  // Function to check if the current time is within the working hours
+  String _getCurrentStatus(String workingHours) {
+    try {
+      var format = DateFormat("h a"); // Correct format to parse the time
+      List<String> times = workingHours.split('–');
+      if (times.length != 2) {
+        return "Invalid time format";
+      }
+
+      DateTime now = DateTime.now();
+      DateTime openTime = format.parse(times[0]);
+      DateTime closeTime = format.parse(times[1]);
+
+      // Debugging
+      print("Open Time: $openTime");
+      print("Close Time: $closeTime");
+
+      // Adjust the date part of openTime and closeTime to today
+      openTime = DateTime(
+          now.year, now.month, now.day, openTime.hour, openTime.minute);
+      closeTime = DateTime(
+          now.year, now.month, now.day, closeTime.hour, closeTime.minute);
+
+      // Check if current time is within the working hours range
+      if (now.isAfter(openTime) && now.isBefore(closeTime)) {
+        return "Open";
+      } else {
+        return "Closed";
+      }
+    } catch (e) {
+      print("Error parsing time: $e");
+      return "Error in time data";
     }
   }
 
@@ -50,7 +86,9 @@ class ThingsToDoDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             CarouselSlider(
               items: imagePaths
                   .map(
@@ -84,12 +122,59 @@ class ThingsToDoDetails extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text(
+                          "Working Hours: ",
+                          style: TextStyle(
+                            color:
+                                AppColors.buttomcolor, // Black color for "Working Hours"
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "$workingHours ",
+                          style: TextStyle(
+                            color: AppColors.accentColor, // Color for the working hours
+                            fontSize: 20
+                          ),
+                        ),
+                        TextSpan(
+                          text: " (${_getCurrentStatus(workingHours)})",
+                          style: TextStyle(
+                            color: _getCurrentStatus(workingHours) == "Open"
+                                ? Colors.green
+                                : Colors.red,
+                            // Green color if open, red if closed
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  const Text(
+                    "About",
+                    style: TextStyle(
+                      color: AppColors.buttomcolor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   Text(
                     description,

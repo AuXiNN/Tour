@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/HotelBooking.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
 
@@ -61,8 +62,13 @@ class _HotelListScreenState extends State<HotelListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hotel List'),
-        backgroundColor: const Color.fromARGB(255, 248, 225, 218),
+        title: const Text(
+          'Hotel List',
+          style: const TextStyle(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.buttomcolor,
+        centerTitle: true,
         actions: [
           // Dropdown menu for sorting options
           DropdownButton<SortOption>(
@@ -77,9 +83,10 @@ class _HotelListScreenState extends State<HotelListScreen> {
             items: SortOption.values.map((SortOption option) {
               return DropdownMenuItem<SortOption>(
                 value: option,
-                child: Text(option == SortOption.rating
-                    ? 'Sort by Rating'
-                    : 'Sort A-Z'),
+                child: Text(
+                  option == SortOption.rating ? 'Sort by Rating' : 'Sort A-Z',
+                  style: const TextStyle(color: Colors.white),
+                ),
               );
             }).toList(),
           ),
@@ -262,8 +269,13 @@ class HotelDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hotel Details'),
-        backgroundColor: const Color.fromARGB(255, 248, 225, 218),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text(
+          'Hotel Details',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: AppColors.buttomcolor,
       ),
       backgroundColor: const Color.fromARGB(255, 248, 225, 218),
       body: Column(
@@ -280,14 +292,14 @@ class HotelDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Center(
                         child: Text(
                           '${hotelData['name']} ',
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20
-                          ),
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                       Row(

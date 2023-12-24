@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/ThingsToDoDetails.dart';
@@ -26,14 +28,38 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
     filteredList = List.from(thingsToDoList);
   }
 
-  
-
   void _search(String query) {
     setState(() {
       filteredList = thingsToDoList
           .where((thingToDo) =>
               thingToDo.name.toLowerCase().contains(query.toLowerCase()))
           .toList();
+    });
+  }
+
+  void toggleFavorite(ThingsToDoDetails thingToDo) async {
+    String userEmail = FirebaseAuth.instance.currentUser!.email!;
+
+    // Reference to the user's favorites in Firestore
+    var favoritesRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmail)
+        .collection('favorites');
+
+    if (thingToDo.isFavorite) {
+      // Remove from favorites
+      await favoritesRef.doc(thingToDo.name).delete();
+    } else {
+      // Add to favorites
+      await favoritesRef.doc(thingToDo.name).set({
+        'name': thingToDo.name,
+        // Add other details you want to store
+      });
+    }
+
+    // Update the local state to reflect the change
+    setState(() {
+      thingToDo.isFavorite = !thingToDo.isFavorite;
     });
   }
 
@@ -50,7 +76,6 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -82,11 +107,11 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
                 ],
               ),
               const SizedBox(height: 20),
+// Inside the build method of _ThingsToDoPageState class, inside ListView.builder...
               Column(
                 children: filteredList.map((thingToDo) {
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to a new page when image is clicked
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -95,44 +120,59 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
                             imagePaths: thingToDo.imagePaths,
                             description: thingToDo.description,
                             location: thingToDo.location,
+                            workingHours: thingToDo.workingHours,
                           ),
                         ),
                       );
                     },
                     child: Column(
                       children: [
-                        Image.asset(
-                          thingToDo.imagePaths.first,
-                          width: double.infinity,
-                          height: 250,
-                          fit: BoxFit.cover,
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Image.asset(
+                              thingToDo.imagePaths.first,
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.cover,
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                thingToDo.isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                toggleFavorite(thingToDo);
+                              },
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 8),
                         Text(
                           thingToDo.name,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: AppColors.buttomcolor),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: AppColors.buttomcolor,
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Row(
                           children: [
                             const SizedBox(width: 8),
                             const Icon(Icons.location_on,
-                                        color: Color(0xFF3A1B0F)),
-                                    const SizedBox(width: 6),
+                                color: Color(0xFF3A1B0F)),
+                            const SizedBox(width: 6),
                             Text(
-                              '${thingToDo.location}', // Display the actual location
+                              thingToDo.location,
                               style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                                
-                              ),
+                                  fontSize: 11, color: Colors.grey),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 42), // Adjusted spacing
+                        const SizedBox(height: 20),
                       ],
                     ),
                   );

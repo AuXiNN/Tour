@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tour/AppColors/colors.dart';
+import 'package:tour/Pages/FavoriteList.dart';
 import 'package:tour/Pages/ProfilePage.dart';
 import 'package:tour/Pages/homepage.dart';
 import 'package:tour/Pages/Login.dart'; // Import your Login page
@@ -45,6 +46,14 @@ class _BottomNavState extends State<BottomNav> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomePage(),
+                ),
+              );
+              break;
+              case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavoriteList(),
                 ),
               );
               break;

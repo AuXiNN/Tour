@@ -21,6 +21,7 @@ class ThingsToDoDataProvider {
             location: 'Al Hussein Public Parks, Amman 11953 Jordan',
             description:
                 "The Royal Automobile Museum provides a captivating journey through time, offering visitors a glimpse into the development of automobiles and their cultural significance. The museum features a diverse collection of vintage and modern vehicles, including cars once owned by Jordan's royal family. Each exhibit is carefully curated to highlight the technological advancements, design innovations, and historical context of the showcased automobiles.\n\nVisitors to the museum can explore a wide range of vehicles, from classic cars that represent the early days of automotive engineering to more contemporary models that demonstrate the industry's progression. The exhibits are complemented by informative displays, multimedia presentations, and interactive elements, providing an engaging and educational experience for automotive enthusiasts and casual visitors alike.\n\nThe Royal Automobile Museum not only celebrates the evolution of automobiles but also sheds light on the role of these vehicles in shaping the cultural and social landscape of Jordan. It is a must-visit destination for those interested in automotive history, design, and the cultural impact of automobiles on society.",
+            workingHours: '10 AM–7 PM',
           ),
           ThingsToDoDetails(
             name: 'AlHussein Public Parks',
@@ -35,6 +36,7 @@ class ThingsToDoDataProvider {
             location: 'King Abdullah II St A208, Amman',
             description:
                 'Al-Hussein Public Parks serve as a haven for relaxation, family picnics, and social gatherings. The well-maintained greenery, shaded pathways, and open spaces create a welcoming environment for individuals of all ages. Visitors can enjoy a leisurely stroll, jog, or simply unwind amidst nature.\n\nThe parks feature playgrounds for children, making them family-friendly destinations. These play areas are equipped with swings, slides, and other recreational facilities, providing a safe and enjoyable space for kids to play and have fun.\n\nIn addition to the natural beauty, Al-Hussein Public Parks often host cultural events, festivals, and community activities. These events contribute to a vibrant atmosphere, fostering a sense of community and bringing people together to celebrate various occasions.\n\nThe strategic location of these parks within Amman makes them easily accessible to residents and tourists alike. Whether seeking a peaceful retreat from the bustling city life or engaging in outdoor exercises, Al-Hussein Public Parks offer a well-rounded experience for those looking to connect with nature and enjoy recreational pursuits.',
+            workingHours: '6 AM–11 PM',
           ),
           ThingsToDoDetails(
             name: 'Amman Citadel',
@@ -48,10 +50,11 @@ class ThingsToDoDataProvider {
             ],
             location: 'K. Ali Ben Al-Hussein St. 146, Amman',
             description:
-                'Amman Citadel, perched atop one of the city\'s seven hills, stands as a historic site that narrates the rich tapestry of Jordan\'s past. Also known as Jabal al-Qal\'a, the Citadel boasts archaeological remnants spanning multiple civilizations and epochs.\n\nThe site showcases artifacts from the Bronze Age, as well as remnants from the Roman, Byzantine, and Umayyad periods. Among the notable structures is the Temple of Hercules, a Roman Hercules temple with massive pillars that offer panoramic views of the city.\n\nThe Umayyad Palace, a significant complex within the Citadel, reveals intricate architectural details and provides insight into the Umayyad dynasty\'s influence in the region. Visitors can explore the expansive courtyards and chambers that once echoed with the footsteps of ancient rulers.\n\nAmman Citadel serves not only as an archaeological site but also as an elevated vantage point offering breathtaking vistas of modern Amman. The juxtaposition of ancient ruins against the backdrop of a thriving city adds to the Citadel\'s allure, making it a must-visit destination for history enthusiasts and those eager to uncover the layers of Jordan\'s captivating heritage.',
+                'Amman Citadel, perched atop one of the city\'s seven hills, stands as a historic site that narrates the rich tapestry of Jordan\'s past. Also known as Jabal al-Qal\'a, the Citadel boasts archaeological remnants spanning multiple civilizations and epochs.\n\nThe site showcases artifacts from the Bronze Age, as well as remnants from the Roman, Byzantine, and Umayyad periods. Among the notable structures is the Temple of Hercules, a Roman Hercules temple with massive pillars that offer panoramic views of the city.\n\nThe Umayyad Palace, a significant complex within the Citadel, reveals intricate architectural details and provides insight into the Umayyad dynasty\'s influence in the region. Visitors can explore the expansive courtyards and chambers that once echoed with the footsteps of ancient rulers.\n\nAmman Citadel serves not only as an archaeological site but also as an elevated vantage point offering breathtaking vistas of modern Amman. The juxtaposition of ancient ruins against the backdrop of a thriving city adds to the Citadel\'s allure, making it a must-visit destination for history enthusiasts and those eager to uncover the layers of Jordan\'s captivating heritage.', 
+                workingHours: '8 AM–7 PM',
           ),
           ThingsToDoDetails(
-            name: 'The Boulevard JO',
+            name: 'Abdali Boulevard',
             imagePaths: [
               'images/${city}4.jpg',
               'images/${city}41.jpg',
@@ -61,7 +64,8 @@ class ThingsToDoDataProvider {
             ],
             location: 'JamAl-Al-Juqah St. 38, Amman',
             description:
-                'Abdali Boulevard stands as a vibrant and modern district in the heart of Amman, Jordan, offering a dynamic blend of entertainment, commerce, and urban living. This pedestrian-friendly boulevard is a bustling hub where locals and visitors converge to experience a diverse array of attractions.\n\nLined with contemporary architecture, Abdali Boulevard features an array of shops, boutiques, cafes, and restaurants, providing a chic and cosmopolitan atmosphere for those exploring its streets. The boulevard is a popular destination for shopping, dining, and socializing, making it an integral part of Amman\'s modern urban landscape.\n\nOne of the key highlights of Abdali Boulevard is its commitment to hosting cultural events, live performances, and public festivities. This contributes to a lively and engaging environment, fostering a sense of community and enriching the cultural fabric of the city.\n\nThe strategic location of Abdali Boulevard makes it a central point for business and leisure, connecting various parts of the city and serving as a focal point for both locals and tourists. Whether one is interested in shopping, dining, or simply enjoying the vibrant urban atmosphere, Abdali Boulevard offers a modern and cosmopolitan experience in the heart of Amman.',
+                'Abdali Boulevard stands as a vibrant and modern district in the heart of Amman, Jordan, offering a dynamic blend of entertainment, commerce, and urban living. This pedestrian-friendly boulevard is a bustling hub where locals and visitors converge to experience a diverse array of attractions.\n\nLined with contemporary architecture, Abdali Boulevard features an array of shops, boutiques, cafes, and restaurants, providing a chic and cosmopolitan atmosphere for those exploring its streets. The boulevard is a popular destination for shopping, dining, and socializing, making it an integral part of Amman\'s modern urban landscape.\n\nOne of the key highlights of Abdali Boulevard is its commitment to hosting cultural events, live performances, and public festivities. This contributes to a lively and engaging environment, fostering a sense of community and enriching the cultural fabric of the city.\n\nThe strategic location of Abdali Boulevard makes it a central point for business and leisure, connecting various parts of the city and serving as a focal point for both locals and tourists. Whether one is interested in shopping, dining, or simply enjoying the vibrant urban atmosphere, Abdali Boulevard offers a modern and cosmopolitan experience in the heart of Amman.', 
+                workingHours: '9 AM–5 PM',
           ),
           ThingsToDoDetails(
             name: 'The Jordan Museum',
@@ -78,7 +82,8 @@ class ThingsToDoDataProvider {
             ],
             location: 'Ali bin Abi Taleb Street Ras Al-Ayn Area',
             description:
-                'The Jordan Museum, located in the heart of Amman, stands as a beacon of the country\'s rich cultural heritage and historical significance. This world-class museum offers a captivating journey through time, showcasing the diverse history, archaeological treasures, and cultural legacy of Jordan.\n\nThe museum\'s extensive collection spans various eras, from prehistoric times to modern-day Jordan. Visitors can explore artifacts, sculptures, and exhibits that illuminate the fascinating stories of the region, including the ancient Nabatean civilization, the Roman period, and the contributions of various cultures that have shaped Jordan\'s history.\n\nOne of the museum\'s highlights is the presentation of the Dead Sea Scrolls, a priceless collection of ancient manuscripts that provide insights into religious and historical texts. The Jordan Museum\'s commitment to preserving and presenting Jordan\'s heritage is evident in its modern and interactive displays, offering an engaging and educational experience for visitors of all ages.\n\nThe architectural design of The Jordan Museum itself is a testament to modern sophistication, providing a fitting backdrop for the nation\'s cultural treasures. Whether you are a history enthusiast, art lover, or a curious traveler, a visit to The Jordan Museum promises a profound exploration of Jordan\'s rich and diverse cultural tapestry.',
+                'The Jordan Museum, located in the heart of Amman, stands as a beacon of the country\'s rich cultural heritage and historical significance. This world-class museum offers a captivating journey through time, showcasing the diverse history, archaeological treasures, and cultural legacy of Jordan.\n\nThe museum\'s extensive collection spans various eras, from prehistoric times to modern-day Jordan. Visitors can explore artifacts, sculptures, and exhibits that illuminate the fascinating stories of the region, including the ancient Nabatean civilization, the Roman period, and the contributions of various cultures that have shaped Jordan\'s history.\n\nOne of the museum\'s highlights is the presentation of the Dead Sea Scrolls, a priceless collection of ancient manuscripts that provide insights into religious and historical texts. The Jordan Museum\'s commitment to preserving and presenting Jordan\'s heritage is evident in its modern and interactive displays, offering an engaging and educational experience for visitors of all ages.\n\nThe architectural design of The Jordan Museum itself is a testament to modern sophistication, providing a fitting backdrop for the nation\'s cultural treasures. Whether you are a history enthusiast, art lover, or a curious traveler, a visit to The Jordan Museum promises a profound exploration of Jordan\'s rich and diverse cultural tapestry.', 
+                workingHours: '9 AM–5 PM',
           ),
           ThingsToDoDetails(
             name: 'Roman Theater',
@@ -90,7 +95,8 @@ class ThingsToDoDataProvider {
             ],
             location: 'Taha Al-Hashemi St., Amman',
             description:
-                'The Roman Theatre in Amman, Jordan, stands as an iconic testament to the ancient city\'s rich history and architectural prowess. Built during the reign of Emperor Antoninus Pius (138-161 AD), this historic amphitheater is a remarkable showcase of Roman engineering and a focal point of Amman\'s archaeological treasures.\n\nCarved into the hillsides of Amman, the Roman Theatre offers visitors a captivating glimpse into the grandeur of Roman entertainment and civic life. With a seating capacity that once accommodated thousands, the theatre was a hub for various performances, including theatrical productions, gladiator contests, and public assemblies.\n\nThe architectural design of the Roman Theatre reflects the classical style of Roman amphitheaters, featuring a semi-circular orchestra, tiered seating sections, and a stage framed by ornate columns. The theatre\'s location provides panoramic views of downtown Amman and the surrounding hills, adding to the overall enchantment of the site.\n\nToday, the Roman Theatre is not only a historical landmark but also a venue for cultural events and performances, connecting the present generation to the ancient legacy of Amman and its enduring cultural significance.',
+                'The Roman Theatre in Amman, Jordan, stands as an iconic testament to the ancient city\'s rich history and architectural prowess. Built during the reign of Emperor Antoninus Pius (138-161 AD), this historic amphitheater is a remarkable showcase of Roman engineering and a focal point of Amman\'s archaeological treasures.\n\nCarved into the hillsides of Amman, the Roman Theatre offers visitors a captivating glimpse into the grandeur of Roman entertainment and civic life. With a seating capacity that once accommodated thousands, the theatre was a hub for various performances, including theatrical productions, gladiator contests, and public assemblies.\n\nThe architectural design of the Roman Theatre reflects the classical style of Roman amphitheaters, featuring a semi-circular orchestra, tiered seating sections, and a stage framed by ornate columns. The theatre\'s location provides panoramic views of downtown Amman and the surrounding hills, adding to the overall enchantment of the site.\n\nToday, the Roman Theatre is not only a historical landmark but also a venue for cultural events and performances, connecting the present generation to the ancient legacy of Amman and its enduring cultural significance.', 
+                workingHours: '8 AM–10 PM',
           ),
           ThingsToDoDetails(
             name: 'King Abdullah I Mosque',
@@ -104,6 +110,7 @@ class ThingsToDoDataProvider {
             location: 'XW67+F4H, Amman',
             description:
                 'The King Abdullah I Mosque, situated in Amman, Jordan, stands as a magnificent symbol of modern Islamic architecture and spiritual significance. Constructed between 1982 and 1989, this grand mosque was built in memory of King Abdullah I, the founder of the Hashemite Kingdom of Jordan.\n\nDesigned by the architect Abdel-Wahed El-Wakil, the King Abdullah I Mosque showcases a harmonious blend of traditional Islamic elements and contemporary architectural features. The mosque\'s distinctive blue dome, minarets, and ornate geometric patterns reflect the beauty of Islamic art and design.\n\nThe interior of the mosque is equally impressive, with a central dome adorned with intricate calligraphy and geometric patterns. The prayer hall can accommodate a large congregation, and the mosque\'s design emphasizes an open and inclusive atmosphere.\n\nSet against the backdrop of the Amman skyline, the King Abdullah I Mosque is a prominent landmark that not only serves as a place of worship but also as a cultural and architectural gem, welcoming visitors to appreciate Jordan\'s rich heritage and religious diversity.',
+                 workingHours: '3:20 AM–10 PM'
           ),
         ];
 
@@ -136,7 +143,8 @@ class ThingsToDoDataProvider {
                 'blend of aquatic thrills and beautiful coastal views. Visitors can bask in the sun, enjoy delicious refreshments, '
                 'and take in the scenic surroundings.\n\n'
                 'Whether you\'re seeking an adrenaline rush, a relaxing day by the water, or a family-friendly adventure, Saraya Aqaba '
-                'Waterpark is a fantastic destination to cool off and have a splashing good time in Jordan\'s enchanting city of Aqaba.',
+                'Waterpark is a fantastic destination to cool off and have a splashing good time in Jordan\'s enchanting city of Aqaba.', 
+                workingHours: '11 AM–6 PM',
           ),
           ThingsToDoDetails(
             name: 'B12 Beach Club',
@@ -164,7 +172,8 @@ class ThingsToDoDataProvider {
                 'meet new people, and create lasting memories.\n\n'
                 'The club\'s attentive staff and high-end facilities ensure that guests have a comfortable and enjoyable visit. '
                 'Whether you\'re looking for a relaxing day at the beach, a vibrant nightlife scene, or a combination of both, '
-                'B12 Beach Club is the perfect spot to unwind and savor the beauty of Aqaba.',
+                'B12 Beach Club is the perfect spot to unwind and savor the beauty of Aqaba.', 
+                workingHours: '10 AM–7 PM',
           ),
           ThingsToDoDetails(
             name: 'Aqaba Archaeological Museum',
@@ -192,7 +201,8 @@ class ThingsToDoDataProvider {
                 'that enhance the visitor\'s understanding of the region. The museum provides a valuable educational experience for '
                 'those interested in archaeology, history, and the cultural heritage of Aqaba and its surroundings.\n\n'
                 'Set against the backdrop of Aqaba\'s modern landscape, the museum offers a bridge between the past and the present, '
-                'inviting visitors to explore the ancient mysteries and stories that have shaped this coastal city.',
+                'inviting visitors to explore the ancient mysteries and stories that have shaped this coastal city.', 
+                workingHours: '8 AM–5 PM',
           ),
           ThingsToDoDetails(
             name: 'Virtual Reality Museum By Jordan Heritage',
@@ -219,7 +229,8 @@ class ThingsToDoDataProvider {
                 'architecture, and cultural significance while experiencing the past in a new and engaging way.\n\n'
                 'Virtual Reality Museum by Jordan Heritage is a testament to the power of technology in preserving and sharing '
                 'cultural treasures. It offers an exciting and educational adventure for individuals, families, and history enthusiasts '
-                'who want to explore Jordan\'s historical and archaeological wonders through the lens of virtual reality.',
+                'who want to explore Jordan\'s historical and archaeological wonders through the lens of virtual reality.', 
+                workingHours: '10 AM–7 PM',
           ),
           ThingsToDoDetails(
             name: 'Ayla Golf Club',
@@ -249,7 +260,8 @@ class ThingsToDoDataProvider {
                 'overlooking the scenic beauty of the course and the Red Sea.\n\n'
                 'Whether you\'re a seasoned golfer looking for a challenging round or a beginner interested in learning the game, '
                 'Ayla Golf Club offers an idyllic setting, world-class facilities, and a memorable golfing adventure by the '
-                'shores of the Red Sea.',
+                'shores of the Red Sea.', 
+                workingHours: '10 AM–7 PM',
           ),
           ThingsToDoDetails(
             name: 'Berenice Beach Club',
@@ -276,7 +288,8 @@ class ThingsToDoDataProvider {
                 'cuisine and refreshing beverages. The culinary offerings include a variety of local and international dishes, '
                 'making it a delightful spot for beachside dining.\n\n'
                 'The tranquil ambiance and inviting atmosphere of Berenice Beach Club make it a popular choice for travelers '
-                'looking to relax, unwind, and enjoy the beauty of the Red Sea coastline while in Aqaba.',
+                'looking to relax, unwind, and enjoy the beauty of the Red Sea coastline while in Aqaba.', 
+                workingHours: '10 AM–7 PM',
           ),
         ];
 
@@ -298,7 +311,8 @@ class ThingsToDoDataProvider {
                   'which are still remarkably intact. The plaza served as a social and commercial hub in the ancient city of Gerasa, ' +
                   'part of the Decapolis league of cities. Its unique shape and grandeur are a testament to the advanced engineering ' +
                   'and architectural prowess of the Romans. Today, Oval Plaza stands as a symbol of the rich history and cultural heritage ' +
-                  'of Jerash, attracting thousands of visitors annually who come to marvel at its timeless beauty and the echoes of ancient civilization it holds.'),
+                  'of Jerash, attracting thousands of visitors annually who come to marvel at its timeless beauty and the echoes of ancient civilization it holds.', 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Nympheum - Jerash',
               imagePaths: [
@@ -314,7 +328,8 @@ class ThingsToDoDataProvider {
                   'decorative carvings. At its peak, water cascaded through a series of channels and pools, providing a spectacular display ' +
                   'for the city\'s inhabitants. The remains of the Nymphaeum, with its detailed Corinthian columns and intricate motifs, offer ' +
                   'insight into the grandeur and sophistication of Roman urban design. It remains a significant attraction for visitors, ' +
-                  'showcasing the historical and cultural richness of Jerash.'),
+                  'showcasing the historical and cultural richness of Jerash.', 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Temple of Zeus - Jerash',
               imagePaths: [
@@ -330,7 +345,8 @@ class ThingsToDoDataProvider {
                   'architectural prowess of the era. Despite the ravages of time, several columns still stand, evoking the ' +
                   'temple’s former glory. The Temple of Zeus not only exemplifies ancient religious practices but also ' +
                   'serves as a testament to the rich cultural and historical tapestry that defines Jerash. Its monumental ruins ' +
-                  'continue to fascinate archaeologists and visitors alike, drawing them into a world where mythology and history intertwine.'),
+                  'continue to fascinate archaeologists and visitors alike, drawing them into a world where mythology and history intertwine.',
+                   workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Jerash Archaeological Museum ',
               imagePaths: [
@@ -350,7 +366,8 @@ class ThingsToDoDataProvider {
                   'limestone and basalt sculptures, which beautifully capture the artistic skill of ancient craftsmen. The Jerash ' +
                   'Archaeological Museum not only provides insights into the rich history of Jerash but also serves as a crucial ' +
                   'repository for preserving Jordan’s ancient heritage. It is a must-visit for those keen on exploring the ' +
-                  'depths of Jordan’s archaeological and historical legacy.'),
+                  'depths of Jordan’s archaeological and historical legacy.',
+                   workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Church of Marianos',
               imagePaths: [
@@ -368,7 +385,8 @@ class ThingsToDoDataProvider {
                   'spiritual and cultural life of the early Christian community in Jerash. The Church of Marianos is a significant ' +
                   'historical site, offering visitors a chance to step back in time and experience the artistic and religious heritage ' +
                   'of this ancient city. It is a vital piece of the mosaic that makes up the rich tapestry of Jordan’s historical and ' +
-                  'archaeological landscape.'),
+                  'archaeological landscape.', 
+                  workingHours: '10 AM–7 PM',),
         ];
 
       case 'Ajloun':
@@ -395,7 +413,8 @@ class ThingsToDoDataProvider {
                   "the castle's interior. The fortress also offers panoramic views of the surrounding countryside, including the Jordan Valley " +
                   "and the highlands of Galilee.\n\nQala'a ar-Rabad is not only a significant historical site but also a symbol of the Islamic " +
                   "military prowess and the rich cultural heritage of the region. Its preservation and restoration efforts have made it a popular " +
-                  "destination for tourists and history enthusiasts, eager to experience the legacy of this formidable medieval fortress."),
+                  "destination for tourists and history enthusiasts, eager to experience the legacy of this formidable medieval fortress.",
+                   workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Ajloun Forest Reserve Zipline',
               imagePaths: [
@@ -413,7 +432,8 @@ class ThingsToDoDataProvider {
                   "but also about connecting with nature and appreciating the serene environment of the Ajloun Forest Reserve.\n\n" +
                   "Participants get to witness the rich biodiversity of the reserve, including evergreen oak trees, wild pistachio trees, " +
                   "and a variety of bird species. The Ajloun Forest Reserve Zipline is more than just an adventure; it's an opportunity to " +
-                  "immerse oneself in the natural splendor of Jordan and create lasting memories in one of the country's most beautiful settings."),
+                  "immerse oneself in the natural splendor of Jordan and create lasting memories in one of the country's most beautiful settings.", 
+                  workingHours: '10 AM–7 PM',),
         ];
 
       case 'Petra':
@@ -439,7 +459,8 @@ class ThingsToDoDataProvider {
                   "reveal of Petra's most iconic structure, Al-Khazneh, or the Treasury. The dramatic and narrow entrance " +
                   "of the Siq enhances the impact of this first glimpse, leaving an indelible impression on all who visit. " +
                   "Exploring the Siq in Petra is not only a journey through a geological marvel but also a walk through history, " +
-                  "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience."),
+                  "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Al-Khazneh',
               imagePaths: [
@@ -460,7 +481,8 @@ class ThingsToDoDataProvider {
                   "reveal of Petra's most iconic structure, Al-Khazneh, or the Treasury. The dramatic and narrow entrance " +
                   "of the Siq enhances the impact of this first glimpse, leaving an indelible impression on all who visit. " +
                   "Exploring the Siq in Petra is not only a journey through a geological marvel but also a walk through history, " +
-                  "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience."),
+                  "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'The Petra Museum',
               imagePaths: [
@@ -489,7 +511,8 @@ class ThingsToDoDataProvider {
                   "making the complex history of Petra accessible and engaging for all ages. The Petra Museum serves not " +
                   "only as a gateway to the ancient city but also as a testament to Jordan's commitment to preserving and " +
                   "sharing its rich cultural heritage. A visit to the Petra Museum is an essential complement to exploring " +
-                  "the archaeological wonders of Petra, providing context and depth to the remarkable story of this ancient city."),
+                  "the archaeological wonders of Petra, providing context and depth to the remarkable story of this ancient city.",
+                   workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Byzantine Church - Petra',
               imagePaths: [
@@ -514,7 +537,8 @@ class ThingsToDoDataProvider {
                   "construction techniques and styles prevalent during the Byzantine period in the region.\n\n" +
                   "Visiting the Byzantine Church in Petra allows travelers to explore an often-overlooked aspect of Petra's rich history. " +
                   "It provides a unique perspective on the religious diversity and artistic achievements that characterized this ancient city. " +
-                  "The church is a testament to the enduring legacy of Petra and the intricate tapestry of civilizations that have contributed to its storied past."),
+                  "The church is a testament to the enduring legacy of Petra and the intricate tapestry of civilizations that have contributed to its storied past.", 
+                  workingHours: '10 AM–7 PM',),
         ];
 
       case 'Dead Sea':
@@ -543,7 +567,8 @@ class ThingsToDoDataProvider {
                   "The breathtaking scenery and the thrill of navigating through the canyon's natural obstacles make Wadi Mujib a popular " +
                   "destination for adventure tourism in Jordan. The combination of natural beauty, biodiversity, and the excitement of " +
                   "exploring this extraordinary landscape make Wadi Mujib a must-visit destination for those seeking to experience the " +
-                  "untouched wilderness of Jordan."),
+                  "untouched wilderness of Jordan.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Dead Sea Museum',
               imagePaths: [
@@ -571,7 +596,8 @@ class ThingsToDoDataProvider {
                   "ongoing decrease in the Dead Sea's water level and the efforts to preserve this unique body of water.\n\n" +
                   "Equipped with modern facilities and engaging for all ages, the Dead Sea Museum serves as an educational " +
                   "hub, offering a comprehensive and enjoyable learning experience. It's a must-visit for those who wish to " +
-                  "gain a deeper appreciation of the Dead Sea's wonders and the challenges it faces."),
+                  "gain a deeper appreciation of the Dead Sea's wonders and the challenges it faces.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Lot\'s Cave',
               imagePaths: [
@@ -591,7 +617,8 @@ class ThingsToDoDataProvider {
                   "Visitors to Lot's Cave can explore the small museum that displays findings from the area and interpretive signs "
                   "that recount the story of Lot as per the Bible and Islamic tradition. The site serves not only as a point of "
                   "historical interest but also as a place of religious contemplation. Its location near the Dead Sea makes it a "
-                  "popular stop for tourists visiting the region, who are drawn to its historical, religious, and natural significance."),
+                  "popular stop for tourists visiting the region, who are drawn to its historical, religious, and natural significance.", 
+                  workingHours: '10 AM–7 PM',),
         ];
 
       case 'Wadi Rum':
@@ -621,7 +648,8 @@ class ThingsToDoDataProvider {
                   "experiencing the awe-inspiring landscape of Wadi Rum. The siq reveals the intricate rock formations and the play "
                   "of light and shadow, creating an almost mystical atmosphere. Jebel Khazali is not only a site of historical and "
                   "cultural importance but also a popular destination for hikers, photographers, and nature enthusiasts who are drawn to "
-                  "its unique geological features and the serene beauty of the surrounding desert landscape."),
+                  "its unique geological features and the serene beauty of the surrounding desert landscape.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Jabal Umm ad Dami',
               imagePaths: [
@@ -644,7 +672,8 @@ class ThingsToDoDataProvider {
                   "The journey to the summit passes through a variety of terrains, from rocky paths to sandy stretches, each offering its "
                   "own unique beauty. The peak is often cooler than the desert floor, offering a refreshing respite from the heat. Climbing "
                   "Jabal Umm ad Dami is not only an opportunity to witness the stunning natural beauty of Wadi Rum but also a chance to "
-                  "connect with the raw and unspoiled spirit of the Jordanian wilderness."),
+                  "connect with the raw and unspoiled spirit of the Jordanian wilderness.", 
+                  workingHours: '10 AM–7 PM',),
           ThingsToDoDetails(
               name: 'Royal Balloon - Jordan',
               imagePaths: [
@@ -667,7 +696,8 @@ class ThingsToDoDataProvider {
                   "ballooning with the awe-inspiring scenery of one of Jordan's most famous natural wonders. The experience is often "
                   "highlighted by the knowledgeable guides who share insights about the region's history and geology, enhancing the "
                   "enchantment of the journey. The Royal Balloon in Wadi Rum is a must-try experience for those seeking a different and "
-                  "memorable way to explore the stunning landscapes of Jordan."),
+                  "memorable way to explore the stunning landscapes of Jordan.", 
+                  workingHours: '10 AM–7 PM',),
         ];
 
       default:
