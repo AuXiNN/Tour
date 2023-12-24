@@ -85,7 +85,7 @@ class _HotelListScreenState extends State<HotelListScreen> {
                 value: option,
                 child: Text(
                   option == SortOption.rating ? 'Sort by Rating' : 'Sort A-Z',
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Color.fromARGB(255, 141, 105, 91)),
                 ),
               );
             }).toList(),

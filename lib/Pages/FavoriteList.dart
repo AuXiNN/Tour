@@ -31,8 +31,13 @@ class FavoriteList extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundcolor,
       appBar: AppBar(
-        title: Text('My Favorites'),
-        // ... other AppBar properties ...
+        centerTitle: true,
+        title: Text(
+          "My Favorites",
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.buttomcolor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance

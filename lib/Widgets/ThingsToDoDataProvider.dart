@@ -110,7 +110,7 @@ class ThingsToDoDataProvider {
             location: 'XW67+F4H, Amman',
             description:
                 'The King Abdullah I Mosque, situated in Amman, Jordan, stands as a magnificent symbol of modern Islamic architecture and spiritual significance. Constructed between 1982 and 1989, this grand mosque was built in memory of King Abdullah I, the founder of the Hashemite Kingdom of Jordan.\n\nDesigned by the architect Abdel-Wahed El-Wakil, the King Abdullah I Mosque showcases a harmonious blend of traditional Islamic elements and contemporary architectural features. The mosque\'s distinctive blue dome, minarets, and ornate geometric patterns reflect the beauty of Islamic art and design.\n\nThe interior of the mosque is equally impressive, with a central dome adorned with intricate calligraphy and geometric patterns. The prayer hall can accommodate a large congregation, and the mosque\'s design emphasizes an open and inclusive atmosphere.\n\nSet against the backdrop of the Amman skyline, the King Abdullah I Mosque is a prominent landmark that not only serves as a place of worship but also as a cultural and architectural gem, welcoming visitors to appreciate Jordan\'s rich heritage and religious diversity.',
-                 workingHours: '3:20 AM–10 PM'
+                 workingHours: '3 AM–10 PM'
           ),
         ];
 
