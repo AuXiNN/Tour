@@ -130,13 +130,18 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(color: Colors.grey[600], fontSize: 20)),
                 ),
 
-                //username
+                //first_name
                 MyTextBox(
-                  text: userData['username'],
-                  sectionName: 'username',
-                  onPressed: () => editField('username'),
+                  text: userData['first_name'],
+                  sectionName: 'first_name',
+                  onPressed: () => editField('first_name'),
                 ),
-
+                //last_name
+                MyTextBox(
+                  text: userData['last_name'],
+                  sectionName: 'last_name',
+                  onPressed: () => editField('last_name'),
+                ),
                 //bio
                 MyTextBox(
                   text: userData['bio'],
@@ -179,7 +184,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: const Text('View My Booking History',style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: const Text(
+                        'View My Booking History',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
@@ -193,8 +201,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ElevatedButton.icon(
                       onPressed: _signOut,
                       icon: const Icon(Icons.logout, size: 18),
-                      label:
-                          const Text('Sign out', style: TextStyle(fontSize: 15)),
+                      label: const Text('Sign out',
+                          style: TextStyle(fontSize: 15)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color.fromRGBO(206, 112, 88, 1),
                         foregroundColor: Color.fromARGB(255, 255, 255, 255),
