@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/FavoriteList.dart';
 import 'package:tour/Pages/ProfilePage.dart';
@@ -49,7 +50,7 @@ class _BottomNavState extends State<BottomNav> {
                 ),
               );
               break;
-              case 1:
+            case 1:
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -60,19 +61,19 @@ class _BottomNavState extends State<BottomNav> {
             case 2:
               // Check if the user is logged in
               if (FirebaseAuth.instance.currentUser == null) {
-                // Navigate to the Login page and clear all previous routes
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                  (Route<dynamic> route) => false, // This condition always returns false, so it removes all previous routes
+                Fluttertoast.showToast(
+                  msg: "Please log in to access your profile.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
                 );
-              } else {
-                // If logged in, navigate to the Profile page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
-                  ),
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
                 );
               }
               break;

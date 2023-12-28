@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tour/Widgets/custombuttomauth.dart';
 import 'package:tour/Widgets/textformfield.dart';
@@ -33,7 +34,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: AppColors.backgroundcolor,
       body: Container(
@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 60),
                   const Text(
-                    'Login to Continue Using The App',
+                    'Login to Continue Using JoTour',
                     style: TextStyle(color: Color.fromARGB(255, 119, 116, 116)),
                   ),
                   const SizedBox(height: 20),
@@ -170,6 +170,24 @@ class _LoginState extends State<Login> {
                     );
 
                     if (userCredential.user != null) {
+                      // Declare firstName outside the Firestore query
+                      String? firstName;
+
+                      // Fetch user's first name from Firestore
+                      var docSnapshot = await FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(userCredential.user!.email)
+                          .get();
+
+                      if (docSnapshot.exists) {
+                        firstName = docSnapshot.data()?["first_name"];
+                      }
+
+                      // If first name is available, show welcome toast
+                      if (firstName != null && firstName.isNotEmpty) {
+                        Fluttertoast.showToast(msg: "Welcome $firstName");
+                      }
+
                       Navigator.pushNamed(context, 'homepage');
                     } else {
                       print('User not found or invalid credentials');
@@ -178,21 +196,15 @@ class _LoginState extends State<Login> {
                   } on FirebaseAuthException catch (e) {
                     print('Error code: ${e.code}');
                     print('Error message: ${e.message}');
-
-                    if (e.code == "invalid-email") {
-                      print('Invalid Email.');
-                      showInvalidCredentialsDialog(context);
-                    } else {
-                      // Handle other cases or display a generic error message
-                      print('Authentication failed. Please try again.');
-                      showInvalidCredentialsDialog(context);
-                    }
+                    // Handle specific errors
+                    showInvalidCredentialsDialog(context);
                   }
                 } else {
                   print('Form validation failed');
                 }
               },
             ),
+
             // CustomButtomAuth(
             //   title: "Login",
             //   onPressed: () async {
@@ -307,51 +319,53 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _handleSignInWithGoogle() async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  
-  if (googleUser == null) {
-    // User canceled the Google Sign-In process
-    return;
-  }
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  // Sign out the current user to force the Google Sign-In page to appear
-  await FirebaseAuth.instance.signOut();
-
-  final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
-  final AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-
-  try {
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    if (userCredential.user != null) {
-      // Check if the user already exists in Firestore
-      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(userCredential.user!.email)
-          .get();
-
-      if (!userDoc.exists) {
-        // If the user doesn't exist, create a new document in Firestore
-        await FirebaseFirestore.instance.collection('Users').doc(userCredential.user!.email).set({
-          'username': userCredential.user!.displayName ?? 'DefaultUsername',
-          'email': userCredential.user!.email,
-          'bio': 'Default Bio',
-          // Add other necessary fields
-        });
-      }
-
-      Navigator.pushNamed(context, 'homepage');
-    } else {
-      print('Google Sign-In failed');
+    if (googleUser == null) {
+      // User canceled the Google Sign-In process
+      return;
     }
-  } catch (e) {
-    print('Error during Google Sign-In: $e');
-  }
-}
 
+    // Sign out the current user to force the Google Sign-In page to appear
+    await FirebaseAuth.instance.signOut();
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        // Check if the user already exists in Firestore
+        final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(userCredential.user!.email)
+            .get();
+
+        if (!userDoc.exists) {
+          // If the user doesn't exist, create a new document in Firestore
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(userCredential.user!.email)
+              .set({
+            'username': userCredential.user!.displayName ?? 'DefaultUsername',
+            'email': userCredential.user!.email,
+            'bio': 'Default Bio',
+            // Add other necessary fields
+          });
+        }
+
+        Navigator.pushNamed(context, 'homepage');
+      } else {
+        print('Google Sign-In failed');
+      }
+    } catch (e) {
+      print('Error during Google Sign-In: $e');
+    }
+  }
 }

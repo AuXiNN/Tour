@@ -46,21 +46,23 @@ class _SignUpState extends State<SignUp> {
   }
 
   // Regular expression for email validation
-  final RegExp emailRegex = RegExp(
-    r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+',
-  );
+ final RegExp emailRegex = RegExp(
+  r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.(com|net|org|edu|gov|mil|co.uk)$',
+);
 
   // Regular expression for password validation
-  final RegExp passwordRegex = RegExp(
-    r'^(?=.*[A-Z])(?=.*\d.*\d.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$',
-  );
+final RegExp passwordRegex = RegExp(
+  r'^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$',
+);
+
+
 
   String? validateEmail(String? value) {
-    if (value == null || value.isEmpty || !emailRegex.hasMatch(value)) {
-      return "Enter a valid email";
-    }
-    return null;
+  if (value == null || value.isEmpty || !emailRegex.hasMatch(value)) {
+    return "Enter a valid email";
   }
+  return null;
+}
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty || !passwordRegex.hasMatch(value)) {
@@ -187,16 +189,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     validator: validateConfirmPassword,
                   ),
-                  const SizedBox(height: 10),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 20),
-                    alignment: Alignment.topRight,
-                    child: const Text(
-                      'Forget Password ?',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
+                  const SizedBox(height: 80),
+                  
                 ],
               ),
             ),
@@ -270,14 +264,8 @@ class _SignUpState extends State<SignUp> {
                     }
                   }
                 }),
-            const SizedBox(height: 20),
-            const SizedBox(
-              height: 10,
-            ),
-
-            const SizedBox(
-              height: 90,
-            ),
+            const SizedBox(height: 40),
+           
             // ),
             // const Text(
             //   "Don't Have An Account? Reguster",

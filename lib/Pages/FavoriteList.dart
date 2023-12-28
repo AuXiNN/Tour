@@ -2,12 +2,32 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
 
 class FavoriteList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+// Check if a user is logged in
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    // If no user is logged in, show toast and redirect to the login page
+    if (currentUser == null) {
+      Fluttertoast.showToast(
+        msg: "Please log in to view favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      Future.microtask(
+          () => Navigator.of(context).pushReplacementNamed('login'));
+      return Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     String userEmail = FirebaseAuth.instance.currentUser!.email!;
     void showRemoveConfirmationDialog(String placeName, String docId) {
       AwesomeDialog(
@@ -104,7 +124,7 @@ class FavoriteList extends StatelessWidget {
                             child: Text(
                               favorite['name'],
                               style: TextStyle(
-                                fontSize: 20,
+                                  fontSize: 20,
                                   color: AppColors.accentColor,
                                   fontWeight: FontWeight.bold),
                             ),

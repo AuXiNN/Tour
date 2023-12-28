@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/BookingHistoryScreen.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -25,6 +26,17 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
     // Navigate to login screen or home screen after signing out
+
+   Fluttertoast.showToast(
+        msg: "Signed Out",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+
     Navigator.of(context).pushReplacementNamed('login');
   }
 
@@ -133,19 +145,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 //first_name
                 MyTextBox(
                   text: userData['first_name'],
-                  sectionName: 'first_name',
+                  sectionName: 'First name',
                   onPressed: () => editField('first_name'),
                 ),
                 //last_name
                 MyTextBox(
                   text: userData['last_name'],
-                  sectionName: 'last_name',
+                  sectionName: 'Last name',
                   onPressed: () => editField('last_name'),
                 ),
                 //bio
                 MyTextBox(
                   text: userData['bio'],
-                  sectionName: 'bio',
+                  sectionName: 'Bio',
                   onPressed: () => editField('bio'),
                 ),
 
