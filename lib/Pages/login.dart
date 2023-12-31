@@ -22,6 +22,8 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
+  bool _isPasswordVisible = false; // Add this line
+
   void showInvalidCredentialsDialog(BuildContext context) {
     AwesomeDialog(
       context: context,
@@ -104,11 +106,24 @@ class _LoginState extends State<Login> {
                   CustomTextForm(
                     hinttext: "Enter Your Password",
                     mycontroller: password,
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                     validator: (val) {
                       if (val == "") {
                         return "Please Enter A Password";
                       }
+                      return null;
                     },
                   ),
                   const SizedBox(height: 10),
@@ -318,54 +333,64 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future<void> _handleSignInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+ Future<void> _handleSignInWithGoogle() async {
+    await GoogleSignIn().signOut();
 
-    if (googleUser == null) {
-      // User canceled the Google Sign-In process
-      return;
-    }
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Sign out the current user to force the Google Sign-In page to appear
-    await FirebaseAuth.instance.signOut();
+  if (googleUser == null) {
+    // User canceled the Google Sign-In process
+    return;
+  }
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  // Sign out the current user to force the Google Sign-In page to appear
+  await FirebaseAuth.instance.signOut();
 
-    try {
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+  final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+  final AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
 
-      if (userCredential.user != null) {
-        // Check if the user already exists in Firestore
-        final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+  try {
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    if (userCredential.user != null) {
+      // Extract first name and last name
+      String fullName = userCredential.user!.displayName ?? 'Default Name';
+      List<String> names = fullName.split(' ');
+      String firstName = names.isNotEmpty ? names[0] : 'First';
+      String lastName = names.length > 1 ? names[1] : 'Last';
+
+      // Check if the user already exists in Firestore
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userCredential.user!.email)
+          .get();
+
+      if (!userDoc.exists) {
+        // If the user doesn't exist, create a new document in Firestore
+        await FirebaseFirestore.instance
             .collection('Users')
             .doc(userCredential.user!.email)
-            .get();
-
-        if (!userDoc.exists) {
-          // If the user doesn't exist, create a new document in Firestore
-          await FirebaseFirestore.instance
-              .collection('Users')
-              .doc(userCredential.user!.email)
-              .set({
-            'username': userCredential.user!.displayName ?? 'DefaultUsername',
-            'email': userCredential.user!.email,
-            'bio': 'Default Bio',
-            // Add other necessary fields
-          });
-        }
-
-        Navigator.pushNamed(context, 'homepage');
-      } else {
-        print('Google Sign-In failed');
+            .set({
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': userCredential.user!.email,
+          'bio': 'Default Bio',
+          // Add other necessary fields
+        });
       }
-    } catch (e) {
-      print('Error during Google Sign-In: $e');
+
+      Navigator.pushNamed(context, 'homepage');
+    } else {
+      print('Google Sign-In failed');
     }
+  } catch (e) {
+    print('Error during Google Sign-In: $e');
   }
+}
+
 }

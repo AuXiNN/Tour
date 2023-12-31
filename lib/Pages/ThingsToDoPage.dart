@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/ThingsToDoDetails.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -20,12 +21,38 @@ class ThingsToDoPage extends StatefulWidget {
 class _ThingsToDoPageState extends State<ThingsToDoPage> {
   late List<ThingsToDoDetails> thingsToDoList;
   late List<ThingsToDoDetails> filteredList;
+  final Set<String> userFavorites = {}; // Set to store user's favorite place names
 
   @override
   void initState() {
     super.initState();
     thingsToDoList = ThingsToDoDataProvider.generateThingsToDoList(widget.city);
     filteredList = List.from(thingsToDoList);
+    _updateFavorites();
+
+  }
+
+  Future<void> _updateFavorites() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      String userEmail = currentUser.email!;
+      var favoritesSnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userEmail)
+          .collection('favorites')
+          .get();
+
+      setState(() {
+        userFavorites.clear();
+        for (var doc in favoritesSnapshot.docs) {
+          userFavorites.add(doc.id);
+        }
+        filteredList = List.from(thingsToDoList)
+          ..forEach((thing) {
+            thing.isFavorite = userFavorites.contains(thing.name);
+          });
+      });
+    }
   }
 
   void _search(String query) {
@@ -37,31 +64,66 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
     });
   }
 
-  void toggleFavorite(ThingsToDoDetails thingToDo) async {
-    String userEmail = FirebaseAuth.instance.currentUser!.email!;
+ void toggleFavorite(ThingsToDoDetails thingToDo) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      Fluttertoast.showToast(
+        msg: "You must be logged in to add to favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+    String userEmail = currentUser.email!;
+
 
     // Reference to the user's favorites in Firestore
-    var favoritesRef = FirebaseFirestore.instance
+     var favoritesRef = FirebaseFirestore.instance
         .collection('Users')
         .doc(userEmail)
         .collection('favorites');
 
-    if (thingToDo.isFavorite) {
-      // Remove from favorites
-      await favoritesRef.doc(thingToDo.name).delete();
-    } else {
-      // Add to favorites
-      await favoritesRef.doc(thingToDo.name).set({
-        'name': thingToDo.name,
-        // Add other details you want to store
-      });
-    }
-
-    // Update the local state to reflect the change
     setState(() {
+      if (thingToDo.isFavorite) {
+        // Remove from favorites
+        favoritesRef.doc(thingToDo.name).delete();
+        userFavorites.remove(thingToDo.name);
+        Fluttertoast.showToast(
+        msg: "${thingToDo.name} has been removed from Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      } else {
+        // Add to favorites
+        favoritesRef.doc(thingToDo.name).set({
+          'name': thingToDo.name,
+          // Add other details you want to store
+        });
+        userFavorites.add(thingToDo.name);
+         Fluttertoast.showToast(
+        msg: "${thingToDo.name} has been added to Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      }
       thingToDo.isFavorite = !thingToDo.isFavorite;
     });
   }
+
+    
+
+    // Update the local state to reflect the change
+
 
   @override
   Widget build(BuildContext context) {

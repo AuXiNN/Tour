@@ -98,7 +98,7 @@ class FavoriteList extends StatelessWidget {
                     "Here's The Places You Liked:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 18,
                       color: Colors.black,
                     ),
                   ),
@@ -124,7 +124,7 @@ class FavoriteList extends StatelessWidget {
                             child: Text(
                               favorite['name'],
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 15,
                                   color: AppColors.accentColor,
                                   fontWeight: FontWeight.bold),
                             ),

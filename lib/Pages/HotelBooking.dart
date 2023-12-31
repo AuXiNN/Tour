@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class BookingScreen extends StatefulWidget {
   final String hotelId;
@@ -27,6 +28,8 @@ class _BookingScreenState extends State<BookingScreen> {
   DateTime? selectedEntryDate;
   DateTime? selectedExitDate;
 
+  bool showValidationMessage = false;
+
   // Additional controllers for payment card data
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController expiryDateController = TextEditingController();
@@ -47,9 +50,13 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void moveToNextStep() {
-    if (step == 1 && validateStep1()) {
+    if (step == 1 && !validateStep1()) {
+      setState(() =>
+          showValidationMessage = true); // Show validation message if not valid
+    } else if (step == 1 && validateStep1()) {
       setState(() {
         step++;
+        showValidationMessage = false; // Reset validation message
       });
     } else if (step == 2 && validateStep2()) {
       setState(() {
@@ -119,13 +126,14 @@ class _BookingScreenState extends State<BookingScreen> {
                   };
 
                   try {
-                    
-                    await FirebaseFirestore.instance.collection('bookingrooms').add(userData);
+                    await FirebaseFirestore.instance
+                        .collection('bookingrooms')
+                        .add(userData);
                   } catch (e) {
                     print('Error uploading user data: $e');
                   }
 
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
                 },
                 child: const Text('Save Payment Data'),
               ),
@@ -137,49 +145,91 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void bookNow() async {
-  if (validateStep1() && validateStep2()) {
-    // User data
-    var userData = {
-      'hotelId': widget.hotelId,
-      'roomType': widget.roomType,
-      'adults': adultsController.text,
-      'children': childrenController.text,
-      'entryDate': selectedEntryDate,
-      'exitDate': selectedExitDate,
-      'firstName': firstNameController.text,
-      'lastName': lastNameController.text,
-      'email': emailController.text,
-      'phone': phoneController.text,
-      'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
-      
-    };
+    if (validateStep1() && validateStep2()) {
+      // User data
+      var userData = {
+        'hotelId': widget.hotelId,
+        'roomType': widget.roomType,
+        'adults': adultsController.text,
+        'children': childrenController.text,
+        'entryDate': selectedEntryDate,
+        'exitDate': selectedExitDate,
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'email': emailController.text,
+        'phone': phoneController.text,
+        'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
+      };
 
-    // Get current user
-    User? currentUser = FirebaseAuth.instance.currentUser;
+      // Get current user
+      User? currentUser = FirebaseAuth.instance.currentUser;
 
-    if (currentUser != null) {
-      try {
-        // Add booking data to the bookedhotel sub-collection of the current user
-        await FirebaseFirestore.instance
-            .collection('Users')
-            .doc(currentUser.email)
-            .collection('bookedhotel')
-            .add(userData);
+      if (currentUser != null) {
+        try {
+          // Add booking data to the bookedhotel sub-collection of the current user
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(currentUser.email)
+              .collection('bookedhotel')
+              .add(userData);
 
-        // Optional: Update global bookingrooms collection if needed
-        // await FirebaseFirestore.instance.collection('bookingrooms').add(userData);
+          // Optional: Update global bookingrooms collection if needed
+          // await FirebaseFirestore.instance.collection('bookingrooms').add(userData);
 
-        Navigator.pop(context);
-      } catch (e) {
-        print('Error uploading user data: $e');
-        return;
+          Navigator.pop(context);
+        } catch (e) {
+          print('Error uploading user data: $e');
+          return;
+        }
+      } else {
+        print('User not logged in');
       }
-    } else {
-      print('User not logged in');
     }
   }
-}
 
+  Future<void> selectCheckInDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedEntryDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedEntryDate) {
+      setState(() {
+        selectedEntryDate = picked;
+        selectedExitDate = null; // Reset the check-out date
+      });
+    }
+  }
+
+  Future<void> selectCheckOutDate(BuildContext context) async {
+    if (selectedEntryDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select check-in date first')),
+      );
+      return;
+    }
+
+    DateTime initialCheckOutDate =
+        selectedExitDate ?? selectedEntryDate!.add(const Duration(days: 1));
+    if (initialCheckOutDate.isBefore(selectedEntryDate!)) {
+      initialCheckOutDate = selectedEntryDate!.add(const Duration(days: 1));
+    }
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialCheckOutDate,
+      firstDate: selectedEntryDate!.add(const Duration(days: 1)),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedExitDate) {
+      setState(() {
+        selectedExitDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,19 +248,22 @@ class _BookingScreenState extends State<BookingScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Number of Adults:'),
+                  Text('* Number of Adults: '),
                   TextField(
                     controller: adultsController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
+                      contentPadding: EdgeInsets.all(16.0),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      errorText:
+                          showValidationMessage && adultsController.text.isEmpty
+                              ? 'Please enter the number of adults'
+                              : null,
                     ),
                   ),
                   const SizedBox(height: 50),
-                  const Text('Number of Children:'),
+                  const Text('* Number of Children:'),
                   TextField(
                     controller: childrenController,
                     keyboardType: TextInputType.number,
@@ -219,24 +272,16 @@ class _BookingScreenState extends State<BookingScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      errorText:
+                          showValidationMessage && adultsController.text.isEmpty
+                              ? 'Please enter the number of Children'
+                              : null,
                     ),
                   ),
                   const SizedBox(height: 50),
                   const Text('Check-in:'),
                   InkWell(
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2101),
-                      );
-                      if (pickedDate != null && pickedDate != selectedEntryDate) {
-                        setState(() {
-                          selectedEntryDate = pickedDate;
-                        });
-                      }
-                    },
+                    onTap: () => selectCheckInDate(context),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       height: 50,
@@ -248,45 +293,44 @@ class _BookingScreenState extends State<BookingScreen> {
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           selectedEntryDate != null
-                              ? selectedEntryDate!.toLocal().toString().split(' ')[0]
+                              ? DateFormat('yyyy-MM-dd')
+                                  .format(selectedEntryDate!)
                               : 'Select check-in Date',
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 50),
-                  const Text('Check-out:'),
                   InkWell(
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2101),
-                      );
-                      if (pickedDate != null && pickedDate != selectedExitDate) {
-                        setState(() {
-                          selectedExitDate = pickedDate;
-                        });
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          selectedExitDate != null
-                              ? selectedExitDate!.toLocal().toString().split(' ')[0]
-                              : 'Select check-out Date',
-                        ),
-                      ),
+              onTap: () => selectCheckInDate(context),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    selectedEntryDate != null
+                        ? DateFormat('yyyy-MM-dd').format(selectedEntryDate!)
+                        : 'Select check-in Date',
+                    style: TextStyle(
+                      color: checkInDateValidationError != null ? Colors.red : Colors.black,
                     ),
                   ),
+                ),
+              ),
+            ),
+            if (checkInDateValidationError != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                child: Text(
+                  checkInDateValidationError!,
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ),
                   const SizedBox(height: 50),
                   Container(
                     width: double.infinity,
@@ -294,8 +338,10 @@ class _BookingScreenState extends State<BookingScreen> {
                         horizontal: MediaQuery.of(context).size.width * 0.25),
                     child: ElevatedButton(
                       onPressed: moveToNextStep,
-                      child: const Text('Next', style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(primary: Color(0xFF3A1B0F)),
+                      child: const Text('Next',
+                          style: TextStyle(color: Colors.white)),
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xFF3A1B0F)),
                     ),
                   ),
                 ],
@@ -393,8 +439,10 @@ class _BookingScreenState extends State<BookingScreen> {
                                 MediaQuery.of(context).size.width * 0.25),
                         child: ElevatedButton(
                           onPressed: bookNow,
-                          child: const Text('Book Now', style: TextStyle(color: Colors.white)),
-                          style: ElevatedButton.styleFrom(primary: Color(0xFF3A1B0F)),
+                          child: const Text('Book Now',
+                              style: TextStyle(color: Colors.white)),
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xFF3A1B0F)),
                         ),
                       ),
                     ],

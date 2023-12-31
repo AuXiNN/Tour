@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tour/Pages/RestaurantList.dart';
 import 'package:tour/Pages/ThingsToDoPage.dart';
 import 'package:tour/Pages/HotelListScreen.dart';
 import '../AppColors/colors.dart';
@@ -41,16 +42,15 @@ class _PlaceDescState extends State<PlaceDesc> {
   }
 
   void _hotelsbutton() {
-Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => HotelListScreen(city: widget.title),
-    ),
-  );
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HotelListScreen(city: widget.title),
+      ),
+    );
   }
 
-  void _tribsbutton() {
+  void _thingstodobutton() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -60,7 +60,12 @@ Navigator.push(
   }
 
   void _resandcafebutton() {
-    print('Navigate to res page');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+      builder: (context) => RestaurantList(city: widget.title),
+      ),
+    );
   }
 
   void _toggleDescription() {
@@ -74,23 +79,27 @@ Navigator.push(
   }
 
   bool _shouldShowLocationButton() {
-    const placesWithLocationButton = ['Jerash', 'Ajloun', 'Petra', 'Dead Sea', 'Wadi Rum'];
+    const placesWithLocationButton = [
+      'Jerash',
+      'Ajloun',
+      'Petra',
+      'Dead Sea',
+      'Wadi Rum'
+    ];
     return placesWithLocationButton.contains(widget.title);
   }
 
-void _onLocationButtonPressed() async {
-  var query = Uri.encodeComponent(widget.title);
-  var googleMapsUri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
+  void _onLocationButtonPressed() async {
+    var query = Uri.encodeComponent(widget.title);
+    var googleMapsUri =
+        Uri.parse('https://www.google.com/maps/search/?api=1&query=$query');
 
-  if (await canLaunchUrl(googleMapsUri)) {
-    await launchUrl(googleMapsUri);
-  } else {
-    print('Could not launch Google Maps for $query');
+    if (await canLaunchUrl(googleMapsUri)) {
+      await launchUrl(googleMapsUri);
+    } else {
+      print('Could not launch Google Maps for $query');
+    }
   }
-}
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +128,7 @@ void _onLocationButtonPressed() async {
             const SizedBox(
               height: 20,
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 40, 0),
               child: Row(
                 children: [
@@ -148,24 +157,23 @@ void _onLocationButtonPressed() async {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   
                     const SizedBox(
-                        height: 20), //between the description and the buttons 
+                        height: 20), //between the description and the buttons
                     Text(
                       _showFullDescription
                           ? widget.description
                           : '${widget.description.substring(0, 150)}...',
                       style: const TextStyle(fontSize: 16),
                     ),
-                     TextButton(
-                    onPressed: _toggleDescription,
-                    child: Text(
-                      _showFullDescription ? 'Read Less' : '... Read More',
-                      style: const TextStyle(
-                        color: AppColors.accentColor,
+                    TextButton(
+                      onPressed: _toggleDescription,
+                      child: Text(
+                        _showFullDescription ? 'Read Less' : '... Read More',
+                        style: const TextStyle(
+                          color: AppColors.accentColor,
+                        ),
                       ),
                     ),
-                  ),
                     const SizedBox(
                       height: 40,
                     ),
@@ -213,7 +221,7 @@ void _onLocationButtonPressed() async {
                       width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(5, 10, 20, 16),
                       child: TextButton(
-                        onPressed: _tribsbutton,
+                        onPressed: _thingstodobutton,
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(AppColors.buttomcolor),
