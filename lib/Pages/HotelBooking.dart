@@ -23,17 +23,18 @@ class _BookingScreenState extends State<BookingScreen> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController expiryDateController = TextEditingController();
+  TextEditingController cvvController = TextEditingController();
+
   bool paymentMethod = false;
+  bool showValidationMessage = false;
 
   DateTime? selectedEntryDate;
   DateTime? selectedExitDate;
 
-  bool showValidationMessage = false;
-
-  // Additional controllers for payment card data
-  TextEditingController cardNumberController = TextEditingController();
-  TextEditingController expiryDateController = TextEditingController();
-  TextEditingController cvvController = TextEditingController();
+  String? checkInDateValidationError;
+  String? checkOutDateValidationError;
 
   bool validateStep1() {
     return adultsController.text.isNotEmpty &&
@@ -50,18 +51,26 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void moveToNextStep() {
-    if (step == 1 && !validateStep1()) {
-      setState(() =>
-          showValidationMessage = true); // Show validation message if not valid
-    } else if (step == 1 && validateStep1()) {
-      setState(() {
-        step++;
-        showValidationMessage = false; // Reset validation message
-      });
-    } else if (step == 2 && validateStep2()) {
-      setState(() {
-        step++;
-      });
+    // Validate check-in and check-out dates
+    if (selectedEntryDate == null) {
+      checkInDateValidationError = 'Please select a check-in date';
+    } else {
+      checkInDateValidationError = null;
+    }
+
+    if (selectedExitDate == null) {
+      checkOutDateValidationError = 'Please select a check-out date';
+    } else {
+      checkOutDateValidationError = null;
+    }
+
+    if (step == 1 &&
+        validateStep1() &&
+        checkInDateValidationError == null &&
+        checkOutDateValidationError == null) {
+      setState(() => step++);
+    } else {
+      setState(() {});
     }
   }
 
@@ -199,23 +208,21 @@ class _BookingScreenState extends State<BookingScreen> {
       setState(() {
         selectedEntryDate = picked;
         selectedExitDate = null; // Reset the check-out date
+        checkInDateValidationError = null;
       });
     }
   }
 
   Future<void> selectCheckOutDate(BuildContext context) async {
     if (selectedEntryDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select check-in date first')),
-      );
+      setState(() {
+        checkOutDateValidationError = 'Please select check-in date first';
+      });
       return;
     }
 
-    DateTime initialCheckOutDate =
+    final DateTime initialCheckOutDate =
         selectedExitDate ?? selectedEntryDate!.add(const Duration(days: 1));
-    if (initialCheckOutDate.isBefore(selectedEntryDate!)) {
-      initialCheckOutDate = selectedEntryDate!.add(const Duration(days: 1));
-    }
 
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -227,6 +234,7 @@ class _BookingScreenState extends State<BookingScreen> {
     if (picked != null && picked != selectedExitDate) {
       setState(() {
         selectedExitDate = picked;
+        checkOutDateValidationError = null;
       });
     }
   }
@@ -296,41 +304,58 @@ class _BookingScreenState extends State<BookingScreen> {
                               ? DateFormat('yyyy-MM-dd')
                                   .format(selectedEntryDate!)
                               : 'Select check-in Date',
+                          style: TextStyle(
+                            color: checkInDateValidationError != null
+                                ? Colors.red
+                                : Colors.black,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  if (checkInDateValidationError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                      child: Text(
+                        checkInDateValidationError!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
                   const SizedBox(height: 50),
+                  const Text('Check-out:'),
                   InkWell(
-              onTap: () => selectCheckInDate(context),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    selectedEntryDate != null
-                        ? DateFormat('yyyy-MM-dd').format(selectedEntryDate!)
-                        : 'Select check-in Date',
-                    style: TextStyle(
-                      color: checkInDateValidationError != null ? Colors.red : Colors.black,
+                    onTap: () => selectCheckOutDate(context),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          selectedEntryDate != null
+                              ? DateFormat('yyyy-MM-dd')
+                                  .format(selectedEntryDate!)
+                              : 'Select check-in Date',
+                          style: TextStyle(
+                            color: checkInDateValidationError != null
+                                ? Colors.red
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            if (checkInDateValidationError != null)
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                child: Text(
-                  checkInDateValidationError!,
-                  style: TextStyle(color: Colors.red, fontSize: 12),
-                ),
-              ),
+                  if (checkOutDateValidationError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                      child: Text(
+                        checkOutDateValidationError!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
                   const SizedBox(height: 50),
                   Container(
                     width: double.infinity,
