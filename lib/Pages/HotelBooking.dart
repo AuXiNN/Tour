@@ -52,12 +52,21 @@ class _BookingScreenState extends State<BookingScreen> {
 
   void moveToNextStep() {
     // Validate check-in and check-out dates
-    if (selectedEntryDate == null) {
-      checkInDateValidationError = 'Please select a check-in date';
+    checkInDateValidationError = null;
+    checkOutDateValidationError = null;
+
+    if (adultsController.text.isEmpty ||
+        childrenController.text.isEmpty ||
+        selectedEntryDate == null ||
+        selectedExitDate == null) {
+      showValidationMessage = true;
     } else {
-      checkInDateValidationError = null;
+      showValidationMessage = false;
     }
 
+    if (selectedEntryDate == null) {
+      checkInDateValidationError = 'Please select a check-in date';
+    }
     if (selectedExitDate == null) {
       checkOutDateValidationError = 'Please select a check-out date';
     } else {
@@ -208,21 +217,23 @@ class _BookingScreenState extends State<BookingScreen> {
       setState(() {
         selectedEntryDate = picked;
         selectedExitDate = null; // Reset the check-out date
-        checkInDateValidationError = null;
       });
     }
   }
 
   Future<void> selectCheckOutDate(BuildContext context) async {
     if (selectedEntryDate == null) {
-      setState(() {
-        checkOutDateValidationError = 'Please select check-in date first';
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select check-in date first')),
+      );
       return;
     }
 
-    final DateTime initialCheckOutDate =
+    DateTime initialCheckOutDate =
         selectedExitDate ?? selectedEntryDate!.add(const Duration(days: 1));
+    if (initialCheckOutDate.isBefore(selectedEntryDate!)) {
+      initialCheckOutDate = selectedEntryDate!.add(const Duration(days: 1));
+    }
 
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -234,7 +245,6 @@ class _BookingScreenState extends State<BookingScreen> {
     if (picked != null && picked != selectedExitDate) {
       setState(() {
         selectedExitDate = picked;
-        checkOutDateValidationError = null;
       });
     }
   }
@@ -280,10 +290,10 @@ class _BookingScreenState extends State<BookingScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      errorText:
-                          showValidationMessage && adultsController.text.isEmpty
-                              ? 'Please enter the number of Children'
-                              : null,
+                      errorText: showValidationMessage &&
+                              childrenController.text.isEmpty
+                          ? 'Please enter the number of children'
+                          : null,
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -324,7 +334,8 @@ class _BookingScreenState extends State<BookingScreen> {
                   const SizedBox(height: 50),
                   const Text('Check-out:'),
                   InkWell(
-                    onTap: () => selectCheckOutDate(context),
+                    onTap: () => selectCheckOutDate(
+                        context), // Corrected to call selectCheckOutDate
                     child: Container(
                       alignment: Alignment.centerLeft,
                       height: 50,
@@ -335,12 +346,12 @@ class _BookingScreenState extends State<BookingScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          selectedEntryDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(selectedEntryDate!)
-                              : 'Select check-in Date',
+                          selectedExitDate != null
+                              ? DateFormat('yyyy-MM-dd').format(
+                                  selectedExitDate!) // Corrected to show selectedExitDate
+                              : 'Select check-out Date',
                           style: TextStyle(
-                            color: checkInDateValidationError != null
+                            color: checkOutDateValidationError != null
                                 ? Colors.red
                                 : Colors.black,
                           ),
