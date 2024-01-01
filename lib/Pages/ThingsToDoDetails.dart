@@ -5,12 +5,21 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+class WorkingHours {
+  final String days;
+  final String openTime;
+  final String closeTime;
+
+  WorkingHours(
+      {required this.days, required this.openTime, required this.closeTime});
+}
+
 class ThingsToDoDetails extends StatelessWidget {
   final String name;
   final List<String> imagePaths;
   final String description;
   final String location;
-  final String workingHours; // Add this
+  final List<WorkingHours> workingHours;
   bool isFavorite;
 
   ThingsToDoDetails({
@@ -18,7 +27,7 @@ class ThingsToDoDetails extends StatelessWidget {
     required this.imagePaths,
     required this.description,
     required this.location,
-    required this.workingHours, // Add this
+    required this.workingHours,
     this.isFavorite = false,
   });
 
@@ -129,38 +138,32 @@ class ThingsToDoDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                          "Working Hours: ",
-                          style: TextStyle(
-                            color:
-                                AppColors.buttomcolor, // Black color for "Working Hours"
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    "Working Hours: ",
+                    style: TextStyle(
+                        color: AppColors
+                            .buttomcolor, // Black color for "Working Hours"
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(
-                          text: "$workingHours ",
-                          style: TextStyle(
-                            color: AppColors.accentColor, // Color for the working hours
-                            fontSize: 20
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: workingHours.map((wh) {
+                            return Text(
+                              "${wh.days}: ${wh.openTime.isNotEmpty ? wh.openTime : ''} ${wh.closeTime.isNotEmpty ? '- ' + wh.closeTime : ''}",
+                              style: const TextStyle(fontSize: 14),
+                            );
+                          }).toList(),
                         ),
-                        TextSpan(
-                          text: " (${_getCurrentStatus(workingHours)})",
-                          style: TextStyle(
-                            color: _getCurrentStatus(workingHours) == "Open"
-                                ? Colors.green
-                                : Colors.red,
-                            // Green color if open, red if closed
-                          ),
-                        ),
+                        const SizedBox(height: 20),
+                        // ... rest of your widgets
                       ],
                     ),
                   ),

@@ -37,7 +37,17 @@ class BookingHistoryScreen extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No bookings found.'));
+            return Center(
+              child: Text(
+                "No Booking Found",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+            );
+          
           }
 
           var bookings = snapshot.data!.docs;

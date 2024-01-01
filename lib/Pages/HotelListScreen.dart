@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -468,17 +469,39 @@ class HotelDetailsScreen extends StatelessWidget {
                               .isNotEmpty) // Check if the website URL is not empty
                             TextButton(
                               onPressed: () => _launchURL(website),
-                              child: Row(
+                              child: const Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.public,
                                       color: AppColors.buttomcolor),
                                   SizedBox(width: 5),
-                                  Text(
+                                   Text(
                                     'Visit Website',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       color: AppColors.buttomcolor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (hotelData['email'] != null &&
+                              hotelData['email']
+                                  .isNotEmpty) // New check for email
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.email,
+                                      color: AppColors.buttomcolor),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    hotelData['email'], // Display the email
+                                    style: const TextStyle(
+                                      color: AppColors.buttomcolor,
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ],
@@ -605,15 +628,42 @@ class HotelDetailsScreen extends StatelessWidget {
                             const SizedBox(height: 5),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BookingScreen(
-                                      hotelId: hotelId,
-                                      roomType: roomData['type'],
+                                // Check if the user is logged in
+                                User? currentUser =
+                                    FirebaseAuth.instance.currentUser;
+                                if (currentUser != null) {
+                                  // If the user is logged in, navigate to the BookingScreen
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BookingScreen(
+                                        hotelId: hotelId,
+                                        roomType: roomData['type'],
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  // If the user is not logged in, show a dialog
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Login Required'),
+                                        content: const Text(
+                                            'You must be logged in to book a room.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('OK'),
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 primary:

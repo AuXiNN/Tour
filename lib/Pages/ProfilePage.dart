@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/BookingHistoryScreen.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -22,20 +26,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final userCollection = FirebaseFirestore.instance.collection("Users");
 
+  String profileImageUrl = "";
+
   //signout method
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
     // Navigate to login screen or home screen after signing out
 
-   Fluttertoast.showToast(
-        msg: "Signed Out",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-
+    Fluttertoast.showToast(
+      msg: "Signed Out",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
 
     Navigator.of(context).pushReplacementNamed('login');
   }
@@ -90,6 +95,44 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> uploadProfilePicture() async {
+    final picker = ImagePicker();
+
+    try {
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        File imageFile = File(pickedFile.path);
+
+        // Upload to Firebase Storage
+        String fileName = 'profile_${currentUser.uid}';
+        await FirebaseStorage.instance.ref(fileName).putFile(imageFile);
+        final imageUrl =
+            await FirebaseStorage.instance.ref(fileName).getDownloadURL();
+
+        // Save image URL to Firestore
+        await userCollection
+            .doc(currentUser.email)
+            .update({'profileImageUrl': imageUrl});
+
+        // Update the profileImageUrl state to refresh UI
+        setState(() {
+          profileImageUrl = imageUrl;
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Error uploading image: $e",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      print("Error uploading image: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,15 +155,37 @@ class _ProfilePageState extends State<ProfilePage> {
           //get user data
           if (snapshot.hasData) {
             final userData = snapshot.data!.data() as Map<String, dynamic>;
+            // Check if local state is empty and Firestore has a URL
+            if (profileImageUrl.isEmpty &&
+                userData['profileImageUrl']?.isNotEmpty == true) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                setState(() {
+                  profileImageUrl = userData['profileImageUrl'];
+                });
+              });
+            }
 
             return ListView(
               children: [
                 const SizedBox(height: 50),
 
                 // profile pic
-                const Icon(
-                  Icons.person,
-                  size: 72,
+                GestureDetector(
+                  onTap: uploadProfilePicture, // Your upload function
+                  child: Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: profileImageUrl.isNotEmpty
+                            ? NetworkImage(
+                                profileImageUrl) // If profileImageUrl is not empty, load from network
+                            : AssetImage('images/default_profile_pic.png')
+                                as ImageProvider, // Local asset image
+                      ),
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 10),
