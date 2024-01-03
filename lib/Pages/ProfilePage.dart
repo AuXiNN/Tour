@@ -170,22 +170,42 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 50),
 
                 // profile pic
-                GestureDetector(
-                  onTap: uploadProfilePicture, // Your upload function
-                  child: Container(
-                    width: 120.0,
-                    height: 120.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: profileImageUrl.isNotEmpty
-                            ? NetworkImage(
-                                profileImageUrl) // If profileImageUrl is not empty, load from network
-                            : AssetImage('images/default_profile_pic.png')
-                                as ImageProvider, // Local asset image
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 130.0,
+                      height: 130.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: profileImageUrl.isNotEmpty
+                              ? NetworkImage(profileImageUrl) as ImageProvider
+                              : const AssetImage(
+                                  'images/default_profile_pic.png'),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      left: 90,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(0), 
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.edit,
+                              size: 22,
+                              color: Colors.white), 
+                          onPressed: uploadProfilePicture,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 10),
@@ -306,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         },
       ),
-      bottomNavigationBar: const BottomNav(),
+    bottomNavigationBar: const BottomNav(currentIndex: 2),
     );
   }
 }

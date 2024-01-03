@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tour/AppColors/colors.dart';
+import 'package:tour/Widgets/BottomNavigationBar.dart';
 
 class RestaurantDetails extends StatefulWidget {
   final String restaurantId;
@@ -21,6 +22,8 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
     super.initState();
     _selectedDate = DateTime.now();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +118,8 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
           ],
         ),
       ),
+            bottomNavigationBar: const BottomNav(isHomeEnabled: true) 
+
     );
   }
 

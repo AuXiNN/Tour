@@ -110,6 +110,10 @@ class FavoriteList extends StatelessWidget {
                   itemCount: favoriteDocs.length,
                   itemBuilder: (context, index) {
                     var favorite = favoriteDocs[index];
+                    var favoriteData = favorite.data()
+                        as Map<String, dynamic>; // Explicit casting
+                    var type = favoriteData[
+                        'type']; // Now you can use the '[]' operator
                     return Container(
                       padding: EdgeInsets.all(20),
                       margin: EdgeInsets.only(bottom: 15),
@@ -133,7 +137,6 @@ class FavoriteList extends StatelessWidget {
                             icon: Icon(Icons.delete,
                                 color: Color.fromRGBO(221, 99, 68, 1)),
                             onPressed: () {
-                              // Function to remove the item from the favorites collection
                               showRemoveConfirmationDialog(
                                   favorite['name'], favorite.id);
                             },
@@ -148,7 +151,7 @@ class FavoriteList extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: BottomNav(),
+    bottomNavigationBar: const BottomNav(currentIndex: 1),
     );
   }
 }

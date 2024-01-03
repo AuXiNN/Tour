@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
+import 'package:tour/Widgets/BottomNavigationBar.dart';
 import 'package:tour/Widgets/CardNumberAndExpiryDate.dart';
 
 class BookingScreen extends StatefulWidget {
@@ -49,302 +50,308 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Booking",
-          style: TextStyle(color: Colors.white),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Booking",
+            style: TextStyle(color: Colors.white),
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: AppColors.buttomcolor,
         ),
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: AppColors.buttomcolor,
-      ),
-      backgroundColor: const Color.fromARGB(255, 248, 225, 218),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (step == 1)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DropdownButtonFormField<String>(
-                    value: adultOptions.first, // Default value
-                    decoration: const InputDecoration(
-                      labelText: '* Number of Adults',
-                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (String? newValue) {
-                      // Update the state with the new value
-                      setState(() {
-                        adultsController.text = newValue!;
-                      });
-                    },
-                    items: adultOptions
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 50),
-                  DropdownButtonFormField<String>(
-                    value: childOptions.first, // Default value
-                    decoration: const InputDecoration(
-                      labelText: '* Number of Children',
-                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (String? newValue) {
-                      // Update the state with the new value
-                      setState(() {
-                        childrenController.text =
-                            newValue == 'None' ? '0' : newValue!;
-                      });
-                    },
-                    items: childOptions
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text('* Check-in:',  style: TextStyle(fontWeight: FontWeight.bold),),
-                  InkWell(
-                    onTap: () => selectCheckInDate(context),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
+        backgroundColor: const Color.fromARGB(255, 248, 225, 218),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (step == 1)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DropdownButtonFormField<String>(
+                      value: adultOptions.first, // Default value
+                      decoration: const InputDecoration(
+                        labelText: '* Number of Adults',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          selectedEntryDate != null
-                              ? DateFormat('yyyy-MM-dd')
-                                  .format(selectedEntryDate!)
-                              : 'Select check-in Date',
-                          style: TextStyle(
-                            color: checkInDateValidationError != null
-                                ? Colors.red
-                                : Colors.black,
-                          ),
+                      onChanged: (String? newValue) {
+                        // Update the state with the new value
+                        setState(() {
+                          adultsController.text = newValue!;
+                        });
+                      },
+                      items: adultOptions
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 50),
+                    DropdownButtonFormField<String>(
+                      value: childOptions.first, // Default value
+                      decoration: const InputDecoration(
+                        labelText: '* Number of Children',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (String? newValue) {
+                        // Update the state with the new value
+                        setState(() {
+                          childrenController.text =
+                              newValue == 'None' ? '0' : newValue!;
+                        });
+                      },
+                      items: childOptions
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      '* Check-in:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    InkWell(
+                      onTap: () => selectCheckInDate(context),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: Colors.grey),
                         ),
-                      ),
-                    ),
-                  ),
-                  if (checkInDateValidationError != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                      child: Text(
-                        checkInDateValidationError!,
-                        style: TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    ),
-                  const SizedBox(height: 50),
-                  const Text('* Check-out:', style: TextStyle(fontWeight: FontWeight.bold),),
-                  InkWell(
-                    onTap: () => selectCheckOutDate(
-                        context), // Corrected to call selectCheckOutDate
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          selectedExitDate != null
-                              ? DateFormat('yyyy-MM-dd').format(
-                                  selectedExitDate!) // Corrected to show selectedExitDate
-                              : 'Select check-out Date',
-                          style: TextStyle(
-                            color: checkOutDateValidationError != null
-                                ? Colors.red
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (checkOutDateValidationError != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                      child: Text(
-                        checkOutDateValidationError!,
-                        style: TextStyle(color: Colors.red, fontSize: 12),
-                      ),
-                    ),
-                  const SizedBox(height: 50),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.25),
-                    child: ElevatedButton(
-                      onPressed: moveToNextStep,
-                      child: const Text('Next',
-                          style: TextStyle(color: Colors.white)),
-                      style:
-                          ElevatedButton.styleFrom(primary: Color(0xFF3A1B0F)),
-                    ),
-                  ),
-                ],
-              ),
-            if (step == 2)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'First Name:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextField(
-                    controller: firstNameController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    'Last Name:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextField(
-                    controller: lastNameController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    'Email:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: Row(
-                      children: [
-                        DropdownButton<String>(
-                          value: selectedCountryCode,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedCountryCode = newValue!;
-                              phoneController
-                                  .clear(); // Clear phone number field on country change
-                            });
-                          },
-                          items: countryCodeLength.keys
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: phoneController,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            decoration: InputDecoration(
-                              hintText: 'Enter phone number',
-                              errorText: showValidationMessage &&
-                                      !_validatePhoneNumber(
-                                          phoneController.text)
-                                  ? 'Invalid phone number'
-                                  : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            selectedEntryDate != null
+                                ? DateFormat('yyyy-MM-dd')
+                                    .format(selectedEntryDate!)
+                                : 'Select check-in Date',
+                            style: TextStyle(
+                              color: checkInDateValidationError != null
+                                  ? Colors.red
+                                  : Colors.black,
                             ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (checkInDateValidationError != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                        child: Text(
+                          checkInDateValidationError!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      '* Check-out:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    InkWell(
+                      onTap: () => selectCheckOutDate(
+                          context), // Corrected to call selectCheckOutDate
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            selectedExitDate != null
+                                ? DateFormat('yyyy-MM-dd').format(
+                                    selectedExitDate!) // Corrected to show selectedExitDate
+                                : 'Select check-out Date',
+                            style: TextStyle(
+                              color: checkOutDateValidationError != null
+                                  ? Colors.red
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (checkOutDateValidationError != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                        child: Text(
+                          checkOutDateValidationError!,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                    const SizedBox(height: 50),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.25),
+                      child: ElevatedButton(
+                        onPressed: moveToNextStep,
+                        child: const Text('Next',
+                            style: TextStyle(color: Colors.white)),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3A1B0F)),
+                      ),
+                    ),
+                  ],
+                ),
+              if (step == 2)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'First Name:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextField(
+                      controller: firstNameController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    const Text(
+                      'Last Name:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextField(
+                      controller: lastNameController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    const Text(
+                      'Email:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      child: Row(
+                        children: [
+                          DropdownButton<String>(
+                            value: selectedCountryCode,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedCountryCode = newValue!;
+                                phoneController
+                                    .clear(); // Clear phone number field on country change
+                              });
+                            },
+                            items: countryCodeLength.keys
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: phoneController,
+                              keyboardType: TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: InputDecoration(
+                                hintText: 'Enter phone number',
+                                errorText: showValidationMessage &&
+                                        !_validatePhoneNumber(
+                                            phoneController.text)
+                                    ? 'Invalid phone number'
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Select Payment Method:'),
+                        Row(
+                          children: [
+                            Radio(
+                              value: false,
+                              groupValue: paymentMethod,
+                              onChanged: (value) {
+                                setState(() {
+                                  paymentMethod = value as bool;
+                                });
+                                if (paymentMethod) {
+                                  showPaymentBottom();
+                                }
+                              },
+                            ),
+                            const Text('Cash'),
+                            const SizedBox(width: 16),
+                            Radio(
+                              value: true,
+                              groupValue: paymentMethod,
+                              onChanged: (value) {
+                                setState(() {
+                                  paymentMethod = value as bool;
+                                });
+                                if (paymentMethod) {
+                                  showPaymentBottom();
+                                }
+                              },
+                            ),
+                            const Text('Visa'),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.25),
+                          child: ElevatedButton(
+                            onPressed: bookNow,
+                            child: const Text('Book Now',
+                                style: TextStyle(color: Colors.white)),
+                            style: ElevatedButton.styleFrom(
+                                primary: Color(0xFF3A1B0F)),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Select Payment Method:'),
-                      Row(
-                        children: [
-                          Radio(
-                            value: false,
-                            groupValue: paymentMethod,
-                            onChanged: (value) {
-                              setState(() {
-                                paymentMethod = value as bool;
-                              });
-                              if (paymentMethod) {
-                                showPaymentBottom();
-                              }
-                            },
-                          ),
-                          const Text('Cash'),
-                          const SizedBox(width: 16),
-                          Radio(
-                            value: true,
-                            groupValue: paymentMethod,
-                            onChanged: (value) {
-                              setState(() {
-                                paymentMethod = value as bool;
-                              });
-                              if (paymentMethod) {
-                                showPaymentBottom();
-                              }
-                            },
-                          ),
-                          const Text('Visa'),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.25),
-                        child: ElevatedButton(
-                          onPressed: bookNow,
-                          child: const Text('Book Now',
-                              style: TextStyle(color: Colors.white)),
-                          style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF3A1B0F)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-          ],
+                  ],
+                ),
+            ],
+          ),
         ),
-      ),
-    );
+        bottomNavigationBar: const BottomNav(isHomeEnabled: true));
   }
 
   void initState() {

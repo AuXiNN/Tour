@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/RestaurantDetails.dart';
+import 'package:tour/Widgets/BottomNavigationBar.dart';
 
 class RestaurantList extends StatelessWidget {
   final String city; // Add this line
@@ -201,6 +202,7 @@ class RestaurantList extends StatelessWidget {
       //   },
       //   child: const Icon(Icons.add),
       // ),
+      bottomNavigationBar: const BottomNav(isHomeEnabled: true) 
     );
   }
 }

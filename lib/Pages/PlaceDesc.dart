@@ -281,7 +281,7 @@ class _PlaceDescState extends State<PlaceDesc> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
+    bottomNavigationBar: BottomNav(isHomeEnabled: true) 
     );
   }
 }

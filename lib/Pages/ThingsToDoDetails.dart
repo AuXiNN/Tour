@@ -137,6 +137,7 @@ class ThingsToDoDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (workingHours.isNotEmpty) ...[
                   const Text(
                     "Working Hours: ",
                     style: TextStyle(
@@ -145,6 +146,7 @@ class ThingsToDoDetails extends StatelessWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
+                  ],
                   SizedBox(
                     height: 10,
                   ),
@@ -153,6 +155,8 @@ class ThingsToDoDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                       
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: workingHours.map((wh) {
@@ -163,7 +167,6 @@ class ThingsToDoDetails extends StatelessWidget {
                           }).toList(),
                         ),
                         const SizedBox(height: 20),
-                        // ... rest of your widgets
                       ],
                     ),
                   ),
@@ -190,7 +193,7 @@ class ThingsToDoDetails extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
+    bottomNavigationBar: const BottomNav(isHomeEnabled: true) 
     );
   }
 }

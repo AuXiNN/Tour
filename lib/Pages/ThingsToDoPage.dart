@@ -244,7 +244,7 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
+    bottomNavigationBar: const BottomNav(isHomeEnabled: true) 
     );
   }
 }

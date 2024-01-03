@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/HotelBooking.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -24,6 +25,8 @@ class HotelListScreen extends StatefulWidget {
 class _HotelListScreenState extends State<HotelListScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final Set<String> userFavorites =
+      {}; // Set to store user's favorite place names
 
   SortOption _sortOption = SortOption.rating;
 
@@ -57,6 +60,88 @@ class _HotelListScreenState extends State<HotelListScreen> {
       default:
         return 'hotels';
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateFavorites();
+  }
+
+  Future<void> updateFavorites() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      String userEmail = currentUser.email!;
+      var favoritesSnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userEmail)
+          .collection('favorites')
+          .get();
+
+      setState(() {
+        userFavorites.clear();
+        for (var doc in favoritesSnapshot.docs) {
+          userFavorites.add(doc.id); // Assuming the doc ID is the hotel ID
+        }
+      });
+    }
+  }
+
+  void toggleFavoriteHotel(String hotelId, String hotelName) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      Fluttertoast.showToast(
+        msg: "You must be logged in to add to favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+    String userEmail = currentUser.email!;
+
+    // Reference to the user's favorites in Firestore
+    var favoritesRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmail)
+        .collection('favorites');
+
+    bool isCurrentlyFavorite = userFavorites.contains(hotelId);
+
+    if (isCurrentlyFavorite) {
+      // If it's currently a favorite, remove it
+      favoritesRef.doc(hotelId).delete();
+      userFavorites.remove(hotelId);
+      Fluttertoast.showToast(
+        msg: "$hotelName has been removed from Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      // If it's not a favorite, add it
+      favoritesRef.doc(hotelId).set({
+        'name': hotelName,
+        // You can add more hotel details if needed
+      });
+      userFavorites.add(hotelId);
+      Fluttertoast.showToast(
+        msg: "$hotelName has been added to Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+
+    setState(() {
+ 
+    });
   }
 
   @override
@@ -146,40 +231,47 @@ class _HotelListScreenState extends State<HotelListScreen> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: FutureBuilder<String>(
+                                Stack(
+                                  alignment: Alignment
+                                      .topRight, // Align the icon to the top right
+                                  children: [
+                                    // Hotel Image
+                                    FutureBuilder<String>(
                                       future: _storage
-                                          .ref('$collectionName/$image')
+                                          .ref(
+                                              '$collectionName/${hotelData['image']}')
                                           .getDownloadURL(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<String> urlSnapshot) {
-                                        if (urlSnapshot.hasError) {
-                                          return const Icon(Icons.error);
-                                        }
                                         if (urlSnapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          var imageUrl = urlSnapshot.data!;
+                                                ConnectionState.done &&
+                                            urlSnapshot.hasData) {
                                           return Image.network(
-                                            imageUrl,
-                                            height: 250.0,
+                                            urlSnapshot.data!,
+                                            height:
+                                                250.0, // Set your preferred height
                                             width: double.infinity,
                                             fit: BoxFit.cover,
                                           );
+                                        } else {
+                                          return CircularProgressIndicator(); // Or some placeholder widget
                                         }
-                                        return const CircularProgressIndicator();
                                       },
-                                    )),
+                                    ),
+
+                                    // Favorite Icon Button
+                                    IconButton(
+                                      icon: Icon(
+                                        userFavorites.contains(hotel.id)
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () => toggleFavoriteHotel(
+                                          hotel.id, hotelData['name']),
+                                    ),
+                                  ],
+                                ),
                                 const SizedBox(height: 8.0),
                                 Center(
                                   child: Text(
@@ -257,7 +349,7 @@ class _HotelListScreenState extends State<HotelListScreen> {
           );
         },
       ),
-      bottomNavigationBar: const BottomNav(),
+bottomNavigationBar: BottomNav(isHomeEnabled: true)  // If this is the third tab
     );
   }
 }
@@ -290,17 +382,32 @@ class HotelDetailsScreen extends StatelessWidget {
     }
   }
 
-  void _launchURL(String url) async {
-    if (url.isNotEmpty) {
-      final Uri uri =
-          Uri.parse(url); // Assume URL is already properly formatted
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      } else {
-        print('Could not launch $url'); // Debug statement
-      }
+ Future<void> _launchURL(String url) async {
+  try {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      Fluttertoast.showToast(
+        msg: "Could not launch the URL",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+  } catch (e) {
+    Fluttertoast.showToast(
+      msg: "An error occurred: $e",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
+  
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -469,13 +576,13 @@ class HotelDetailsScreen extends StatelessWidget {
                               .isNotEmpty) // Check if the website URL is not empty
                             TextButton(
                               onPressed: () => _launchURL(website),
-                              child: const Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.public,
                                       color: AppColors.buttomcolor),
                                   SizedBox(width: 5),
-                                   Text(
+                                  Text(
                                     'Visit Website',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
@@ -494,12 +601,12 @@ class HotelDetailsScreen extends StatelessWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.email,
+                                  Icon(Icons.email,
                                       color: AppColors.buttomcolor),
-                                  const SizedBox(width: 5),
+                                  SizedBox(width: 5),
                                   Text(
                                     hotelData['email'], // Display the email
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: AppColors.buttomcolor,
                                       fontSize: 13,
                                     ),
@@ -689,7 +796,7 @@ class HotelDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
+bottomNavigationBar:BottomNav(isHomeEnabled: true)  // If this is the third tab
     );
   }
 }

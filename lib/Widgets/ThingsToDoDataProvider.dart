@@ -199,7 +199,9 @@ class ThingsToDoDataProvider {
               WorkingHours(
                   days: 'Tuesday', openTime: '3:20 AM', closeTime: '10:00 PM'),
               WorkingHours(
-                  days: 'Wednesday', openTime: '3:20 AM', closeTime: '10:00 PM'),
+                  days: 'Wednesday',
+                  openTime: '3:20 AM',
+                  closeTime: '10:00 PM'),
               WorkingHours(
                   days: 'Thursday', openTime: '3:20 AM', closeTime: '10:00 PM'),
               WorkingHours(
@@ -242,13 +244,15 @@ class ThingsToDoDataProvider {
                 'and take in the scenic surroundings.\n\n'
                 'Whether you\'re seeking an adrenaline rush, a relaxing day by the water, or a family-friendly adventure, Saraya Aqaba '
                 'Waterpark is a fantastic destination to cool off and have a splashing good time in Jordan\'s enchanting city of Aqaba.',
-           workingHours: [
+            workingHours: [
               WorkingHours(
                   days: 'Monday', openTime: '11:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
                   days: 'Tuesday', openTime: '11:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Wednesday', openTime: '11:00 AM', closeTime: '6:00 PM'),
+                  days: 'Wednesday',
+                  openTime: '11:00 AM',
+                  closeTime: '6:00 PM'),
               WorkingHours(
                   days: 'Thursday', openTime: '11:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
@@ -286,13 +290,15 @@ class ThingsToDoDataProvider {
                 'The club\'s attentive staff and high-end facilities ensure that guests have a comfortable and enjoyable visit. '
                 'Whether you\'re looking for a relaxing day at the beach, a vibrant nightlife scene, or a combination of both, '
                 'B12 Beach Club is the perfect spot to unwind and savor the beauty of Aqaba.',
-           workingHours: [
+            workingHours: [
               WorkingHours(
                   days: 'Monday', openTime: '10:00 AM', closeTime: '7:00 PM'),
               WorkingHours(
                   days: 'Tuesday', openTime: '10:00 AM', closeTime: '7:00 PM'),
               WorkingHours(
-                  days: 'Wednesday', openTime: '10:00 AM', closeTime: '7:00 PM'),
+                  days: 'Wednesday',
+                  openTime: '10:00 AM',
+                  closeTime: '7:00 PM'),
               WorkingHours(
                   days: 'Thursday', openTime: '10:00 AM', closeTime: '7:00 PM'),
               WorkingHours(
@@ -425,7 +431,9 @@ class ThingsToDoDataProvider {
               WorkingHours(
                   days: 'Tuesday', openTime: '8:00 AM', closeTime: '10:00 PM'),
               WorkingHours(
-                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '10:00 PM'),
+                  days: 'Wednesday',
+                  openTime: '8:00 AM',
+                  closeTime: '10:00 PM'),
               WorkingHours(
                   days: 'Thursday', openTime: '8:00 AM', closeTime: '10:00 PM'),
               WorkingHours(
@@ -462,7 +470,7 @@ class ThingsToDoDataProvider {
                 'making it a delightful spot for beachside dining.\n\n'
                 'The tranquil ambiance and inviting atmosphere of Berenice Beach Club make it a popular choice for travelers '
                 'looking to relax, unwind, and enjoy the beauty of the Red Sea coastline while in Aqaba.',
-             workingHours: [
+            workingHours: [
               WorkingHours(
                   days: 'Monday', openTime: '9:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
@@ -533,7 +541,7 @@ class ThingsToDoDataProvider {
                 'for the city\'s inhabitants. The remains of the Nymphaeum, with its detailed Corinthian columns and intricate motifs, offer ' +
                 'insight into the grandeur and sophistication of Roman urban design. It remains a significant attraction for visitors, ' +
                 'showcasing the historical and cultural richness of Jerash.',
-           workingHours: [
+            workingHours: [
               WorkingHours(
                   days: 'Monday', openTime: '8:00 AM', closeTime: '5:00 PM'),
               WorkingHours(
@@ -566,21 +574,21 @@ class ThingsToDoDataProvider {
                 'temple’s former glory. The Temple of Zeus not only exemplifies ancient religious practices but also ' +
                 'serves as a testament to the rich cultural and historical tapestry that defines Jerash. Its monumental ruins ' +
                 'continue to fascinate archaeologists and visitors alike, drawing them into a world where mythology and history intertwine.',
-           workingHours: [
+            workingHours: [
               WorkingHours(
-                  days: 'Monday', openTime: '8:00 AM', closeTime: '5:00 PM'),
+                  days: 'Monday', openTime: '8:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Tuesday', openTime: '8:00 AM', closeTime: '5:00 PM'),
+                  days: 'Tuesday', openTime: '8:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '5:00 PM'),
+                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Thursday', openTime: '8:00 AM', closeTime: '5:00 PM'),
+                  days: 'Thursday', openTime: '8:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '8:00 AM', closeTime: '5:00 PM'),
+                  days: 'Friday', openTime: '10:00 AM', closeTime: '3:00 PM'),
               WorkingHours(
-                  days: 'Saturday', openTime: '9:00 AM', closeTime: '4:00 PM'),
+                  days: 'Saturday', openTime: '10:00 AM', closeTime: '3:00 PM'),
               WorkingHours(
-                  days: 'Sunday', openTime: '9:00 AM', closeTime: '4:00 PM'),
+                  days: 'Sunday', openTime: '8:00 AM', closeTime: '6:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -603,7 +611,7 @@ class ThingsToDoDataProvider {
                 'Archaeological Museum not only provides insights into the rich history of Jerash but also serves as a crucial ' +
                 'repository for preserving Jordan’s ancient heritage. It is a must-visit for those keen on exploring the ' +
                 'depths of Jordan’s archaeological and historical legacy.',
-           workingHours: [
+            workingHours: [
               WorkingHours(
                   days: 'Monday', openTime: '9:00 AM', closeTime: '5:00 PM'),
               WorkingHours(
@@ -640,12 +648,19 @@ class ThingsToDoDataProvider {
                 'archaeological landscape.',
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '9:00 AM', closeTime: '5:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '9:00 AM', closeTime: '5:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '9:00 AM', closeTime: '5:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '9:00 AM', closeTime: '5:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '9:00 AM', closeTime: '5:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '9:00 AM', closeTime: '4:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '9:00 AM', closeTime: '4:00 PM'),
             ],
           ),
         ];
@@ -653,7 +668,7 @@ class ThingsToDoDataProvider {
       case 'Ajloun':
         return [
           ThingsToDoDetails(
-            name: 'Qala\'a ar-Rabad',
+            name: 'Ajloun Castle',
             imagePaths: [
               'images/${city}1.jpg',
               'images/${city}11.jpg',
@@ -677,12 +692,19 @@ class ThingsToDoDataProvider {
                 "destination for tourists and history enthusiasts, eager to experience the legacy of this formidable medieval fortress.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '7:00 AM', closeTime: '8:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '7:00 AM', closeTime: '8:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '7:00 AM', closeTime: '8:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '7:00 AM', closeTime: '8:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '7:00 AM', closeTime: '8:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '7:00 AM', closeTime: '8:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '7:00 AM', closeTime: '8:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -705,12 +727,19 @@ class ThingsToDoDataProvider {
                 "immerse oneself in the natural splendor of Jordan and create lasting memories in one of the country's most beautiful settings.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '9:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '9:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '9:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '9:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '9:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '9:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '9:00 AM', closeTime: '6:00 PM'),
             ],
           ),
         ];
@@ -741,12 +770,19 @@ class ThingsToDoDataProvider {
                 "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '8:00 AM', closeTime: '3:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '8:00 AM', closeTime: '3:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -772,12 +808,19 @@ class ThingsToDoDataProvider {
                 "where the past and present of Jordan's rich heritage intertwine to create an unforgettable experience.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '6:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '6:00 AM', closeTime: '6:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -811,12 +854,19 @@ class ThingsToDoDataProvider {
                 "the archaeological wonders of Petra, providing context and depth to the remarkable story of this ancient city.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '8:30 AM', closeTime: '8:30 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '8:30 AM', closeTime: '8:30 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '8:30 AM', closeTime: '8:30 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '8:30 AM', closeTime: '8:30 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '8:30 AM', closeTime: '8:30 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '8:30 AM', closeTime: '8:30 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '8:30 AM', closeTime: '8:30 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -846,12 +896,19 @@ class ThingsToDoDataProvider {
                 "The church is a testament to the enduring legacy of Petra and the intricate tapestry of civilizations that have contributed to its storied past.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '6:00 AM', closeTime: '6:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '6:00 AM', closeTime: '6:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '6:00 AM', closeTime: '6:00 PM'),
             ],
           ),
         ];
@@ -885,12 +942,19 @@ class ThingsToDoDataProvider {
                 "untouched wilderness of Jordan.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '8:00 AM', closeTime: '3:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '8:00 AM', closeTime: '3:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '8:00 AM', closeTime: '3:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -923,12 +987,21 @@ class ThingsToDoDataProvider {
                 "gain a deeper appreciation of the Dead Sea's wonders and the challenges it faces.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '9:15 AM', closeTime: '11:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '9:00 AM', closeTime: '11:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday',
+                  openTime: '9:00 AM',
+                  closeTime: '11:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '9:00 AM', closeTime: '11:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '9:00 AM', closeTime: '11:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '9:00 AM', closeTime: '11:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '9:00 AM', closeTime: '11:00 PM'),
             ],
           ),
           ThingsToDoDetails(
@@ -953,12 +1026,53 @@ class ThingsToDoDataProvider {
                 "popular stop for tourists visiting the region, who are drawn to its historical, religious, and natural significance.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: '8:00 AM', closeTime: '7:00 PM'),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: '8:00 AM', closeTime: '7:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '8:00 AM', closeTime: '7:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '8:00 AM', closeTime: '7:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '8:00 AM', closeTime: '7:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '8:00 AM', closeTime: '7:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '9:00 AM', closeTime: '11:00 PM'),
+            ],
+          ),
+          ThingsToDoDetails(
+            name: 'Ma\'in Hot Springs',
+            imagePaths: [
+              'images/${city}4.jpg',
+              'images/${city}41.jpg',
+              'images/${city}42.jpg',
+              'images/${city}43.jpg',
+              'images/${city}44.jpg',
+            ],
+            location: 'Ma\'in-Ma\'in Hot Springs, address',
+            description: "Ma'in Hot Springs, nestled in a serene valley surrounded by towering cliffs, offers a unique natural spa experience. " +
+                "This remarkable geological site is renowned for its hot mineral-rich springs, which emerge from the earth's crust and cascade into a series of pools and waterfalls. " +
+                "The naturally heated water is believed to have therapeutic properties and provides a tranquil environment for relaxation and rejuvenation.\n\n" +
+                "Visitors to Ma'in Hot Springs can indulge in a variety of spa treatments, including mud wraps, mineral baths, and massages, all utilizing the hot springs' mineral-rich waters. " +
+                "The springs are set against a backdrop of stunning natural beauty, featuring lush vegetation and a peaceful atmosphere, making it an ideal retreat for those seeking a break from the hustle and bustle of daily life.\n\n" +
+                "In addition to the hot springs, the area offers opportunities for hiking and exploring the nearby natural landscapes. The springs are located near the Dead Sea, allowing for easy access to its unique attractions and the chance to float in its saline waters.\n\n" +
+                "Ma'in Hot Springs is not only a haven for those seeking wellness and relaxation but also an enchanting destination for nature lovers and adventure seekers. Its unique combination of natural thermal waters, scenic beauty, and peaceful ambiance make it a must-visit destination in Jordan.",
+            workingHours: [
+              WorkingHours(
+                  days: 'Monday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Tuesday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '9:00 AM', closeTime: '9:00 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '9:00 AM', closeTime: '9:00 PM'),
             ],
           ),
         ];
@@ -993,12 +1107,19 @@ class ThingsToDoDataProvider {
                 "its unique geological features and the serene beauty of the surrounding desert landscape.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: 'Open 24 hours', closeTime: ''),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Wednesday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Thursday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Friday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Saturday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Sunday', openTime: 'Open 24 hours', closeTime: ''),
             ],
           ),
           ThingsToDoDetails(
@@ -1024,15 +1145,7 @@ class ThingsToDoDataProvider {
                 "own unique beauty. The peak is often cooler than the desert floor, offering a refreshing respite from the heat. Climbing "
                 "Jabal Umm ad Dami is not only an opportunity to witness the stunning natural beauty of Wadi Rum but also a chance to "
                 "connect with the raw and unspoiled spirit of the Jordanian wilderness.",
-            workingHours: [
-              WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
-              WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
-            ],
+            workingHours: [],
           ),
           ThingsToDoDetails(
             name: 'Royal Balloon - Jordan',
@@ -1059,12 +1172,56 @@ class ThingsToDoDataProvider {
                 "memorable way to explore the stunning landscapes of Jordan.",
             workingHours: [
               WorkingHours(
-                  days: 'Saturday - Thursday',
-                  openTime: '10:00 AM',
-                  closeTime: '7:00 PM'),
+                  days: 'Monday', openTime: 'Open 24 hours', closeTime: ''),
               WorkingHours(
-                  days: 'Friday', openTime: '11:00 AM', closeTime: '7:00 PM'),
-              WorkingHours(days: 'Tuesday', openTime: 'Closed', closeTime: ''),
+                  days: 'Tuesday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Wednesday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Thursday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Friday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Saturday', openTime: 'Open 24 hours', closeTime: ''),
+              WorkingHours(
+                  days: 'Sunday', openTime: 'Open 24 hours', closeTime: ''),
+            ],
+          ),
+          ThingsToDoDetails(
+            name: 'RumSky Stargazing Adventure',
+            imagePaths: [
+              'images/${city}4.jpg',
+              'images/${city}41.jpg',
+              'images/${city}42.jpg',
+              'images/${city}43.jpg',
+              'images/${city}44.jpg',
+
+            ],
+            location: 'Wadi Rum - Disi Street Aqaba',
+            description:
+                "RumSky Stargazing Adventure offers a mesmerizing experience for astronomy enthusiasts and nature lovers. "
+                "Located in the majestic Wadi Rum, known as the Valley of the Moon, this adventure lets visitors explore the wonders of the night sky in one of the world's best stargazing locations. "
+                "The clear desert skies, free from light pollution, provide an unparalleled view of the stars, planets, and galaxies.\n\n"
+                "Guided by professional astronomers, guests are treated to a tour of the constellations, learning about various celestial objects and their significance in ancient Bedouin culture. "
+                "The use of powerful telescopes enhances the experience, allowing for up-close views of the moon's craters, the rings of Saturn, or the moons of Jupiter. "
+                "RumSky also educates visitors on how to identify different stars and constellations and share fascinating stories and legends from Arabic astronomy.\n\n"
+                "This unique experience combines the natural beauty of Wadi Rum's landscapes with the awe-inspiring beauty of the night sky, making it a truly unforgettable adventure. "
+                "Whether you are an avid stargazer or simply looking for a unique way to experience the desert at night, RumSky Stargazing Adventure offers an enchanting and educational journey through the cosmos.",
+           workingHours: [
+              WorkingHours(
+                  days: 'Monday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Tuesday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Wednesday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Thursday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Friday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Saturday', openTime: '12 AM', closeTime: '12 PM'),
+              WorkingHours(
+                  days: 'Sunday', openTime: '12 AM', closeTime: '12 PM'),
             ],
           ),
         ];
