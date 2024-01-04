@@ -636,16 +636,26 @@ class _BookingScreenState extends State<BookingScreen> {
                       .collection('bookedhotel')
                       .add(userData);
 
-                  // Show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Booking successful!")),
+                  Fluttertoast.showToast(
+                    msg: "Booking successful!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
                   );
 
                   // Navigate to another screen or perform other actions
+                Navigator.of(context).pop(); // Close the dialog
                 } catch (e) {
                   // Handle errors
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Failed to complete booking")),
+                  Fluttertoast.showToast(
+                    msg: "Failed to complete booking",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
                   );
                 }
               },

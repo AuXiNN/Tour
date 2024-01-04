@@ -6,34 +6,58 @@ import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/RestaurantDetails.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
 
-class RestaurantList extends StatelessWidget {
-  final String city; // Add this line
+enum SortOption { alphabetically, rating }
 
-  final CollectionReference restaurants =
-      FirebaseFirestore.instance.collection('amman_restaurants');
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  RestaurantList({required this.city}); // Constructor accepting city
+class RestaurantList extends StatefulWidget {
+  final String city;
+
+  RestaurantList({required this.city});
+
+  @override
+  _RestaurantListState createState() => _RestaurantListState();
+}
+
+class _RestaurantListState extends State<RestaurantList> {
+  SortOption _sortOption = SortOption.alphabetically;
+
+  Stream<QuerySnapshot> _restaurantStream() {
+    Query query = FirebaseFirestore.instance.collection(_getCollectionName());
+    switch (_sortOption) {
+      case SortOption.alphabetically:
+        query = query.orderBy('name');
+        break;
+      case SortOption.rating:
+        query = query.orderBy('rating', descending: true);
+        break;
+    }
+    return query.snapshots();
+  }
+
+  String _getCollectionName() {
+    switch (widget.city.toLowerCase()) {
+      case 'amman':
+        return 'amman_restaurants';
+      case 'aqaba':
+        return 'aqaba_restaurants';
+      case 'jerash':
+        return 'jerash_restaurants';
+      case 'ajloun':
+        return 'ajloun_restaurants';
+      case 'petra':
+        return 'petra_restaurants';
+      case 'dead sea':
+        return 'deadsea_restaurants';
+      case 'wadi rum':
+        return 'wadirum_restaurants';
+      default:
+        return 'restaurants'; // Default collection
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String collectionName = '';
-    if (city.toLowerCase() == 'amman') {
-      collectionName = 'amman_restaurants';
-    } else if (city.toLowerCase() == 'aqaba') {
-      collectionName = 'aqaba_restaurants';
-    } else if (city.toLowerCase() == 'jerash') {
-      collectionName = 'jerash_restaurants';
-    } else if (city.toLowerCase() == 'ajloun') {
-      collectionName = 'ajloun_restaurants';
-    } else if (city.toLowerCase() == 'petra') {
-      collectionName = 'petra_restaurants';
-    } else if (city.toLowerCase() == 'dead sea') {
-      collectionName = 'deadsea_restaurants';
-    } else if (city.toLowerCase() == 'wadi rum') {
-      collectionName = 'wadirum_restaurants';
-    }
-    final CollectionReference restaurants =
-        FirebaseFirestore.instance.collection(collectionName);
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+
     return Scaffold(
       backgroundColor: AppColors.backgroundcolor,
       appBar: AppBar(
@@ -44,9 +68,29 @@ class RestaurantList extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: <Widget>[
+          DropdownButton<SortOption>(
+            value: _sortOption,
+            onChanged: (SortOption? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  _sortOption = newValue;
+                });
+              }
+            },
+            items: SortOption.values.map((SortOption option) {
+              return DropdownMenuItem<SortOption>(
+                value: option,
+                child: Text(option == SortOption.alphabetically
+                    ? 'Alphabetically'
+                    : 'By Rating'),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       body: StreamBuilder(
-        stream: restaurants.snapshots(),
+        stream: _restaurantStream(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return const CircularProgressIndicator();
@@ -62,19 +106,13 @@ class RestaurantList extends StatelessWidget {
 
               return FutureBuilder(
                 future: _storage
-                    .ref('$collectionName/${restaurant['image']}')
+                    .ref('${_getCollectionName()}/${restaurant['image']}')
                     .getDownloadURL(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<String> imageSnapshot) {
-                  if (imageSnapshot.connectionState ==
-                      ConnectionState.waiting) {
+                builder: (BuildContext context, AsyncSnapshot<String> imageSnapshot) {
+                  if (imageSnapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else if (imageSnapshot.hasError) {
-                    print('Error loading image: ${imageSnapshot.error}');
                     return const Text('Error loading image');
-                  } else if (imageSnapshot.data == null) {
-                    print('Image URL is null');
-                    return const Text('Image not found');
                   } else {
                     return Column(
                       children: [
@@ -191,18 +229,7 @@ class RestaurantList extends StatelessWidget {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => AddRestaurantPage(),
-      //       ),
-      //     );
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
-      bottomNavigationBar: const BottomNav(isHomeEnabled: true) 
+      bottomNavigationBar: const BottomNav(isHomeEnabled: true),
     );
   }
 }

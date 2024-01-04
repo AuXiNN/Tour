@@ -92,8 +92,18 @@ class BookingHistoryScreen extends StatelessWidget {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                             Text(
+                              'First Name: ${bookingData['firstName']}',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                             Text(
+                              'Last Name: ${bookingData['lastName']}',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
                             Text(
-                              'Hotel ID: ${bookingData['hotelId']}',
+                              'Email: ${bookingData['email']}',
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0)),
                             ),
@@ -114,6 +124,11 @@ class BookingHistoryScreen extends StatelessWidget {
                             ),
                             Text(
                               'Children: ${bookingData['children']}',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                            Text(
+                              'Phone Number: ${bookingData['phone']}',
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 0, 0, 0)),
                             ),
