@@ -39,7 +39,7 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
       var favoritesSnapshot = await FirebaseFirestore.instance
           .collection('Users')
           .doc(userEmail)
-          .collection('favorites')
+          .collection('favorites_places')
           .get();
 
       setState(() {
@@ -84,7 +84,7 @@ class _ThingsToDoPageState extends State<ThingsToDoPage> {
      var favoritesRef = FirebaseFirestore.instance
         .collection('Users')
         .doc(userEmail)
-        .collection('favorites');
+        .collection('favorites_places'); 
 
     setState(() {
       if (thingToDo.isFavorite) {

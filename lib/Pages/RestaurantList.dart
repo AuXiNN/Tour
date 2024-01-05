@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tour/AppColors/colors.dart';
 import 'package:tour/Pages/RestaurantDetails.dart';
 import 'package:tour/Widgets/BottomNavigationBar.dart';
@@ -18,7 +20,83 @@ class RestaurantList extends StatefulWidget {
 }
 
 class _RestaurantListState extends State<RestaurantList> {
+  Set<String> userFavorites = {};
   SortOption _sortOption = SortOption.alphabetically;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserFavorites();
+  }
+
+  Future<void> _loadUserFavorites() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var userEmail = user.email; // Get the user's email
+      var favsSnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userEmail) // Use email to reference the document
+          .collection('favorites_restaurants')
+          .get();
+
+      setState(() {
+        userFavorites = Set.from(favsSnapshot.docs.map((doc) => doc.id));
+      });
+    }
+  }
+
+  void _toggleFavoriteRestaurant(String restaurantId, String restaurantName) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      Fluttertoast.showToast(
+        msg: "You must be logged in to add to favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+    var userEmail = currentUser.email; // Get the user's email
+
+    var favoritesRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmail) // Use email to reference the document
+        .collection('favorites_restaurants');
+    bool isCurrentlyFavorite = userFavorites.contains(restaurantId);
+
+    if (isCurrentlyFavorite) {
+      await favoritesRef.doc(restaurantId).delete();
+      setState(() {
+        userFavorites.remove(restaurantId);
+      });
+      Fluttertoast.showToast(
+        msg: "$restaurantName has been removed from Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      await favoritesRef.doc(restaurantId).set({
+        'name': restaurantName,
+        'timestamp': Timestamp.now(),
+      });
+      setState(() {
+        userFavorites.add(restaurantId);
+      });
+      Fluttertoast.showToast(
+        msg: "$restaurantName has been added to Favorites",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
 
   Stream<QuerySnapshot> _restaurantStream() {
     Query query = FirebaseFirestore.instance.collection(_getCollectionName());
@@ -50,7 +128,7 @@ class _RestaurantListState extends State<RestaurantList> {
       case 'wadi rum':
         return 'wadirum_restaurants';
       default:
-        return 'restaurants'; // Default collection
+        return 'restaurants';
     }
   }
 
@@ -101,129 +179,127 @@ class _RestaurantListState extends State<RestaurantList> {
           return ListView.builder(
             itemCount: restaurantList.length,
             itemBuilder: (context, index) {
-              var restaurant =
-                  restaurantList[index].data() as Map<String, dynamic>;
+              var restaurant = restaurantList[index].data() as Map<String, dynamic>;
+              String restaurantId = restaurantList[index].id; // Correctly defined restaurantId
 
-              return FutureBuilder(
-                future: _storage
-                    .ref('${_getCollectionName()}/${restaurant['image']}')
-                    .getDownloadURL(),
-                builder: (BuildContext context, AsyncSnapshot<String> imageSnapshot) {
-                  if (imageSnapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (imageSnapshot.hasError) {
-                    return const Text('Error loading image');
-                  } else {
-                    return Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RestaurantDetails(
-                                  restaurantId: restaurantList[index].id,
-                                ),
-                              ),
+              return Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      FutureBuilder<String>(
+                        future: _storage.ref('${_getCollectionName()}/${restaurant['image']}').getDownloadURL(),
+                        builder: (BuildContext context, AsyncSnapshot<String> imageSnapshot) {
+                          if (imageSnapshot.connectionState == ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (imageSnapshot.hasError) {
+                            return const Text('Error loading image');
+                          } else {
+                            return Image.network(
+                              imageSnapshot.data!,
+                              height: 250,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
                             );
-                          },
-                          child: Image.network(
-                            imageSnapshot.data!,
-                            height: 250,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
+                          }
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          userFavorites.contains(restaurantId) ? Icons.favorite : Icons.favorite_border,
+                          color: Colors.red,
                         ),
-                        ListTile(
-                          title: Text(restaurant['name'],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  'Classification: ${restaurant['classification']}',
+                        onPressed: () => _toggleFavoriteRestaurant(restaurantId, restaurant['name']),
+                      ),
+                    ],
+                  ),
+                                              ListTile(
+                              title: Text(restaurant['name'],
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                              RichText(
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                        text: 'Location: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
-                                        text: restaurant[
-                                            'location']), // Normal weight for the actual location
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                        text: 'Working Hours: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
-                                        text: restaurant[
-                                            'workingHours']), // Normal weight for the actual location
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: <TextSpan>[
-                                    const TextSpan(
-                                        text: 'Phone Number: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    TextSpan(
-                                        text: restaurant[
-                                            'phoneNumber']), // Normal weight for the actual location
-                                  ],
-                                ),
-                              ),
-                              Row(
+                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  RatingBar.builder(
-                                    initialRating: double.parse(
-                                        restaurant['rating'].toString()),
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 20.0,
-                                    itemPadding: const EdgeInsets.symmetric(
-                                        horizontal: 2.0),
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
+                                  Text(
+                                      'Classification: ${restaurant['classification']}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        const TextSpan(
+                                            text: 'Location: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: restaurant[
+                                                'location']), // Normal weight for the actual location
+                                      ],
                                     ),
-                                    onRatingUpdate: (rating) {},
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        const TextSpan(
+                                            text: 'Working Hours: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: restaurant[
+                                                'workingHours']), // Normal weight for the actual location
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        const TextSpan(
+                                            text: 'Phone Number: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: restaurant[
+                                                'phoneNumber']), // Normal weight for the actual location
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      RatingBar.builder(
+                                        initialRating: double.parse(
+                                            restaurant['rating'].toString()),
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemSize: 20.0,
+                                        itemPadding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        onRatingUpdate: (rating) {},
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RestaurantDetails(
-                                  restaurantId: restaurantList[index].id,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  }
-                },
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RestaurantDetails(
+                                      restaurantId: restaurantList[index].id,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                ],
               );
             },
           );
