@@ -11,8 +11,9 @@ import 'package:tour/Widgets/CardNumberAndExpiryDate.dart';
 class BookingScreen extends StatefulWidget {
   final String hotelId;
   final String roomType;
+  num price;
 
-  BookingScreen({required this.hotelId, required this.roomType});
+  BookingScreen({required this.hotelId, required this.roomType,required this.price});
 
   @override
   _BookingScreenState createState() => _BookingScreenState();
@@ -52,11 +53,11 @@ class _BookingScreenState extends State<BookingScreen> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Booking",
             style: TextStyle(color: Colors.white),
           ),
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: AppColors.buttomcolor,
         ),
         backgroundColor: const Color.fromARGB(255, 248, 225, 218),
@@ -148,7 +149,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         padding: const EdgeInsets.only(left: 16.0, top: 8.0),
                         child: Text(
                           checkInDateValidationError!,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                          style: const TextStyle(color: Colors.red, fontSize: 12),
                         ),
                       ),
                     const SizedBox(height: 50),
@@ -182,14 +183,14 @@ class _BookingScreenState extends State<BookingScreen> {
                         ),
                       ),
                     ),
-                    if (checkOutDateValidationError != null)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                        child: Text(
-                          checkOutDateValidationError!,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
-                        ),
-                      ),
+                    if (checkOutDateValidationError == null && step == 2)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                          child: Text(
+                            'Reservation Details: ${getReservationDetails()}',
+                             style: const TextStyle(color: Colors.black, fontSize: 16),
+    ),
+  ),
                     const SizedBox(height: 50),
                     Container(
                       width: double.infinity,
@@ -197,10 +198,10 @@ class _BookingScreenState extends State<BookingScreen> {
                           horizontal: MediaQuery.of(context).size.width * 0.25),
                       child: ElevatedButton(
                         onPressed: moveToNextStep,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF3A1B0F)),
                         child: const Text('Next',
                             style: TextStyle(color: Colors.white)),
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF3A1B0F)),
                       ),
                     ),
                   ],
@@ -338,10 +339,10 @@ class _BookingScreenState extends State<BookingScreen> {
                                   MediaQuery.of(context).size.width * 0.25),
                           child: ElevatedButton(
                             onPressed: bookNow,
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3A1B0F)),
                             child: const Text('Book Now',
                                 style: TextStyle(color: Colors.white)),
-                            style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF3A1B0F)),
                           ),
                         ),
                       ],
@@ -386,7 +387,10 @@ class _BookingScreenState extends State<BookingScreen> {
         selectedEntryDate != null &&
         selectedExitDate != null;
   }
-
+  
+String getReservationDetails() {
+  return 'Hotel: ${widget.hotelId}, Room Type: ${widget.roomType}, Check-in: ${selectedEntryDate}, Check-out: ${selectedExitDate}, Adults: ${adultsController.text}, Children: ${childrenController.text}';
+}
   bool validateStep2() {
     return firstNameController.text.isNotEmpty &&
         lastNameController.text.isNotEmpty &&
@@ -470,7 +474,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   decoration: InputDecoration(
                     labelText: 'Card Number',
                     hintText: 'XXXX XXXX XXXX XXXX',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     errorText: cardNumberController.text.isEmpty
                         ? 'Card number is required'
                         : null,
@@ -488,7 +492,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   decoration: InputDecoration(
                     labelText: 'Expiry Date',
                     hintText: 'MM/YY',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     errorText: expiryDateController.text.isEmpty
                         ? 'Expiry date is required'
                         : !_isValidExpiryDate(expiryDateController.text)
@@ -507,7 +511,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   decoration: InputDecoration(
                     labelText: 'CVV',
                     hintText: 'XXX',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     errorText: cvvController.text.isEmpty
                         ? 'CVV is required'
                         : cvvController.text.length != 3
@@ -618,6 +622,9 @@ class _BookingScreenState extends State<BookingScreen> {
                     'email': emailController.text,
                     'phone': phoneController.text,
                     'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
+                    'price':widget.price,
+                    // ignore: equal_keys_in_map
+                    'price': calculateTotalPrice(),
                     // Add other required fields
                   };
                   if (paymentMethod) {
@@ -636,27 +643,17 @@ class _BookingScreenState extends State<BookingScreen> {
                       .collection('bookedhotel')
                       .add(userData);
 
-                  Fluttertoast.showToast(
-                    msg: "Booking successful!",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white,
-                    fontSize: 16.0,
+                  // Show success message
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   SnackBar(content: Text("Booking successful!")),
                   );
 
-                  // Navigate to another screen or perform other actions
-                Navigator.of(context).pop(); // Close the dialog
+                 // Navigate to another screen or perform other actions
                 } catch (e) {
                   // Handle errors
-                  Fluttertoast.showToast(
-                    msg: "Failed to complete booking",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0,
-                  );
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   SnackBar(content: Text("Failed to complete booking")),
+                 );
                 }
               },
             ),
@@ -732,10 +729,16 @@ class _BookingScreenState extends State<BookingScreen> {
     '+48': 9, // Poland
     '+82': 8, // South Korea (minimum length)
   };
-
+// method to calculate the total price 
+//new add
+num calculateTotalPrice() {
+  int numberOfNights = selectedExitDate!.difference(selectedEntryDate!).inDays;
+  return widget.price * numberOfNights;
+}
   bool _validatePhoneNumber(String number) {
     int requiredLength = countryCodeLength[selectedCountryCode] ?? 0;
     return number.isNotEmpty && number.length == requiredLength;
+    
   }
 
   bool _isValidExpiryDate(String date) {
