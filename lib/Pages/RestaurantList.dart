@@ -26,26 +26,29 @@ class _RestaurantListState extends State<RestaurantList> {
   @override
   void initState() {
     super.initState();
-    _loadUserFavorites();
+    updateFavorites();
   }
 
-  Future<void> _loadUserFavorites() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      var userEmail = user.email; // Get the user's email
-      var favsSnapshot = await FirebaseFirestore.instance
+  Future<void> updateFavorites() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      var favoritesSnapshot = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(userEmail) // Use email to reference the document
+          .doc(currentUser.uid)
           .collection('favorites_restaurants')
           .get();
 
       setState(() {
-        userFavorites = Set.from(favsSnapshot.docs.map((doc) => doc.id));
+        userFavorites.clear();
+        for (var doc in favoritesSnapshot.docs) {
+          userFavorites.add(doc.id);
+        }
       });
     }
   }
 
-  void _toggleFavoriteRestaurant(String restaurantId, String restaurantName) async {
+  void toggleFavoriteRestaurant(
+      String restaurantId, String restaurantName) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       Fluttertoast.showToast(
@@ -58,12 +61,12 @@ class _RestaurantListState extends State<RestaurantList> {
       );
       return;
     }
-    var userEmail = currentUser.email; // Get the user's email
 
     var favoritesRef = FirebaseFirestore.instance
         .collection('Users')
-        .doc(userEmail) // Use email to reference the document
+        .doc(currentUser.uid)
         .collection('favorites_restaurants');
+
     bool isCurrentlyFavorite = userFavorites.contains(restaurantId);
 
     if (isCurrentlyFavorite) {
@@ -128,7 +131,7 @@ class _RestaurantListState extends State<RestaurantList> {
       case 'wadi rum':
         return 'wadirum_restaurants';
       default:
-        return 'restaurants';
+        return 'restaurants'; // Default collection
     }
   }
 
@@ -179,127 +182,113 @@ class _RestaurantListState extends State<RestaurantList> {
           return ListView.builder(
             itemCount: restaurantList.length,
             itemBuilder: (context, index) {
-              var restaurant = restaurantList[index].data() as Map<String, dynamic>;
-              String restaurantId = restaurantList[index].id; // Correctly defined restaurantId
+              var restaurant =
+                  restaurantList[index].data() as Map<String, dynamic>;
+              String restaurantId = restaurantList[index].id;
 
-              return Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      FutureBuilder<String>(
-                        future: _storage.ref('${_getCollectionName()}/${restaurant['image']}').getDownloadURL(),
-                        builder: (BuildContext context, AsyncSnapshot<String> imageSnapshot) {
-                          if (imageSnapshot.connectionState == ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (imageSnapshot.hasError) {
-                            return const Text('Error loading image');
-                          } else {
-                            return Image.network(
-                              imageSnapshot.data!,
-                              height: 250,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            );
-                          }
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          userFavorites.contains(restaurantId) ? Icons.favorite : Icons.favorite_border,
-                          color: Colors.red,
-                        ),
-                        onPressed: () => _toggleFavoriteRestaurant(restaurantId, restaurant['name']),
-                      ),
-                    ],
-                  ),
-                                              ListTile(
-                              title: Text(restaurant['name'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20)),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      'Classification: ${restaurant['classification']}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        const TextSpan(
-                                            text: 'Location: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text: restaurant[
-                                                'location']), // Normal weight for the actual location
-                                      ],
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        const TextSpan(
-                                            text: 'Working Hours: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text: restaurant[
-                                                'workingHours']), // Normal weight for the actual location
-                                      ],
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        const TextSpan(
-                                            text: 'Phone Number: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        TextSpan(
-                                            text: restaurant[
-                                                'phoneNumber']), // Normal weight for the actual location
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      RatingBar.builder(
-                                        initialRating: double.parse(
-                                            restaurant['rating'].toString()),
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 20.0,
-                                        itemPadding: const EdgeInsets.symmetric(
-                                            horizontal: 2.0),
-                                        itemBuilder: (context, _) => const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {},
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+              return FutureBuilder<String>(
+                future: _storage
+                    .ref('${_getCollectionName()}/${restaurant['image']}')
+                    .getDownloadURL(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<String> imageSnapshot) {
+                  if (imageSnapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (imageSnapshot.hasError) {
+                    return const Text('Error loading image');
+                  } else {
+                    return Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => RestaurantDetails(
                                       restaurantId: restaurantList[index].id,
+                                      restaurantName: restaurant['name'],
                                     ),
                                   ),
                                 );
                               },
+                              child: Image.network(
+                                imageSnapshot.data!,
+                                height: 250,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                ],
+                            IconButton(
+                              icon: Icon(
+                                userFavorites.contains(restaurantId)
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.red,
+                              ),
+                              onPressed: () => toggleFavoriteRestaurant(
+                                  restaurantId, restaurant['name']),
+                            ),
+                          ],
+                        ),
+                        ListTile(
+                          title: Text(restaurant['name'],
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Classification: ${restaurant['classification']}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              Text('Location: ${restaurant['location']}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                  'Working Hours: ${restaurant['workingHours']}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              Text('Phone Number: ${restaurant['phoneNumber']}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              RatingBar.builder(
+                                initialRating: double.parse(
+                                    restaurant['rating'].toString()),
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                itemPadding:
+                                    const EdgeInsets.symmetric(horizontal: 2.0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) {},
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RestaurantDetails(
+                                  restaurantId: restaurantList[index].id,
+                                  restaurantName: restaurant['name'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                },
               );
             },
           );

@@ -98,6 +98,8 @@ class FavoriteCategory extends StatelessWidget {
     ).show();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
