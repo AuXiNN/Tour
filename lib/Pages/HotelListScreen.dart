@@ -474,7 +474,7 @@ class HotelDetailsScreen extends StatelessWidget {
                       storagePath = 'mass_paradise_hotel';
                     } else if (hotelData['name'] == 'Dream House Hotel') {
                       storagePath = 'dream_house_hotel';
-                    } else if (hotelData['name'] == 'Ajloun Forest') {
+                    } else if (hotelData['name'] == 'Ajloun Forest Reserve') {
                       storagePath = 'ajloun_forest_hotel';
                     } else if (hotelData['name'] == 'Petra Moon Luxury Hotel') {
                       storagePath = 'petra_moon_luxury_hotel';

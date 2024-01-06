@@ -13,7 +13,8 @@ class BookingScreen extends StatefulWidget {
   final String roomType;
   num price;
 
-  BookingScreen({required this.hotelId, required this.roomType,required this.price});
+  BookingScreen(
+      {required this.hotelId, required this.roomType, required this.price});
 
   @override
   _BookingScreenState createState() => _BookingScreenState();
@@ -149,7 +150,8 @@ class _BookingScreenState extends State<BookingScreen> {
                         padding: const EdgeInsets.only(left: 16.0, top: 8.0),
                         child: Text(
                           checkInDateValidationError!,
-                          style: const TextStyle(color: Colors.red, fontSize: 12),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 12),
                         ),
                       ),
                     const SizedBox(height: 50),
@@ -184,13 +186,14 @@ class _BookingScreenState extends State<BookingScreen> {
                       ),
                     ),
                     if (checkOutDateValidationError == null && step == 2)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                          child: Text(
-                            'Reservation Details: ${getReservationDetails()}',
-                             style: const TextStyle(color: Colors.black, fontSize: 16),
-    ),
-  ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                        child: Text(
+                          'Reservation Details: ${getReservationDetails()}',
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 16),
+                        ),
+                      ),
                     const SizedBox(height: 50),
                     Container(
                       width: double.infinity,
@@ -387,10 +390,11 @@ class _BookingScreenState extends State<BookingScreen> {
         selectedEntryDate != null &&
         selectedExitDate != null;
   }
-  
-String getReservationDetails() {
-  return 'Hotel: ${widget.hotelId}, Room Type: ${widget.roomType}, Check-in: ${selectedEntryDate}, Check-out: ${selectedExitDate}, Adults: ${adultsController.text}, Children: ${childrenController.text}';
-}
+
+  String getReservationDetails() {
+    return 'Hotel: ${widget.hotelId}, Room Type: ${widget.roomType}, Check-in: ${selectedEntryDate}, Check-out: ${selectedExitDate}, Adults: ${adultsController.text}, Children: ${childrenController.text}';
+  }
+
   bool validateStep2() {
     return firstNameController.text.isNotEmpty &&
         lastNameController.text.isNotEmpty &&
@@ -577,6 +581,18 @@ String getReservationDetails() {
     setState(() {
       showValidationMessage = true; // Trigger validation messages
     });
+    if (!validateBookingDetails()) {
+      // Show a toast message indicating validation errors
+      Fluttertoast.showToast(
+        msg: "Please fill in all required fields.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return; // Stop the booking process if validation fails
+    }
 
     if (!_validatePhoneNumber(phoneController.text)) {
       // Show a toast message that the phone number is invalid
@@ -622,7 +638,7 @@ String getReservationDetails() {
                     'email': emailController.text,
                     'phone': phoneController.text,
                     'paymentMethod': paymentMethod ? 'Visa' : 'Cash',
-                    'price':widget.price,
+                    'price': widget.price,
                     // ignore: equal_keys_in_map
                     'price': calculateTotalPrice(),
                     // Add other required fields
@@ -644,16 +660,16 @@ String getReservationDetails() {
                       .add(userData);
 
                   // Show success message
-                 ScaffoldMessenger.of(context).showSnackBar(
-                   SnackBar(content: Text("Booking successful!")),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Booking successful!")),
                   );
 
-                 // Navigate to another screen or perform other actions
+                  // Navigate to another screen or perform other actions
                 } catch (e) {
                   // Handle errors
-                 ScaffoldMessenger.of(context).showSnackBar(
-                   SnackBar(content: Text("Failed to complete booking")),
-                 );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Failed to complete booking")),
+                  );
                 }
               },
             ),
@@ -729,16 +745,26 @@ String getReservationDetails() {
     '+48': 9, // Poland
     '+82': 8, // South Korea (minimum length)
   };
-// method to calculate the total price 
+// method to calculate the total price
 //new add
-num calculateTotalPrice() {
-  int numberOfNights = selectedExitDate!.difference(selectedEntryDate!).inDays;
-  return widget.price * numberOfNights;
-}
+  num calculateTotalPrice() {
+    int numberOfNights =
+        selectedExitDate!.difference(selectedEntryDate!).inDays;
+    return widget.price * numberOfNights;
+  }
+
   bool _validatePhoneNumber(String number) {
     int requiredLength = countryCodeLength[selectedCountryCode] ?? 0;
     return number.isNotEmpty && number.length == requiredLength;
-    
+  }
+
+  bool validateBookingDetails() {
+    bool isFirstNameValid = firstNameController.text.isNotEmpty;
+    bool isLastNameValid = lastNameController.text.isNotEmpty;
+    bool isEmailValid =
+        emailController.text.isNotEmpty && emailController.text.contains('@');
+
+    return isFirstNameValid && isLastNameValid && isEmailValid;
   }
 
   bool _isValidExpiryDate(String date) {
