@@ -34,7 +34,7 @@ class _RestaurantListState extends State<RestaurantList> {
     if (currentUser != null) {
       var favoritesSnapshot = await FirebaseFirestore.instance
           .collection('Users')
-          .doc(currentUser.uid)
+          .doc(currentUser.email)
           .collection('favorites_restaurants')
           .get();
 
@@ -64,7 +64,7 @@ class _RestaurantListState extends State<RestaurantList> {
 
     var favoritesRef = FirebaseFirestore.instance
         .collection('Users')
-        .doc(currentUser.uid)
+        .doc(currentUser.email)
         .collection('favorites_restaurants');
 
     bool isCurrentlyFavorite = userFavorites.contains(restaurantId);
