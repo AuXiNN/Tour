@@ -45,6 +45,10 @@ class _BookingScreenState extends State<BookingScreen> {
   String? checkInDateValidationError;
   String? checkOutDateValidationError;
 
+  String? firstNameError;
+  String? lastNameError;
+  String? emailError;
+
   List<String> adultOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   List<String> childOptions = ['None', '1', '2', '3', '4', '5'];
 
@@ -224,6 +228,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
+                        errorText: firstNameError,
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -238,6 +243,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
+                        errorText: lastNameError,
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -253,6 +259,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
+                        errorText: emailError,
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -576,11 +583,29 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
+  bool isEmailValid(String email) {
+    Pattern pattern = r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(pattern.toString());
+    return regex.hasMatch(email);
+  }
+
   //methods
   void bookNow() async {
     setState(() {
       showValidationMessage = true; // Trigger validation messages
+      firstNameError = firstNameController.text.isEmpty
+          ? 'Please Enter Your First Name'
+          : null;
+      lastNameError = lastNameController.text.isEmpty
+          ? 'Please Enter Your Last Name'
+          : null;
+      emailError = !isEmailValid(emailController.text)
+          ? 'Please enter a valid email'
+          : null;
     });
+    if (firstNameError != null || lastNameError != null || emailError != null) {
+      return; // Stop the booking process
+    }
     if (!validateBookingDetails()) {
       // Show a toast message indicating validation errors
       Fluttertoast.showToast(
