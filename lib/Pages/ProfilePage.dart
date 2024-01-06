@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           image: profileImageUrl.isNotEmpty
                               ? NetworkImage(profileImageUrl) as ImageProvider
                               : const AssetImage(
-                                  'images/default_profile_pic.png'),
+                                  'images/default_profile_pic (2).png'),
                         ),
                       ),
                     ),
